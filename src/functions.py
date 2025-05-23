@@ -1,7 +1,6 @@
 import os
 import zipfile
 import subprocess
-import ydata_profiling
 import time
 import glob
 import pandas as pd
@@ -10,13 +9,17 @@ from src.formats import (
     RequestDownloadData, ResponseDownloadData,
     RequestExtractInfo, ResponseExtractInfo,
     RequestPreprocessData, ResponsePreprocessData,
+    RequestTestOutput, ResponseTestOutput,
 )
 
 
 def download_data(message: RequestDownloadData) -> ResponseDownloadData:
     os.makedirs(message.local_path, exist_ok=True)
 
-    subprocess.run(["kaggle", "datasets", "download", message.url, "-p", message.local_path])
+    if message.is_competition:
+        subprocess.run(["kaggle", "competitions", "download", "-c", message.url, "-p", message.local_path])
+    else:
+        subprocess.run(["kaggle", "datasets", "download", message.url, "-p", message.local_path])
     local_zip_files = glob.glob(f"{message.local_path}/*.zip")
     for file_path in local_zip_files:
         with zipfile.ZipFile(file_path, 'r') as zip_ref:
@@ -24,12 +27,13 @@ def download_data(message: RequestDownloadData) -> ResponseDownloadData:
         subprocess.run(["rm", file_path])
     return ResponseDownloadData(
         status="success",
-        url=message.url,
-        local_path=message.local_path
+        **message.model_dump()
     )
     
     
 def extract_data_info(message: RequestExtractInfo) -> ResponseExtractInfo:
+    import ydata_profiling
+
     os.makedirs(message.output_path, exist_ok=True)
 
     local_csv_files = glob.glob(f"{message.local_path}/*.csv")
@@ -150,4 +154,20 @@ def preprocess_data(message: RequestPreprocessData) -> ResponsePreprocessData:
         status="success",
         local_path=message.local_path,
         output_path=message.output_path
+    )
+    
+
+def test_output(message: RequestTestOutput) -> ResponseTestOutput:
+    assert os.path.exists(message.output_filepath)    
+    assert os.path.exists(message.reference_filepath)
+    
+    ref_df = pd.read_csv(message.reference_filepath)
+    out_df = pd.read_csv(message.output_filepath)
+    assert ref_df.shape == out_df.shape, f"Shape mismatch: {ref_df.shape} != {out_df.shape}"
+    assert set(ref_df.columns) == set(out_df.columns), f"Columns mismatch: {set(ref_df.columns)} != {set(out_df.columns)}"
+    assert out_df.dtypes.equals(ref_df.dtypes), f"Types mismatch: {out_df.dtypes} != {ref_df.dtypes}"
+    
+    return ResponseTestOutput(
+        status="success",
+        **message.model_dump()
     )

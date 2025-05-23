@@ -2,10 +2,13 @@
 
 ### Inference
 ```sh
-poetry run python -m run --pipeline_path=src/pipelines/default/pipeline.py --config_path=src/pipelines/default/pipeline.yaml
+poetry run python -m run --pipeline_name=titanic
 ```
 
 ### TODO
+- [ ] info 폴더에 LLM을 활용해 데이터셋의 변수에 대해 설명하는 var_description.md을 생성하는 기능 추가  
+
+### POSTPONE
 - [ ] [A/B Testing: Step by Step & Hypothesis Testing](https://www.kaggle.com/code/ekrembayar/a-b-testing-step-by-step-hypothesis-testing)
     - A/B 테스트가 무엇인지 이해하고 가설 검정에 대한 예제를 따라가며 감을 익힙니다.
 - [ ] [Cookie Cats](https://www.kaggle.com/code/thuggy/cookie-cats)

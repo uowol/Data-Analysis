@@ -1,0 +1,15 @@
+# download_data:
+#   url: titanic
+#   local_path: data/titanic/raw
+#   is_competition: true
+# extract_data:
+#   local_path: data/titanic/raw
+#   output_path: data/titanic/info
+modeling:
+  train_filepath: data/titanic/raw/train.csv
+  test_filepath: data/titanic/raw/test.csv
+  output_filepath: data/titanic/raw/submission.csv
+  model_type: logistic_regression
+test_output:
+  output_filepath: data/titanic/raw/submission.csv
+  reference_filepath: data/titanic/raw/gender_submission.csv

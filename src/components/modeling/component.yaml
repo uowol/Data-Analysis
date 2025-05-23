@@ -1,0 +1,9 @@
+logistic_regression:
+  params:
+    penalty: l2
+    C: 1.0
+    solver: lbfgs
+    max_iter: 100
+    random_state: 42
+title_prediction: 
+  params: null

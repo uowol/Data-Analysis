@@ -5,15 +5,14 @@ from src.formats import (
     RequestDownloadData, ResponseDownloadData,
     RequestExtractInfo, ResponseExtractInfo,
     RequestPreprocessData, ResponsePreprocessData,
+    RequestTestOutput, ResponseTestOutput,
 )
-from src.components.download_data.component import Component as DownloadDataComponent
-from src.components.extract_data_info.component import Component as ExtractDataComponent
-from src.components.preprocess_data.component import Component as PreprocessDataComponent
 
 class PipelineType(base.PipelineType):
     download_data: Optional[RequestDownloadData] = None
     extract_data: Optional[RequestExtractInfo] = None
-    preprocess_data: Optional[RequestPreprocessData] = None    
+    preprocess_data: Optional[RequestPreprocessData] = None
+    test_output: Optional[RequestTestOutput] = None
 
 class Pipeline(base.Pipeline):
     def init(self, **config):
@@ -22,31 +21,41 @@ class Pipeline(base.Pipeline):
     def call(self):
         upstream_events = []
         if self.config.download_data is not None:
-            print("\n# [INFO] =============== download_data start ===============")
+            from src.components.download_data.component import Component as DownloadDataComponent
+            
+            print("# [INFO] =============== download_data start ===============")
             component = DownloadDataComponent()
             request_message = self.config.download_data
-            print("# [INFO] request_message: ", request_message)
             response_message = component(request_message)
-            print("# [INFO] response_message: ", response_message)
             upstream_events.append(response_message)
-            print("# [INFO] =============== download_data end ===============")
+            print("# [INFO] =============== download_data end ===============\n")
         if self.config.extract_data is not None:
-            print("\n# [INFO] =============== extract_data start ===============")
+            from src.components.extract_data_info.component import Component as ExtractDataComponent
+            
+            print("# [INFO] =============== extract_data start ===============")
             component = ExtractDataComponent()
             request_message = self.config.extract_data
-            print("# [INFO] request_message: ", request_message)
             response_message = component(request_message, upstream_events=upstream_events)
-            print("# [INFO] response_message: ", response_message)
             upstream_events.append(response_message)
-            print("# [INFO] =============== extract_data end ===============")
+            print("# [INFO] =============== extract_data end ===============\n")
         if self.config.preprocess_data is not None:
-            print("\n# [INFO] =============== preprocess_data start ===============")
+            from src.components.preprocess_data.component import Component as PreprocessDataComponent
+            
+            print("# [INFO] =============== preprocess_data start ===============")
             component = PreprocessDataComponent()
             request_message = self.config.preprocess_data
-            print("# [INFO] request_message: ", request_message)
             response_message = component(request_message, upstream_events=upstream_events)
-            print("# [INFO] response_message: ", response_message)
             upstream_events.append(response_message)
-            print("# [INFO] =============== preprocess_data end ===============")
+            print("# [INFO] =============== preprocess_data end ===============\n")
+        if self.config.test_output is not None:
+            from src.components.test_output.component import Component as TestOutputComponent
+            
+            print("# [INFO] =============== test_output start ===============")
+            component = TestOutputComponent()
+            request_message = self.config.test_output
+            response_message = component(request_message, upstream_events=upstream_events)
+            upstream_events.append(response_message)
+            print("# [INFO] =============== test_output end ===============\n")
 
+        print(response_message)
         return
