@@ -86,14 +86,15 @@ dev (프레임워크/스킬 개발)
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
-각 iteration은 **pre-iteration → solve+evaluate → post-iteration** 3단계로 구성되며, 각각 별도 PR 코멘트로 기록한다.
+각 iteration은 **pre → 실행 → 커밋 → post** 순서를 엄격히 따르며, 코멘트 작성이 실행보다 선행한다. 이는 사후 합리화를 방지하고, pre-iteration의 계획이 실제 실행에 영향을 주는 진정한 단계별 진행을 보장한다.
 
 ```
 반복 N:
-  1. PR 코멘트: pre-iteration (계획 + 근거)
-  2. solve + evaluate 실행
-  3. 커밋: iteration_N 결과
-  4. PR 코멘트: post-iteration (결과 분석 + 다음 계획)
+  1. PR 코멘트: pre-iteration (계획 + 가설) ← 실행 전에 반드시 먼저 작성
+  2. solve + evaluate 실행 ← pre-iteration 계획대로 실행
+  3. 커밋 + push: iteration_N 결과
+  4. PR 코멘트: post-iteration (결과 분석 + 가설 검증)
+  5. post-iteration의 "다음 계획"이 다음 pre-iteration의 입력이 됨
 
 수렴 조건 (하나라도 충족 시 종료):
   - 주 평가 지표 개선폭 < 0.005 (2회 연속)
@@ -101,25 +102,34 @@ dev (프레임워크/스킬 개발)
   - 최대 반복 횟수(5) 도달
 ```
 
-#### pre-iteration PR 코멘트 (iteration 시작 전)
+**중요: 실행 순서를 지킬 것.** pre 코멘트를 쓰지 않고 실행하거나, 모든 iteration을 한번에 돌린 뒤 코멘트를 사후 작성하면 안 된다. 코멘트가 실행의 입력이 되는 흐름을 유지해야 한다.
 
-무엇을 시도하고 왜 그런지 설명:
+#### 1. pre-iteration PR 코멘트 (실행 전에 반드시 작성)
+
+무엇을 시도하고 왜 그런지 설명. 이 코멘트의 내용이 이후 실행의 설계 문서가 된다:
 - **피처 변경**: 어떤 피처를 추가/수정/제거할 것인지 + 각각의 근거
-- **모델 변경**: 새 모델 추가 시 선정 이유 (이전 iteration의 구체적 한계와 연결)
-- **가설**: 이 변경으로 기대하는 효과와 수치적 근거
+- **모델 선정**: 새 모델 추가 시 선정 이유 (이전 iteration의 구체적 한계와 연결), 대안을 제외한 이유
+- **가설**: 이 변경으로 기대하는 효과와 수치적 근거. 결과를 보기 전에 작성하므로 틀려도 됨
 
-#### solve + evaluate 실행
+#### 2. solve + evaluate 실행
 
+- pre-iteration 계획대로 실행 (계획에 없는 변경을 임의로 추가하지 않음)
 - solve: 전처리 적용 + 모델 학습 + 피처 인사이트 추출
 - evaluate: 오분류 분석 + 피처 개선안 + 모델 검토 + 수렴 판단
 
-#### post-iteration PR 코멘트 (iteration 완료 후)
+#### 3. 커밋 + push
+
+- iteration 결과 JSON + 시각화 PNG 커밋
+- push하여 PR에 diff 반영
+
+#### 4. post-iteration PR 코멘트 (실행 후 작성)
 
 결과 분석과 다음 방향:
 - **결과 요약**: 모델별 F1, 이전 iteration 대비 변화, 오분류 건수
-- **가설 검증**: pre-iteration에서 세운 가설이 맞았는지 수치로 확인
+- **가설 검증**: pre-iteration에서 세운 가설이 맞았는지 수치로 확인. 틀렸으면 왜 틀렸는지 분석
 - **오분류 분석**: FN/FP 프로필, 오분류 집중 구간 변화
-- **다음 계획**: 수렴이면 종료 선언, 아니면 다음 iteration의 방향 (pre-iteration의 입력이 됨)
+- **시각화**: 모델 비교 차트, confusion matrix, 피처 중요도 (이미지 첨부)
+- **다음 계획**: 수렴이면 종료 선언, 아니면 다음 iteration의 방향 → 이것이 다음 pre-iteration의 입력
 
 ### Stage 5: Submit (`/kaggle-submit`)
 
