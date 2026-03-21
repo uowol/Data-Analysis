@@ -120,8 +120,8 @@ kaggle_projects/
 상세 로드맵은 `TODO.md` 참조. 각 스킬은 titanic 프로젝트로 검증 후 범용화.
 
 ```
-다운로드 → 인사이트 추출 → metric 정의 → baseline 모델 → 문제 해결 → 결과 분석 → 개선 반복 → 목표 달성 → 알림
-(browse)   (insight)       (metric)      (baseline)     (solve)      (evaluate)   (solve↔evaluate loop)   (autopilot)
+다운로드 → 인사이트 추출 → metric 정의 → baseline 모델 → 문제 해결 → 결과 분석 → 개선 반복 → 제출 → 알림
+(browse)   (insight)       (metric)      (baseline)     (solve)      (evaluate)   (solve↔evaluate)  (submit) (autopilot)
 ```
 
 ### 스킬 현황

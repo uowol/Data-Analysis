@@ -11,11 +11,12 @@
 - [x] `/kaggle-baseline` — 베이스라인 모델 CV 평가, 목표 metric 설정
 - [x] `/kaggle-solve` — 전처리 + 모델 학습 + 피처 인사이트 + iteration 기록
 - [x] `/kaggle-evaluate` — 오분류 분석 + 피처/모델 개선안 + 수렴 판단
-- [x] `/kaggle-autopilot` — 전체 파이프라인 자동 오케스트레이션
+- [x] `/kaggle-submit` — test 예측 + submission CSV 생성 (data leakage 방지)
+- [x] `/kaggle-autopilot` — 전체 파이프라인 자동 오케스트레이션 (strict pre→execute→post, 시각화, PR 코멘트)
 
 ## 다음 작업
 
-- [ ] titanic에서 autopilot end-to-end 검증 (기존 출력 제거 후 처음부터 실행)
+- [ ] titanic에서 autopilot end-to-end 검증 (strict pre→execute→post 워크플로우)
 - [ ] 다른 캐글 프로젝트에서 범용성 검증
 - [ ] insight 스킬 복수 전처리 계획 생성 실전 검증
 

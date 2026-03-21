@@ -636,35 +636,81 @@ feat: add kaggle-autopilot skill for end-to-end pipeline
 
 ---
 
-## 8. 다음 단계 (미래 방향)
+## 8. autopilot 워크플로우 진화
 
-### 8-1. 범용화
-현재: Titanic 특화 (Sex, Pclass 등)
-→ 미래: 다른 캐글 프로젝트에도 적용 (House Prices, Iris 등)
+세션 후반에서 autopilot의 실행 방식이 크게 발전했다.
 
-### 8-2. 자율 브랜치 분기
-현재: 사용자가 전처리 계획 선택
-→ 미래: metric 기반으로 자동 선택 (최고 성능 분기 선택)
+### 8-1. 브랜치 + PR 전략
 
-### 8-3. 고급 스킬
-- `/kaggle-export`: 최종 모델 → Kaggle 제출 CSV 생성
-- `/kaggle-explain`: SHAP 기반 피처 해석
-- `/kaggle-hyperopt`: 하이퍼파라미터 자동 튜닝
+처음에는 모든 과정을 한 커밋으로 처리했으나, 사용자의 피드백으로 진화:
+
+```
+1차: 한 브랜치에 한 커밋 (과정 추적 불가)
+2차: 타임스탬프 브랜치 + stage별 커밋 + PR 코멘트
+3차: strict pre→execute→post 순서 강제 (사후 합리화 방지)
+```
+
+최종 구조:
+```
+autopilot/<project>-YYYYMMDD-HHMM (단일 브랜치)
+  → PR to proj/<project> (1개)
+    ├── Stage 1~3 결과 코멘트
+    ├── [Pre-Iteration 1] 계획 + 가설 ← 실행 전 작성
+    ├── [Post-Iteration 1] 결과 + 가설 검증 ← 실행 후 작성
+    ├── [Pre-Iteration 2] ...
+    └── 최종 리포트 + 결과 파일 링크
+```
+
+### 8-2. pre/post-iteration 코멘트
+
+사용자의 핵심 지적: "모든 작업 완료 후 코멘트를 쓰면 사후 합리화가 된다"
+
+해결: 각 iteration 실행 전에 pre 코멘트(계획+가설)를 먼저 작성. 실행 후 post 코멘트에서 가설이 맞았는지 검증. 틀렸으면 왜 틀렸는지 분석. post의 "다음 계획"이 다음 pre의 입력이 되는 연쇄 구조.
+
+### 8-3. 시각화 + submission
+
+추가된 요소:
+- **시각화**: 각 stage/iteration마다 차트(분포, confusion matrix, 피처 중요도, F1 추이)를 PR 코멘트에 이미지로 첨부
+- **`/kaggle-submit`**: test.csv 예측 + submission CSV 생성 (data leakage 방지 포함)
+- **PR 품질 기준**: PR 하나만으로 에이전트의 분석 품질을 판단할 수 있을 정도의 퀄리티
+
+### 8-4. 모델 선정 근거 강화
+
+각 pre-iteration에 필수 포함:
+- 선정 모델의 구조적 특성 + 현재 데이터에 적합한 이유
+- 대안을 제외한 이유 (데이터 크기, 피처 특성 등)
+- 이전 iteration의 구체적 한계와 연결
 
 ---
 
-## 9. 결론
+## 9. 전체 스킬 현황
 
-Claude Code를 통한 자동화 파이프라인 구축은 **사용자의 도메인 지식 + AI의 코딩 능력**이 결합되었을 때 최고의 성과를 낸다.
+| 스킬 | 역할 |
+|------|------|
+| `/kaggle-browse` | 데이터 검색/다운로드 |
+| `/kaggle-insight` | 프로파일링 + 선제 분석 + 전처리 계획 JSON |
+| `/kaggle-metric` | 타겟/평가지표 정의 |
+| `/kaggle-baseline` | 베이스라인 모델 + CV |
+| `/kaggle-solve` | 전처리 + 모델 학습 + 피처 인사이트 |
+| `/kaggle-evaluate` | 오분류 분석 + 개선 방향 |
+| `/kaggle-submit` | test 예측 + submission CSV |
+| `/kaggle-autopilot` | 전체 파이프라인 오케스트레이션 |
+
+---
+
+## 10. 결론
+
+Claude Code를 통한 자동화 파이프라인 구축은 **사용자의 방향 설정 + AI의 실행력 + 사용자의 검증**이 결합되었을 때 최고의 성과를 낸다.
 
 **핵심 성공 요소**:
-1. ✓ 명확한 스킬 범위 정의 (각 단계의 입출력 명확)
-2. ✓ 정량적 근거 (모든 주장은 데이터 수치에서)
-3. ✓ 점진적 자동화 (단계별 검증 후 통합)
-4. ✓ 피드백 루프 (overbooking 분석 → 모델 개선 → 수렴 판단)
-5. ✓ 문서화 (스킬 규칙·워크플로우 상세 기술)
+1. 명확한 스킬 범위 정의 (각 단계의 입출력 명확)
+2. 정량적 근거 (모든 주장은 데이터 수치에서)
+3. 점진적 자동화 (수동 검증 → 스킬 → autopilot)
+4. 피드백 루프 (오분류 분석 → 피처/모델 개선 → 수렴 판단)
+5. 실수의 시스템 반영 (발견된 문제 → 스킬 규칙/체크리스트)
+6. 과정 기록 (PR 코멘트, pre/post-iteration, 시각화)
 
-**최종 성과**: Titanic 분류 모델 **F1 0.7706** 달성 (baseline 0.7104 대비 **+8.5% 상대 개선**)
+**최종 성과**: Titanic 분류 모델 **F1 0.7698** 달성 (baseline 0.7094 대비 **+8.5% 상대 개선**)
 
 ---
 

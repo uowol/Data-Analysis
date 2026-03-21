@@ -252,3 +252,17 @@ AI의 실수를 발견하면 그 자리에서 고치는 것으로 끝내지 말�
 ### 6. 기록을 남겨라
 
 실험 결과를 JSON으로 저장하고 git에 추적한다. "지난번에 뭘 했더라?"를 AI에게 물을 필요 없이, 파일을 읽으면 된다.
+
+### 7. PR을 실험 노트로 활용하라
+
+autopilot 실행 시 타임스탬프 기반 브랜치(`autopilot/<project>-YYYYMMDD-HHMM`)를 만들고, 하나의 PR에서 전체 과정을 기록한다. 각 iteration마다:
+
+- **pre-iteration 코멘트**: 실행 전에 계획과 가설을 작성 (사후 합리화 방지)
+- **실행 + 커밋**
+- **post-iteration 코멘트**: 결과 분석, 가설 검증 (틀렸으면 왜 틀렸는지), 다음 방향
+
+시각화(분포 차트, confusion matrix, 피처 중요도, F1 추이)를 포함하여 PR 하나만으로 분석 품질을 판단할 수 있게 한다.
+
+### 8. test 데이터 예측까지 완결하라
+
+CV 평가에서 끝내지 말고, `/kaggle-submit` 스킬로 test.csv에 대한 submission CSV까지 생성해야 실제 Kaggle 워크플로우가 완결된다. train 통계량으로 test를 변환하여 data leakage를 방지한다.
