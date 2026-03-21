@@ -10,9 +10,10 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
 
 ## Input
 
-- 모델 결과: `<project>/outputs/solve/solve_result.json`
-- 피처 인사이트: `<project>/outputs/solve/feature_insights.json` 또는 `<project>/outputs/metric/feature_insights.json`
+- 모델 결과: `<project>/outputs/solve/best/solve_result.json` (또는 최신 `iteration_N/solve_result.json`)
+- 피처 인사이트: `<project>/outputs/solve/iteration_N/feature_insights.json` (최신 iteration)
 - 베이스라인: `<project>/outputs/metric/baseline_result.json`
+- 이전 evaluate 결과 (있으면): `<project>/outputs/evaluate/iteration_N-1/evaluate_result.json`
 - 학습 데이터: `<project>/data/train.csv`
 
 ## Rules
@@ -81,7 +82,7 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
 
 ## Output
 
-`<project>/outputs/evaluate/evaluate_result.json`에 저장:
+`<project>/outputs/evaluate/iteration_N/evaluate_result.json`에 iteration별로 저장:
 
 ```json
 {
