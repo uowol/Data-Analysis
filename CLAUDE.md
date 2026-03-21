@@ -134,6 +134,7 @@ kaggle_projects/
 | `/kaggle-baseline` | 완료 | baseline 모델 + 목표 metric |
 | `/kaggle-solve` | 완료 | 전처리 + 모델링 |
 | `/kaggle-evaluate` | 완료 | 결과 분석 + 개선 방향 |
+| `/kaggle-submit` | 완료 | test 예측 + submission CSV 생성 |
 | `/kaggle-autopilot` | 완료 | 전체 파이프라인 자동 실행 |
 
 ### 개발 방침
@@ -162,4 +163,5 @@ kaggle_projects/
 | 베이스라인, baseline, 기준 모델 | `/kaggle-baseline` |
 | 전처리, 모델링, 학습, solve | `/kaggle-solve` |
 | 결과 분석, 오분류, 개선 방향, evaluate | `/kaggle-evaluate` |
+| 제출, submission, 예측, submit | `/kaggle-submit` |
 | autopilot, 자동 실행, end-to-end | `/kaggle-autopilot` |

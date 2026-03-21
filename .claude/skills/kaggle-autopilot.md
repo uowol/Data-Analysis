@@ -121,16 +121,64 @@ dev (프레임워크/스킬 개발)
 - **오분류 분석**: FN/FP 프로필, 오분류 집중 구간 변화
 - **다음 계획**: 수렴이면 종료 선언, 아니면 다음 iteration의 방향 (pre-iteration의 입력이 됨)
 
-### Stage 5: 완료
+### Stage 5: Submit (`/kaggle-submit`)
+
+1. test.csv에 대해 최종 모델로 예측 생성
+2. submission CSV 저장 + 검증 (행 수, 결측, 포맷)
+3. 커밋 + PR 코멘트 (예측 분포, 검증 결과)
+
+### Stage 6: 완료
 
 1. 전체 반복 중 주 평가 지표가 가장 높았던 iteration을 `best/`에 저장
-2. 최종 리포트 출력:
-   - 최종 모델명, 피처 목록, 주 평가 지표 (CV 평균 ± 표준편차)
-   - baseline 대비 개선폭
-   - 반복 간 성능 추이 테이블
-   - 잔존 오분류 집중 구간
+2. 최종 리포트 PR 코멘트 출력 (아래 PR 품질 가이드라인 참조)
 3. `proj/<project>` 브랜치에 최종 커밋
 4. 사용자에게 결과를 보고한다
+
+## PR 품질 가이드라인
+
+PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지 판단할 수 있어야 한다.
+
+### 시각화 (필수)
+
+각 Stage/iteration의 PR 코멘트에 시각화를 포함한다. matplotlib로 생성하여 `<project>/outputs/figures/` 에 PNG로 저장하고, git에 커밋한 뒤 PR 코멘트에서 GitHub 이미지 URL로 참조한다.
+
+**Stage 1 (Insight)**:
+- 타겟 변수 분포 (bar chart)
+- 주요 수치형 피처 분포 (히스토그램, 변환 전후 비교)
+- 결측률 히트맵 또는 바 차트
+- 상관관계 히트맵
+
+**Stage 3 (Baseline)**:
+- 베이스라인 Confusion Matrix 히트맵
+
+**각 Iteration (Solve + Evaluate)**:
+- 모델별 F1 비교 바 차트
+- Confusion Matrix 히트맵 (최선 모델)
+- 피처 중요도 바 차트 (상위 10개)
+- Pclass×Sex 오분류율 히트맵
+
+**최종 리포트 (Stage 6)**:
+- 반복 간 F1 추이 라인 차트
+- 최종 모델 Confusion Matrix
+- 피처 중요도 최종 바 차트
+- submission 예측 분포 (있을 경우)
+
+### PR 코멘트 이미지 참조 형식
+
+```markdown
+![Chart Title](https://github.com/<owner>/<repo>/blob/<branch>/<project>/outputs/figures/<filename>.png?raw=true)
+```
+
+### 모델 선정 근거 (필수)
+
+각 pre-iteration 코멘트에 반드시 포함:
+- 선정한 모델의 구조적 특성과 현재 데이터/문제에 적합한 이유
+- 대안 모델을 제외한 이유 (데이터 크기, 피처 특성, 인사이트 제공 여부 등)
+- 이전 iteration의 구체적 한계와 연결
+
+### 결과 파일 링크 (필수)
+
+최종 리포트에 모든 iteration의 solve_result.json + best + submission.csv 다운로드 링크를 포함한다.
 
 ## Output
 
@@ -150,8 +198,14 @@ dev (프레임워크/스킬 개발)
 │   │   └── ablation.json (있을 경우)
 │   └── best/
 │       └── solve_result.json
-└── evaluate/
-    └── evaluate_result.json
+├── evaluate/
+│   └── iteration_1/ ~ iteration_N/
+│       └── evaluate_result.json
+├── submission/
+│   ├── submission.csv
+│   └── submission_meta.json
+└── figures/
+    └── *.png (시각화 차트)
 ```
 
 ## Error Handling
