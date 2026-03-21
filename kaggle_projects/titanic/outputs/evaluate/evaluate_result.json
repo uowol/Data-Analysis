@@ -1,0 +1,77 @@
+{
+  "project": "titanic",
+  "evaluation_round": 2,
+  "current_best": {
+    "model": "GradientBoosting",
+    "iteration": 3,
+    "f1_score": 0.7706,
+    "baseline_threshold": 0.7093,
+    "improvement": "+0.0613"
+  },
+  "performance_trend": [
+    {
+      "iteration": 1,
+      "model": "RandomForest",
+      "f1": 0.7649,
+      "delta": "+0.0556"
+    },
+    {
+      "iteration": 3,
+      "model": "GradientBoosting",
+      "f1": 0.7706,
+      "delta": "+0.0057"
+    },
+    {
+      "iteration": 4,
+      "model": "GradientBoosting (앙상블 미채택)",
+      "f1": 0.7706,
+      "delta": "+0.0000"
+    }
+  ],
+  "error_analysis": {
+    "total_misclassified": 147,
+    "misclassified_pct": 16.5,
+    "false_negatives": {
+      "count": 95,
+      "profile": "남성 81%, 3등석 59%. 1등석 남성 30명(오분류율 38.5% 불변)",
+      "hardest_group": "Pclass=1, male — 38.5%"
+    },
+    "false_positives": {
+      "count": 52,
+      "profile": "여성 67%, 3등석 50%",
+      "hardest_group": "Pclass=3, female — 30.6%"
+    },
+    "vs_eval1": {
+      "misclassified": "160→147 (-13)",
+      "fn": "82→95 (+13, GB의 보수적 예측)",
+      "fp": "78→52 (-26, Precision 개선)"
+    }
+  },
+  "ensemble_experiment": {
+    "RF+GB_soft": {
+      "f1": 0.7691,
+      "fn": 92,
+      "fp": 58,
+      "note": "FN 감소했으나 FP 증가로 F1 소폭 하락"
+    },
+    "RF+GB_hard": {
+      "f1": 0.7591,
+      "fn": 107,
+      "fp": 42,
+      "note": "보수적 다수결로 FN 대폭 증가"
+    },
+    "LR+RF+GB_soft": {
+      "f1": 0.7685,
+      "fn": 96,
+      "fp": 52,
+      "note": "LR 추가 효과 미미"
+    },
+    "conclusion": "앙상블이 GB 단독(0.7706)을 넘지 못함"
+  },
+  "convergence": {
+    "status": "converged",
+    "reason": "개선폭 둔화(+0.0057→+0.0000), 핵심 오분류 구간(1등석 남성 38.5%) 불변, 앙상블 효과 없음",
+    "final_model": "GradientBoosting",
+    "final_f1": 0.7706
+  }
+}

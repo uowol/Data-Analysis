@@ -1,6 +1,7 @@
 data/*
 **/data/
-**/outputs/
+**/outputs/**/*.html
+**/outputs/**/*.png
 .omc/
 
 # Byte-compiled / optimized / DLL files

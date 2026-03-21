@@ -1,0 +1,46 @@
+{
+  "project": "titanic",
+  "models": {
+    "LogisticRegression": {
+      "type": "linear",
+      "coefficients_standardized": {
+        "Sex": -1.2792,
+        "Pclass": -0.6535,
+        "Age": -0.5632,
+        "FamilySize": -0.4812,
+        "Fare_log": 0.2916,
+        "HasCabin": 0.2645,
+        "Embarked_S": -0.1426,
+        "Embarked_Q": -0.0407
+      },
+      "interpretation": "계수 절대값이 클수록 생존 예측에 강한 영향. 음수=생존 확률 감소, 양수=증가"
+    },
+    "RandomForest": {
+      "type": "ensemble_tree",
+      "feature_importances_gini": {
+        "Age": 0.2677,
+        "Sex": 0.2575,
+        "Fare_log": 0.2505,
+        "Pclass": 0.0779,
+        "FamilySize": 0.0743,
+        "HasCabin": 0.0419,
+        "Embarked_S": 0.0211,
+        "Embarked_Q": 0.0091
+      },
+      "interpretation": "Gini 중요도가 높을수록 분류에 많이 기여. 비선형 관계도 반영"
+    }
+  },
+  "consensus": {
+    "top_features": [
+      "Sex",
+      "Age"
+    ],
+    "note": "두 모델 모두 Sex와 Age를 상위 피처로 선정. Sex는 가장 강한 단일 예측 인자, Age는 비선형 모델에서 특히 중요",
+    "divergence": "Pclass(LR 2위) vs Fare_log(RF 3위) — 선형 모델은 등급 자체를, 트리 모델은 운임의 세밀한 분할을 더 활용"
+  },
+  "next_directions": [
+    "Age 구간화 실험 — RF에서 Age 중요도가 1위이나 비선형 패턴이 있을 수 있음",
+    "FamilySize 구간화 실험 — LR에서 4위로 영향력 있으나 비선형(2~4 최적) 패턴 미반영",
+    "Pclass × Sex 상호작용 피처 — 두 모델 모두 상위에 위치하므로 조합 효과 확인"
+  ]
+}
