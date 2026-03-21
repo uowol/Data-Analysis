@@ -77,10 +77,11 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
   "preprocessing": {
     "<column>": {
       "strategy": "log1p | group_median_impute | binary_flag | mode_impute_and_onehot | binary_encode | combine",
-      "note": "수치 근거 기반 선정 이유",
+      "note": "수치 근거 기반 선정 이유 (결측 시 생존율 차이, 교란 변수 통제 결과 등 구체적 수치 포함)",
       ...strategy별 추가 필드
     }
   },
+  "final_features": ["최종 피처 목록 — 전처리 후 모델에 입력될 피처를 명시"],
   "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
 }
 ```

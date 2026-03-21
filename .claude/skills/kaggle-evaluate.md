@@ -73,6 +73,18 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
    - 각 제안에 "왜 현재 상황에서 효과가 기대되는지" 논리적 근거를 명시한다
 4. 신규 모델 제안 시 선정 이유를 현재 모델의 구체적 한계와 연결한다
 
+### Step 4.5: Ablation 분석 (필수)
+
+이번 iteration에서 새 피처를 추가했거나 피처를 변경한 경우, 변경의 기여를 검증한다:
+
+1. 추가/변경된 각 피처를 제거한 상태에서 최선 모델의 F1을 측정한다
+2. 피처별 기여도(with - without)를 산출한다
+3. 기여도가 ±0.003 이내인 피처는 noise로 판단하고 제거를 권장한다
+4. 결과를 `ablation.json`으로 저장한다
+5. ablation 결과를 시각화한다 (bar chart: 피처별 기여도)
+
+ablation은 **매 iteration 필수**. 피처 변경이 없는 경우(모델만 변경)는 생략 가능.
+
 ### Step 5: solve 재실행 판단
 
 1. 피처 변경안 + 모델 변경안을 종합하여 다음 solve 반복의 실행 계획을 수립한다
@@ -100,6 +112,9 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
   },
   "improvement_directions": [
     {"direction": "...", "rationale": "...", "expected_impact": "high"}
-  ]
+  ],
+  "ablation": {
+    "<feature_name>": {"with": 0.7922, "without": 0.7892, "diff": 0.003}
+  }
 }
 ```

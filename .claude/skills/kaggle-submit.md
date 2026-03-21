@@ -53,6 +53,14 @@ user_invocable: true
 3. 제출 양식과 포맷이 일치하는지 확인한다
 4. 예측 분포를 보고한다 (예: 생존 비율)
 
+### Step 5: 최종 리포트 Confusion Matrix (필수)
+
+최종 리포트의 Confusion Matrix는 **CV 예측 기반**으로 생성한다. full train fit CM은 낙관적 편향이 있으므로 사용하지 않는다.
+
+1. 최종 모델을 동일 CV 설정(StratifiedKFold 5-fold, random_state=42)으로 `cross_val_predict`를 실행한다
+2. CV 예측 결과로 Confusion Matrix를 생성한다
+3. 이 CM을 최종 리포트 시각화에 사용한다
+
 ## Output
 
 - `<project>/outputs/submission/submission.csv`
