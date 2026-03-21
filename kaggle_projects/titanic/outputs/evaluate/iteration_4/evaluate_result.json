@@ -1,0 +1,68 @@
+{
+  "iteration": 4,
+  "convergence": {
+    "status": "converged",
+    "reason": "앙상블이 GB 단독(0.7922)을 넘지 못함. iter2→3 하락(-0.0065), iter2→4 변화 없음(+0.0000). 2회 연속 개선 없음.",
+    "final_model": "GradientBoosting",
+    "final_f1": 0.7922,
+    "final_features": [
+      "Pclass",
+      "Sex",
+      "Age",
+      "Fare_log",
+      "HasCabin",
+      "IsChild",
+      "FamilyGroup",
+      "PcSx_2_female",
+      "PcSx_2_male",
+      "PcSx_3_female",
+      "PcSx_3_male",
+      "Embarked_Q",
+      "Embarked_S"
+    ],
+    "final_params": {
+      "n_estimators": 200,
+      "learning_rate": 0.1,
+      "max_depth": 3,
+      "min_samples_leaf": 5,
+      "subsample": 0.8
+    }
+  },
+  "ensemble_experiment": {
+    "RF+GB_soft": {
+      "f1": 0.7894,
+      "conclusion": "FP 감소하나 FN 증가로 F1 하락"
+    },
+    "LR+RF+GB_soft": {
+      "f1": 0.7739,
+      "conclusion": "LR 추가 효과 없음"
+    }
+  },
+  "performance_trend": [
+    {
+      "iteration": "baseline",
+      "model": "Sex Rule",
+      "f1": 0.7094
+    },
+    {
+      "iteration": 1,
+      "model": "RandomForest",
+      "f1": 0.746
+    },
+    {
+      "iteration": 2,
+      "model": "GradientBoosting",
+      "f1": 0.7922
+    },
+    {
+      "iteration": 3,
+      "model": "GB (tuned)",
+      "f1": 0.7857
+    },
+    {
+      "iteration": 4,
+      "model": "GB (ensemble)",
+      "f1": 0.7922
+    }
+  ]
+}

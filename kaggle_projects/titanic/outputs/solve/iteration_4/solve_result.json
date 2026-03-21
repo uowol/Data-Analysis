@@ -1,0 +1,54 @@
+{
+  "iteration": 4,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 13,
+  "changes_from_previous": [
+    "iter2 피처/하이퍼파라미터로 복귀",
+    "RF+GB/LR+RF+GB 앙상블 시도"
+  ],
+  "models": {
+    "GradientBoosting": {
+      "f1": {
+        "mean": 0.7922,
+        "std": 0.0361,
+        "folds": [
+          0.8031,
+          0.8333,
+          0.7344,
+          0.7692,
+          0.8209
+        ]
+      },
+      "vs_baseline": "+0.0828"
+    },
+    "RF+GB_soft": {
+      "f1": 0.7894,
+      "fn": 88,
+      "fp": 47,
+      "note": "RF 추가로 FP 감소(51→47)하나 FN 증가(84→88)로 F1 소폭 하락"
+    },
+    "LR+RF+GB_soft": {
+      "f1": 0.7739,
+      "fn": 98,
+      "fp": 44,
+      "note": "LR 추가 효과 미미, FN 대폭 증가"
+    }
+  },
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7922,
+  "baseline_threshold": 0.7094
+}
