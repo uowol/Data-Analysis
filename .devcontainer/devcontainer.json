@@ -9,7 +9,8 @@
 	},
 	"name": "dev-kaggle-data-analysis",
 	"workspaceFolder": "/home/dev/data-analysis",
-	"postCreateCommand": "poetry install --no-root",
+	"remoteUser": "dev",
+	"postCreateCommand": "uv sync",
 	"customizations": {
 		"vscode": {
 			"extensions": [
