@@ -1,5 +1,5 @@
 {
-  "LogisticRegression": {
+  "LR": {
     "Sex": -1.0228,
     "Pclass": -0.7253,
     "PcSx_1_male": -0.5591,
@@ -15,7 +15,7 @@
     "Fare_log": 0.2451,
     "Embarked_Q": -0.0156
   },
-  "RandomForest": {
+  "RF": {
     "Age": 0.2491,
     "Fare_log": 0.248,
     "Sex": 0.1627,
