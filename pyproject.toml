@@ -22,6 +22,7 @@ dependencies = [
     "statsmodels>=0.14.4,<0.15",
     "scikit-learn>=1.6.0,<2",
     "pytest>=8.4.0,<9",
+    "rich>=13.0.0,<14",
 ]
 
 

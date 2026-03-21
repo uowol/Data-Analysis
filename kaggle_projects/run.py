@@ -2,29 +2,55 @@ import argparse
 import importlib.util
 import subprocess
 import sys
-import yaml
 from pathlib import Path
+
+import yaml
 
 # kaggle_projects/ 를 sys.path에 추가하여 base.*, titanic.* 등의 import를 가능하게 함
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 def init():
-    parser = argparse.ArgumentParser(description='Run a project')
-    parser.add_argument('--project_name', type=str, metavar="NAME", required=True, help='Name of the project to run')
-    parser.add_argument('--pipeline_name', type=str, metavar="NAME", default="default", help='Name of the pipeline to run (default: default)')
-    args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Run a project or browse Kaggle")
+    parser.add_argument(
+        "--browse",
+        action="store_true",
+        help="Browse Kaggle competitions/datasets",
+    )
+    parser.add_argument(
+        "--project_name",
+        type=str,
+        metavar="NAME",
+        help="Name of the project to run",
+    )
+    parser.add_argument(
+        "--pipeline_name",
+        type=str,
+        metavar="NAME",
+        default="default",
+        help="Name of the pipeline to run (default: default)",
+    )
+    args, remaining = parser.parse_known_args()
 
-    return args
+    if not args.browse and not args.project_name:
+        parser.error("--project_name is required when not using --browse")
+
+    return args, remaining
 
 
 def main():
-    args = init()
+    args, remaining = init()
+
+    if args.browse:
+        from browse import main as browse_main
+
+        browse_main(remaining)
+        return
 
     base_dir = Path(__file__).resolve().parent / args.project_name
     pipeline_path = base_dir / "src" / "pipelines" / args.pipeline_name / "pipeline.py"
     config_path = base_dir / "src" / "pipelines" / args.pipeline_name / "pipeline.yaml"
-    with open(config_path, 'r') as fp:
+    with open(config_path, "r") as fp:
         config = yaml.safe_load(fp)
         config = config if config is not None else {}
 
@@ -41,5 +67,5 @@ def main():
     pipeline()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

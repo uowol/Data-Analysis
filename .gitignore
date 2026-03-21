@@ -1,4 +1,6 @@
 data/*
+**/data/
+**/outputs/
 .omc/
 
 # Byte-compiled / optimized / DLL files
