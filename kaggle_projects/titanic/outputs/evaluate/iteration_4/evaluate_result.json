@@ -1,0 +1,16 @@
+{
+  "project": "titanic",
+  "iteration": 4,
+  "current_best": {
+    "model": "XGBoost",
+    "f1_score": 0.7907,
+    "improvement_from_iter3": "-0.0006"
+  },
+  "convergence_check": {
+    "delta": -0.0006,
+    "threshold": 0.005,
+    "converged": true
+  },
+  "final_model": "GBM tuned (iter3) — F1=0.7913, best across all iterations",
+  "convergence": true
+}

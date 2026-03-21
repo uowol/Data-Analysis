@@ -1,0 +1,50 @@
+{
+  "project": "titanic",
+  "iteration": 4,
+  "features": [
+    "Pclass",
+    "Age",
+    "Fare",
+    "Sex_num",
+    "FamilySize",
+    "IsAlone",
+    "HasCabin",
+    "PS_1_male",
+    "PS_2_female",
+    "PS_2_male",
+    "PS_3_female",
+    "PS_3_male",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
+  ],
+  "changes_from_previous": "Permutation importance feature selection (21→17), XGBoost introduced",
+  "models": {
+    "XGBoost": {
+      "type": "xgboost",
+      "results": {
+        "f1_score": {
+          "mean": 0.7907
+        },
+        "accuracy": {
+          "mean": 0.8485
+        }
+      },
+      "vs_baseline": "+0.0813"
+    },
+    "GBM_selected": {
+      "type": "gradient_boosting",
+      "results": {
+        "f1_score": {
+          "mean": 0.7863
+        }
+      },
+      "vs_baseline": "+0.0769"
+    }
+  },
+  "best_model": "XGBoost",
+  "best_f1": 0.7907,
+  "vs_prev_iteration": "-0.0006"
+}
