@@ -1,0 +1,40 @@
+{
+  "iteration": 3,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 13,
+  "changes_from_previous": [
+    "RF+GB/LR+RF+GB 앙상블 시도"
+  ],
+  "models": {
+    "GradientBoosting": {
+      "f1": {
+        "mean": 0.7922
+      },
+      "vs_iter2": "-0.0000"
+    },
+    "RF+GB_soft": {
+      "f1": 0.7894,
+      "note": "앙상블이 GB를 넘지 못함"
+    },
+    "LR+RF+GB_soft": {
+      "f1": 0.7739,
+      "note": "LR 추가 효과 없음"
+    }
+  },
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7922
+}
