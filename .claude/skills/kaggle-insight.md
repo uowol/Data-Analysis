@@ -6,7 +6,7 @@ user_invocable: true
 
 # Kaggle Insight Skill
 
-다운로드된 Kaggle 데이터에 대해 프로파일링을 실행하고, 데이터 품질 인사이트를 제공한다.
+다운로드된 Kaggle 데이터에 대해 프로파일링을 실행하고, 품질 분석 및 전처리 계획을 수립한다.
 
 ## CLI Usage
 
@@ -29,9 +29,8 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
 
 ## Workflow
 
-데이터를 다운로드한 후 인사이트를 추출할 때:
+### Phase 1: 프로파일링 + 선제 분석 (자율 진행)
 
-### Phase 1: 프로파일링 (자율 진행)
 1. `--json`으로 프로파일링 실행하여 요약 JSON을 파싱한다
 2. summary JSON에서 핵심 품질 이슈를 파악한다:
    - 결측률이 높은 컬럼 (>5%)
@@ -39,32 +38,51 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 중복 행
    - 고유값 비율 이상 (unique ID vs 낮은 cardinality)
    - 주요 상관관계
-3. 데이터 품질 이슈를 표로 정리하여 사용자에게 보고한다
+3. **품질 이슈별 선제 분석을 자동 수행한다:**
+   - 높은 왜도 (skewness > 2): 분포 시각화 + log 변환 전후 비교 (skewness, 구간별 빈도)
+   - 높은 결측률 (>5%): 결측 여부 vs 타겟 상관성 + 다른 주요 변수와의 교차 분석 (Pclass 통제 등)
+   - 영값 과다 (zeros > 30%): 영값 케이스의 전체 프로필 패턴 (Sex, Pclass, Embarked 등 주요 변수 분포)
+   - 관련 컬럼 쌍: 합산/파생 피처 후보 생성 + 타겟별 분포 확인
+4. 데이터 품질 이슈를 표로 정리하고, 선제 분석 결과와 함께 보고한다
 
-### Phase 2: 전처리 계획 (사용자 검수 필요)
-4. 품질 이슈 기반으로 전처리 계획을 수립한다:
+### Phase 2: 전처리 계획 수립 + JSON 출력
+
+5. 품질 이슈 + 선제 분석 기반으로 전처리 계획을 수립한다:
    - 결측치 처리 전략 (삭제/대체/모델 기반)
    - 이상치 처리 방안
    - 인코딩 전략 (범주형)
+   - 피처 엔지니어링 (합산, 파생, drop 대상)
    - 스케일링 필요성
-5. **사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다**
-
-### Phase 3: 문제 정의 및 모델링 방향 (사용자와 논의)
-6. 사용자와 함께 해결할 문제를 정의한다:
-   - 타겟 변수 선정
-   - 분류/회귀/클러스터링 등 문제 유형
-   - 평가 지표
-7. 문제에 맞는 모델링 기법을 추천한다:
-   - 기본 모델 후보
-   - 앙상블 전략
-   - 교차 검증 방법
-8. **여기까지만 진행. 실제 모델 구현은 별도 스킬에서 처리.**
+6. 전처리 계획을 JSON으로 저장한다:
+   - 단일 계획: `preprocessing_plan_a.json`
+   - 복수 계획 (처리 전략이 분기될 때): `preprocessing_plan_a.json`, `_b.json`, ...
+   - 각 계획은 독립적으로 `/kaggle-solve`에서 실행 가능해야 한다
+7. **사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다**
 
 ## Output
 
-- HTML 리포트: `<project>/outputs/profiling/<filename>_profile.html`
+- HTML 리포트: `<project>/outputs/profiling/<filename>_profile.html` (gitignored)
 - 요약 JSON: `<project>/outputs/profiling/<filename>_summary.json`
-- 터미널: 컬럼별 품질 요약 테이블 + 상관관계 + 알림
+- 전처리 계획: `<project>/outputs/profiling/preprocessing_plan_a.json` (복수 시 `_b.json`, ...)
+- 터미널: 품질 요약 테이블 + 선제 분석 결과 + 전처리 계획
+
+## Preprocessing Plan JSON Schema
+
+```json
+{
+  "project": "titanic",
+  "target": "Survived",
+  "drop_columns": ["PassengerId", "Name", "Ticket", "Cabin", "SibSp", "Parch"],
+  "preprocessing": {
+    "<column>": {
+      "strategy": "log1p | group_median_impute | binary_flag | mode_impute_and_onehot | binary_encode | combine",
+      "note": "수치 근거 기반 선정 이유",
+      ...strategy별 추가 필드
+    }
+  },
+  "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
+}
+```
 
 ## Summary JSON Fields
 
