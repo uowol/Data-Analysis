@@ -12,7 +12,7 @@
   "preprocessing": {
     "Fare": {
       "strategy": "log1p",
-      "note": "skewness 4.79→0.39. Fare=0 (15건, 1.7%)은 그대로 유지"
+      "note": "skew 4.79→0.39"
     },
     "Age": {
       "strategy": "group_median_impute",
@@ -20,17 +20,16 @@
         "Pclass",
         "Sex"
       ],
-      "note": "19.9% 결측, Pclass×Sex 그룹별 중앙값 대체"
+      "note": "19.9% 결측"
     },
     "Cabin": {
       "strategy": "binary_flag",
       "new_column": "HasCabin",
-      "note": "77.1% 결측. Pclass 통제 후에도 Survived와 상관 (+19pp 1등석, +37pp 2등석)"
+      "note": "77.1% 결측, Pclass 통제 후 유의미"
     },
     "Embarked": {
       "strategy": "mode_impute_and_onehot",
-      "impute_value": "S",
-      "note": "2건 결측 → 최빈값(S, 72.4%) 대체, 원핫 인코딩"
+      "impute_value": "S"
     },
     "Sex": {
       "strategy": "binary_encode",
@@ -42,9 +41,9 @@
     "SibSp_Parch": {
       "strategy": "combine",
       "new_column": "FamilySize",
-      "formula": "SibSp + Parch + 1",
-      "note": "2~4인 생존율 최고(55~72%), 5+ 급락(0~33%). 원본 drop"
+      "formula": "SibSp+Parch+1",
+      "note": "2~4인 최적, 5+ 급락"
     }
   },
-  "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
+  "scaling": "모델에 따라 결정"
 }

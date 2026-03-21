@@ -7,10 +7,5 @@
     "1": 342
   },
   "primary_metric": "f1_score",
-  "secondary_metrics": [
-    "accuracy",
-    "precision",
-    "recall"
-  ],
-  "metric_rationale": "클래스 비율 1.61:1 불균형, 다수 클래스 예측만으로 accuracy 61.6% 달성 가능하므로 F1 채택"
+  "metric_rationale": "불균형 1.61:1, F1 채택"
 }
