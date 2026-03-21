@@ -1,0 +1,25 @@
+{
+  "gbm_tuned_importance": {
+    "Sex_num": 0.304,
+    "Title_Mr": 0.1863,
+    "Fare": 0.1362,
+    "Age": 0.1098,
+    "Pclass": 0.0765,
+    "HasCabin": 0.0359,
+    "PS_3_female": 0.0345,
+    "FamilySize": 0.034,
+    "FamLarge": 0.0313,
+    "FamSmall": 0.0168,
+    "Embarked_S": 0.0133,
+    "IsChild": 0.0094,
+    "Title_Mrs": 0.0024,
+    "Title_Rare": 0.0024,
+    "PS_3_male": 0.0022,
+    "PS_2_male": 0.0015,
+    "PS_1_male": 0.001,
+    "PS_2_female": 0.0009,
+    "Embarked_Q": 0.0008,
+    "IsAlone": 0.0008,
+    "Title_Miss": 0.0
+  }
+}

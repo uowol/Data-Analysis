@@ -1,0 +1,70 @@
+{
+  "project": "titanic",
+  "iteration": 3,
+  "features": [
+    "Pclass",
+    "Age",
+    "Fare",
+    "Sex_num",
+    "FamilySize",
+    "IsAlone",
+    "HasCabin",
+    "PS_1_male",
+    "PS_2_female",
+    "PS_2_male",
+    "PS_3_female",
+    "PS_3_male",
+    "IsChild",
+    "FamSmall",
+    "FamLarge",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
+  ],
+  "changes_from_previous": "GBM hyperparameter tuning (GridSearchCV), threshold optimization, stacking attempt",
+  "models": {
+    "GBM_tuned": {
+      "type": "gradient_boosting",
+      "params": {
+        "learning_rate": 0.1,
+        "max_depth": 3,
+        "min_samples_leaf": 5,
+        "n_estimators": 100
+      },
+      "results": {
+        "f1_score": {
+          "mean": 0.7913,
+          "std": 0.0264,
+          "folds": [
+            0.8125,
+            0.8271,
+            0.752,
+            0.7846,
+            0.7786
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8485
+        }
+      },
+      "vs_baseline": "+0.0819",
+      "vs_prev": "+0.0061"
+    },
+    "Stacking": {
+      "type": "stacking",
+      "results": {
+        "f1_score": {
+          "mean": 0.7764
+        }
+      },
+      "note": "LR+GBM stacking underperformed tuned GBM"
+    }
+  },
+  "best_model": "GBM_tuned",
+  "best_f1": 0.7913,
+  "baseline_threshold": 0.7094,
+  "vs_prev_iteration": "+0.0061"
+}
