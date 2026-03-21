@@ -57,7 +57,8 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 단일 계획: `preprocessing_plan_a.json`
    - 복수 계획 (처리 전략이 분기될 때): `preprocessing_plan_a.json`, `_b.json`, ...
    - 각 계획은 독립적으로 `/kaggle-solve`에서 실행 가능해야 한다
-7. **사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다**
+7. autopilot에서 호출 시: 자율 진행 (사용자 승인 불필요)
+8. 단독 실행 시: 사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다
 
 ## Output
 

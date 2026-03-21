@@ -20,16 +20,42 @@ user_invocable: true
 - solve↔evaluate 루프는 최대 5회로 제한한다. 수렴 전이라도 5회 도달 시 현재 최선으로 확정.
 - 최종 모델은 전체 반복 중 주 평가 지표가 가장 높았던 모델로 선택한다.
 
+## Branch Strategy
+
+프로젝트별 브랜치에서 작업하고, 실험 분기 시 하위 브랜치를 생성한다.
+
+```
+dev (프레임워크/스킬 개발)
+  └── proj/<project> (프로젝트 메인 — Stage 1~3 실행)
+        ├── proj/<project>/plan-a (전처리 계획 A — Stage 4 실행)
+        ├── proj/<project>/plan-b (전처리 계획 B — Stage 4 실행)
+        └── 최선의 실험 브랜치를 proj/<project>에 merge
+              └── 완료 시 proj/<project> → main PR
+```
+
+### 브랜치 생성 시점
+
+1. **autopilot 시작 시**: `dev`에서 `proj/<project>` 브랜치 생성 (이미 있으면 사용)
+2. **Stage 1 완료 후**: 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 분기
+3. **Stage 4 완료 후**: 최선의 plan 브랜치를 `proj/<project>`에 merge
+4. **단일 계획이면**: 분기 없이 `proj/<project>`에서 직선 실행
+
 ## Pipeline
 
 ```
-1. insight → 2. metric → 3. baseline → 4. solve ↔ evaluate (루프) → 5. 완료
+[proj/<project> 브랜치 생성]
+1. insight → 2. metric → 3. baseline
+[복수 계획 시 plan 브랜치 분기]
+4. solve ↔ evaluate (루프)
+[최선 plan을 proj/<project>에 merge]
+5. 완료
 ```
 
 ### Stage 1: Insight (`/kaggle-insight`)
 
-1. 프로파일링 실행 → 품질 분석 → 전처리 계획 JSON 출력
-2. 복수 계획이면 `preprocessing_plan_a.json`, `_b.json`, ... 으로 출력
+1. 프로파일링 실행 → 품질 분석 → 선제 분석 자동 수행
+2. 전처리 계획 JSON 출력 (자율 진행, 사용자 승인 불필요)
+3. 복수 계획이면 `preprocessing_plan_a.json`, `_b.json`, ... 으로 출력
 
 ### Stage 2: Metric (`/kaggle-metric`)
 
@@ -42,6 +68,13 @@ user_invocable: true
 1. 타겟과 최강 상관 피처 식별
 2. 단순 규칙 베이스라인 CV 평가
 3. `baseline_result.json` 저장
+4. **여기까지 `proj/<project>` 브랜치에서 커밋**
+
+### Stage 3.5: 실험 브랜치 분기 (복수 계획 시)
+
+1. 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 브랜치 생성
+2. 각 브랜치에서 독립적으로 Stage 4를 실행
+3. 단일 계획이면 이 단계 건너뜀
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
@@ -60,6 +93,12 @@ user_invocable: true
   - 최대 반복 횟수(5) 도달
 ```
 
+### Stage 4.5: 실험 브랜치 merge (복수 계획 시)
+
+1. 각 plan 브랜치의 `best/solve_result.json`에서 주 평가 지표를 비교
+2. 최선의 브랜치를 `proj/<project>`에 merge
+3. 나머지 브랜치는 유지 (실험 이력)
+
 ### Stage 5: 완료
 
 1. 전체 반복 중 주 평가 지표가 가장 높았던 iteration을 `best/`에 저장
@@ -68,7 +107,8 @@ user_invocable: true
    - baseline 대비 개선폭
    - 반복 간 성능 추이 테이블
    - 잔존 오분류 집중 구간
-3. 사용자에게 결과를 보고한다
+3. `proj/<project>` 브랜치에 최종 커밋
+4. 사용자에게 결과를 보고한다
 
 ## Output
 
