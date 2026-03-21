@@ -1,0 +1,43 @@
+{
+  "model": "GradientBoostingClassifier",
+  "params": {
+    "n_estimators": 100,
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "min_samples_leaf": 5
+  },
+  "features": [
+    "Pclass",
+    "Age",
+    "Fare",
+    "Sex_num",
+    "FamilySize",
+    "IsAlone",
+    "HasCabin",
+    "PS_1_male",
+    "PS_2_female",
+    "PS_2_male",
+    "PS_3_female",
+    "PS_3_male",
+    "IsChild",
+    "FamSmall",
+    "FamLarge",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
+  ],
+  "cv_f1": 0.7913,
+  "prediction_distribution": {
+    "0": 267,
+    "1": 151
+  },
+  "survival_rate": 0.3612,
+  "validation": {
+    "rows_match": true,
+    "no_missing": true,
+    "format_match": true
+  }
+}
