@@ -10,25 +10,26 @@
 
 ## 다음 스킬 (구현 순서)
 
-- [ ] `/kaggle-metric` — 인사이트 기반 metric 정의, 평가 기준 설정
+- [x] `/kaggle-metric` — 인사이트 기반 metric 정의, 평가 기준 설정
   - 타겟 변수 확정, 문제 유형(분류/회귀) 판단
   - 적절한 평가 지표 선정 (accuracy, F1, RMSE 등)
   - 사용자와 논의하여 확정
 
-- [ ] `/kaggle-baseline` — baseline 모델 학습 및 목표 metric 설정
+- [x] `/kaggle-baseline` — baseline 모델 학습 및 목표 metric 설정
   - 최소한의 전처리로 빠른 baseline 구축
   - 현실적으로 달성 가능한 초기 목표값 설정 (낮게 시작)
   - baseline 결과를 기준점으로 저장
 
-- [ ] `/kaggle-solve` — 전처리 + 모델링으로 문제 해결
-  - 인사이트 기반 피처 엔지니어링
-  - 모델 선택 및 학습
-  - 하이퍼파라미터 튜닝
+- [x] `/kaggle-solve` — 전처리 + 모델링으로 문제 해결
+  - 전처리 계획 JSON 기반 자동 적용
+  - 선형 + 비선형 모델 최소 1개씩 선정, CV 평가
+  - 해석 가능 모델로 피처 인사이트 추출
+  - 복수 전처리 계획 시 브랜치 분기 실행
 
-- [ ] `/kaggle-evaluate` — 결과 분석 및 개선 방향 도출
-  - 현재 metric vs 목표 metric 비교
-  - 오분류/오차 분석
-  - 다음 개선 방향 제안
+- [x] `/kaggle-evaluate` — 결과 분석 및 개선 방향 도출
+  - 오분류 집중 구간 식별 (FN/FP 프로필, 피처 조합별 오분류율)
+  - 피처 인사이트와 교차 검증하여 개선 방향 도출
+  - solve 재실행 판단 (high/medium이면 재실행, low/수렴이면 확정)
 
 - [ ] `/kaggle-autopilot` — 전체 파이프라인 자동 실행
   - 위 스킬들을 순차 호출하는 오케스트레이션

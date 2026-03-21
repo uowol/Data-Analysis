@@ -130,10 +130,10 @@ kaggle_projects/
 |------|------|------|
 | `/kaggle-browse` | 완료 | Kaggle 검색 및 다운로드 |
 | `/kaggle-insight` | 완료 | 프로파일링 및 품질 분석 |
-| `/kaggle-metric` | 미구현 | metric 정의, 평가 기준 설정 |
-| `/kaggle-baseline` | 미구현 | baseline 모델 + 목표 metric |
-| `/kaggle-solve` | 미구현 | 전처리 + 모델링 |
-| `/kaggle-evaluate` | 미구현 | 결과 분석 + 개선 방향 |
+| `/kaggle-metric` | 완료 | metric 정의, 평가 기준 설정 |
+| `/kaggle-baseline` | 완료 | baseline 모델 + 목표 metric |
+| `/kaggle-solve` | 완료 | 전처리 + 모델링 |
+| `/kaggle-evaluate` | 완료 | 결과 분석 + 개선 방향 |
 | `/kaggle-autopilot` | 미구현 | 전체 파이프라인 자동 실행 |
 
 ### 개발 방침
@@ -158,3 +158,7 @@ kaggle_projects/
 | 캐글 검색, 데이터셋 검색, 대회 검색 | `/kaggle-browse` |
 | 커밋, 마무리 | `/commit` |
 | 인터뷰, 워크플로우 정렬, 요구사항 정리 | `/interview` |
+| metric, 평가 지표, 타겟 변수, 문제 정의 | `/kaggle-metric` |
+| 베이스라인, baseline, 기준 모델 | `/kaggle-baseline` |
+| 전처리, 모델링, 학습, solve | `/kaggle-solve` |
+| 결과 분석, 오분류, 개선 방향, evaluate | `/kaggle-evaluate` |
