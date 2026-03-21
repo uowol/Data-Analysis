@@ -1,0 +1,17 @@
+{
+  "project": "titanic",
+  "target": "Survived",
+  "problem_type": "binary_classification",
+  "class_distribution": {
+    "0": 549,
+    "1": 342
+  },
+  "class_ratio": "1.61:1 (majority:minority)",
+  "primary_metric": "f1_score",
+  "secondary_metrics": [
+    "accuracy",
+    "precision",
+    "recall"
+  ],
+  "metric_rationale": "클래스 비율 1.60:1 약한 불균형. 소수 클래스(생존자, 38.4%) 예측 품질이 중요하므로 precision-recall 균형을 측정하는 F1 선정. Accuracy는 다수 클래스 편향 가능성 있어 보조 지표로 사용."
+}
