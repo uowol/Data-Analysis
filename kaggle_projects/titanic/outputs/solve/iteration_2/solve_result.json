@@ -1,0 +1,121 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "preprocessing_plan": "plan_a",
+  "features": [
+    "Pclass",
+    "Age",
+    "Fare",
+    "Sex_num",
+    "FamilySize",
+    "IsAlone",
+    "HasCabin",
+    "PS_1_male",
+    "PS_2_female",
+    "PS_2_male",
+    "PS_3_female",
+    "PS_3_male",
+    "IsChild",
+    "FamSmall",
+    "FamLarge",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
+  ],
+  "changes_from_previous": "Added Pclass×Sex interaction, IsChild, FamSmall/FamLarge; GBM model",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
+  "models": {
+    "LogisticRegression": {
+      "type": "linear",
+      "rationale": "iter1 유지 비교용",
+      "results": {
+        "f1_score": {
+          "mean": 0.7728,
+          "std": 0.0156,
+          "folds": [
+            0.797,
+            0.7634,
+            0.7559,
+            0.7846,
+            0.7619
+          ]
+        },
+        "accuracy": {
+          "mean": 0.835
+        },
+        "precision": {
+          "mean": 0.8197
+        },
+        "recall": {
+          "mean": 0.731
+        }
+      },
+      "vs_baseline": "+0.0634"
+    },
+    "RandomForest": {
+      "type": "ensemble_tree",
+      "rationale": "iter1 유지 비교용",
+      "results": {
+        "f1_score": {
+          "mean": 0.7593,
+          "std": 0.0184,
+          "folds": [
+            0.782,
+            0.7445,
+            0.7353,
+            0.7786,
+            0.7576
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8193
+        },
+        "precision": {
+          "mean": 0.7768
+        },
+        "recall": {
+          "mean": 0.7427
+        }
+      },
+      "vs_baseline": "+0.0499"
+    },
+    "GradientBoosting": {
+      "type": "gradient_boosting",
+      "rationale": "순차 오차 보정으로 오분류 패턴 학습",
+      "results": {
+        "f1_score": {
+          "mean": 0.7852,
+          "std": 0.0383,
+          "folds": [
+            0.8346,
+            0.8209,
+            0.7302,
+            0.7634,
+            0.7752
+          ]
+        },
+        "accuracy": {
+          "mean": 0.844
+        },
+        "precision": {
+          "mean": 0.8328
+        },
+        "recall": {
+          "mean": 0.7427
+        }
+      },
+      "vs_baseline": "+0.0758"
+    }
+  },
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7852,
+  "baseline_threshold": 0.7094,
+  "vs_prev_iteration": "+0.0078"
+}

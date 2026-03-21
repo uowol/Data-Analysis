@@ -1,0 +1,25 @@
+{
+  "gradient_boosting_importance": {
+    "Sex_num": 0.2687,
+    "Title_Mr": 0.2075,
+    "Fare": 0.1426,
+    "Age": 0.1183,
+    "Pclass": 0.065,
+    "FamilySize": 0.0563,
+    "PS_3_female": 0.043,
+    "HasCabin": 0.035,
+    "FamLarge": 0.0153,
+    "FamSmall": 0.0145,
+    "Embarked_S": 0.0135,
+    "Title_Rare": 0.0073,
+    "IsChild": 0.0042,
+    "Title_Mrs": 0.002,
+    "PS_2_male": 0.0016,
+    "PS_2_female": 0.0016,
+    "Embarked_Q": 0.0014,
+    "PS_3_male": 0.0014,
+    "IsAlone": 0.0005,
+    "Title_Miss": 0.0003,
+    "PS_1_male": 0.0001
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "current_best": {
+    "model": "GradientBoosting",
+    "f1_score": 0.7852,
+    "improvement_from_iter1": "+0.0078"
+  },
+  "error_analysis": {
+    "total_misclassified": 139,
+    "false_negatives": {
+      "count": 88,
+      "profile": "주로 male, 1st class male 오분류율 36.1% 유지"
+    },
+    "false_positives": {
+      "count": 51,
+      "profile": "3rd class female 오분류율 29.2% (iter1 34.7%에서 개선)"
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "F1 최적 threshold 탐색",
+      "rationale": "GBM 확률 출력에서 0.5 대신 F1 최적 threshold 사용 시 FN/FP 균형 개선 가능",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "Stacking 앙상블 (LR+GBM)",
+      "rationale": "LR과 GBM이 다른 패턴을 포착 (LR: F1=0.7728, GBM: 0.7852). 메타러너로 두 모델의 장점 결합",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "하이퍼파라미터 튜닝 (GBM)",
+      "rationale": "기본 파라미터에서 F1=0.7852. learning_rate, max_depth, n_estimators 최적화 여지",
+      "expected_impact": "medium"
+    }
+  ],
+  "convergence": false,
+  "recommendation": "continue - 개선폭 0.0078 > 0.005, medium impact 개선안 존재"
+}
