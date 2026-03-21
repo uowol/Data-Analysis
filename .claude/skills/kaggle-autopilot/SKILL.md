@@ -20,6 +20,14 @@ user_invocable: true
 - solve↔evaluate 루프는 최대 5회로 제한한다. 수렴 전이라도 5회 도달 시 현재 최선으로 확정.
 - 최종 모델은 전체 반복 중 주 평가 지표가 가장 높았던 모델로 선택한다.
 
+## Pre-flight Checklist
+
+autopilot 시작 전 아래를 반드시 확인한다:
+
+1. **스킬 인식 확인**: `/kaggle-insight` 등 각 스킬이 Skill 도구로 호출 가능한지 확인한다. 불가능하면 대상 브랜치의 `.claude/skills/` 구조를 점검하고 `dev` 브랜치에서 cherry-pick한다.
+2. **의존성 확인**: 파이프라인에서 사용할 패키지(xgboost 등)가 설치되어 있는지 확인한다. 미설치 시 `uv pip install`로 사전 설치.
+3. **데이터 확인**: `<project>/data/train.csv`, `test.csv` 존재 여부.
+
 ## Branch Strategy
 
 autopilot 실행마다 타임스탬프 기반 고유 브랜치를 생성하고, 하나의 PR에서 과정을 기록한다.
@@ -81,8 +89,9 @@ dev (프레임워크/스킬 개발)
 ### Stage 3.5: PR 생성
 
 1. autopilot 브랜치를 push하고 `proj/<project>`로의 PR을 생성한다
-2. PR 본문에 Stage 1~3 요약을 포함한다
+2. PR 본문에 Stage 1~3 요약 + progress 체크리스트를 포함한다
 3. 이후 Stage마다 PR 코멘트로 결과를 기록한다
+4. **각 Stage 완료 시 `gh pr edit`으로 progress 체크리스트를 즉시 업데이트한다** (마지막에 몰아서 하지 않음)
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
@@ -224,7 +233,8 @@ PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지
 - **기존 상태 무시**: 이전 autopilot 실행의 결과물(JSON, CSV, figures)은 참조하지 않는다. 각 실행은 독립적이다.
 - **브랜치 격리**: 각 실행은 고유 브랜치에서 진행되므로 서로 간섭하지 않는다.
 - **중간 멈춤 금지**: 도구 호출 결과가 돌아오면 텍스트 출력 없이 바로 다음 도구를 호출한다. 중간 진행 상황은 PR 코멘트로 기록하고, 사용자에게는 전체 완료 후 최종 결과만 보고한다.
-- **스킬 호출 필수**: 각 Stage에서 해당 kaggle 스킬(`/kaggle-insight`, `/kaggle-metric`, `/kaggle-baseline`, `/kaggle-solve`, `/kaggle-evaluate`, `/kaggle-submit`)을 반드시 호출한다. python_repl로 직접 구현하지 않는다.
+- **스킬 호출 필수**: 각 Stage에서 해당 kaggle 스킬(`/kaggle-insight`, `/kaggle-metric`, `/kaggle-baseline`, `/kaggle-solve`, `/kaggle-evaluate`, `/kaggle-submit`)을 `Skill` 도구로 반드시 호출한다. python_repl로 직접 구현하지 않는다. 스킬 호출이 실패하면 브랜치의 스킬 파일 구조를 점검하고 해결한 뒤 재시도한다 (Pre-flight Checklist 참조).
+- **PR progress 실시간 업데이트**: 각 Stage 완료 시 `gh pr edit`으로 PR 본문의 progress 체크리스트를 즉시 `[x]`로 갱신한다.
 
 ## 시각화 표준
 
