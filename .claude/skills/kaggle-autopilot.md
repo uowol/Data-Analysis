@@ -27,7 +27,7 @@ autopilot 실행마다 타임스탬프 기반 고유 브랜치를 생성하고, 
 ```
 dev (프레임워크/스킬 개발)
   └── proj/<project> (프로젝트 메인)
-        └── proj/<project>/autopilot-YYYYMMDD-HHMM (실행 브랜치)
+        └── autopilot/<project>-YYYYMMDD-HHMM (실행 브랜치)
               ├── commit: Stage 1 insight
               ├── commit: Stage 2+3 metric + baseline
               ├── commit: Stage 4 iter1~N (각 iteration별 커밋)
@@ -43,7 +43,7 @@ dev (프레임워크/스킬 개발)
 
 ### 브랜치 생성 시점
 
-1. **autopilot 시작 시**: `proj/<project>`에서 `proj/<project>/autopilot-YYYYMMDD-HHMM` 브랜치 생성
+1. **autopilot 시작 시**: `proj/<project>`에서 `autopilot/<project>-YYYYMMDD-HHMM` 브랜치 생성
 2. **각 Stage 완료 시**: 해당 브랜치에 커밋 + PR 코멘트로 결과 기록
 3. **복수 전처리 계획 시**: 동일 브랜치에서 순차 실행, 결과 비교 후 최선 채택
 4. **완료 시**: PR을 통해 `proj/<project>`에 merge
@@ -86,20 +86,40 @@ dev (프레임워크/스킬 개발)
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
-```
-반복 N=1:
-  solve: 전처리 적용 + 선형/비선형 모델 학습 + 피처 인사이트 추출
-  evaluate: 오분류 분석 + 피처 개선안 + 모델 검토 + 수렴 판단
+각 iteration은 **pre-iteration → solve+evaluate → post-iteration** 3단계로 구성되며, 각각 별도 PR 코멘트로 기록한다.
 
-반복 N=2~5:
-  solve: evaluate 피드백 반영 (피처 검증 → 모델 추가 → 학습 → ablation)
-  evaluate: 반복 간 비교 + 수렴 판단
+```
+반복 N:
+  1. PR 코멘트: pre-iteration (계획 + 근거)
+  2. solve + evaluate 실행
+  3. 커밋: iteration_N 결과
+  4. PR 코멘트: post-iteration (결과 분석 + 다음 계획)
 
 수렴 조건 (하나라도 충족 시 종료):
   - 주 평가 지표 개선폭 < 0.005 (2회 연속)
   - evaluate의 남은 개선안이 모두 low
   - 최대 반복 횟수(5) 도달
 ```
+
+#### pre-iteration PR 코멘트 (iteration 시작 전)
+
+무엇을 시도하고 왜 그런지 설명:
+- **피처 변경**: 어떤 피처를 추가/수정/제거할 것인지 + 각각의 근거
+- **모델 변경**: 새 모델 추가 시 선정 이유 (이전 iteration의 구체적 한계와 연결)
+- **가설**: 이 변경으로 기대하는 효과와 수치적 근거
+
+#### solve + evaluate 실행
+
+- solve: 전처리 적용 + 모델 학습 + 피처 인사이트 추출
+- evaluate: 오분류 분석 + 피처 개선안 + 모델 검토 + 수렴 판단
+
+#### post-iteration PR 코멘트 (iteration 완료 후)
+
+결과 분석과 다음 방향:
+- **결과 요약**: 모델별 F1, 이전 iteration 대비 변화, 오분류 건수
+- **가설 검증**: pre-iteration에서 세운 가설이 맞았는지 수치로 확인
+- **오분류 분석**: FN/FP 프로필, 오분류 집중 구간 변화
+- **다음 계획**: 수렴이면 종료 선언, 아니면 다음 iteration의 방향 (pre-iteration의 입력이 됨)
 
 ### Stage 5: 완료
 
