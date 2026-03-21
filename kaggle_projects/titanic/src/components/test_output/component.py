@@ -3,9 +3,6 @@ import yaml
 from pathlib import Path
 from typing import List
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from base.src.components import base
 from titanic.src.functions import test_output
 from titanic.src.formats import RequestTestOutput, ResponseTestOutput, ResponseMessage

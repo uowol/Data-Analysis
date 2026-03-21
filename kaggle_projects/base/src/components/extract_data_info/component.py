@@ -4,9 +4,6 @@ import logging
 from pathlib import Path
 from typing import List
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from base.src.components import base
 from base.src.functions import extract_data_info
 from base.src.formats import RequestExtractInfo, ResponseExtractInfo, ResponseMessage

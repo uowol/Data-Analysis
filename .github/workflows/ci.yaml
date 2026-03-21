@@ -14,18 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+        run: uv python install 3.12
 
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies with Poetry
-        run: poetry install --no-root
+      - name: Install dependencies
+        run: uv sync
 
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$GITHUB_WORKSPACE/kaggle_projects" >> $GITHUB_ENV
@@ -39,11 +35,11 @@ jobs:
       - name: Run tests in base project
         working-directory: kaggle_projects/base
         run: |
-          poetry run pip install -r requirements.txt
-          poetry run pytest tests
+          uv pip install -r requirements.txt
+          uv run pytest tests
 
       - name: Run tests in titanic project
         working-directory: kaggle_projects/titanic
         run: |
-          poetry run pip install -r requirements.txt
-          poetry run pytest tests
+          uv pip install -r requirements.txt
+          uv run pytest tests

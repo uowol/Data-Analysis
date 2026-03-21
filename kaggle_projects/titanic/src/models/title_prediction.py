@@ -3,9 +3,6 @@ import time
 import pandas as pd
 from pathlib import Path
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from titanic.src.formats import (
     RequestModeling, ResponseModeling
 )

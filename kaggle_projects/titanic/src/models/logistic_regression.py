@@ -11,9 +11,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from titanic.src.formats import (
     RequestModeling, ResponseModeling
 )

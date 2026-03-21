@@ -1,9 +1,12 @@
 import argparse
-import yaml
-import os
+import importlib.util
 import subprocess
 import sys
+import yaml
 from pathlib import Path
+
+# kaggle_projects/ 를 sys.path에 추가하여 base.*, titanic.* 등의 import를 가능하게 함
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 def init():
@@ -11,34 +14,32 @@ def init():
     parser.add_argument('--project_name', type=str, metavar="NAME", required=True, help='Name of the project to run')
     parser.add_argument('--pipeline_name', type=str, metavar="NAME", default="default", help='Name of the pipeline to run (default: default)')
     args = parser.parse_args()
-    
+
     return args
 
 
 def main():
     args = init()
-    
+
     base_dir = Path(__file__).resolve().parent / args.project_name
-    pipeline_path = f"{base_dir}/src/pipelines/{args.pipeline_name}/pipeline.py"
-    config_path = f"{base_dir}/src/pipelines/{args.pipeline_name}/pipeline.yaml"
+    pipeline_path = base_dir / "src" / "pipelines" / args.pipeline_name / "pipeline.py"
+    config_path = base_dir / "src" / "pipelines" / args.pipeline_name / "pipeline.yaml"
     with open(config_path, 'r') as fp:
         config = yaml.safe_load(fp)
         config = config if config is not None else {}
 
     # -- install dependencies
-    requirements_path = f"kaggle_projects/{args.project_name}/requirements.txt"
-    if os.path.exists(requirements_path):
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements_path])
+    requirements_path = base_dir / "requirements.txt"
+    if requirements_path.exists():
+        subprocess.check_call(["uv", "pip", "install", "-r", str(requirements_path)])
 
     # -- run pipeline module
-    pipeline_dir = os.path.dirname(os.path.abspath(pipeline_path))
-    pipeline_module = os.path.splitext(os.path.basename(pipeline_path))[0]
-    sys.path.append(pipeline_dir)
-    pipeline = getattr(__import__(pipeline_module), 'Pipeline')(**config)
-    sys.path.pop()
-    del sys.modules[pipeline_module]
+    spec = importlib.util.spec_from_file_location("pipeline", pipeline_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    pipeline = module.Pipeline(**config)
     pipeline()
-    
-    
+
+
 if __name__ == '__main__':
     main()

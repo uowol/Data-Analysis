@@ -3,9 +3,6 @@ import yaml
 from pathlib import Path
 from typing import List
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from base.src.components import base
 from titanic.src.models import (
     base as base_model,

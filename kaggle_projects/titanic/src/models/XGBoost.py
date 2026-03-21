@@ -6,9 +6,6 @@ import numpy as np
 from pathlib import Path
 import xgboost as xgb
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from titanic.src.formats import (
     RequestModeling, ResponseModeling
 )
