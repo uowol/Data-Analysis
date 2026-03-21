@@ -10,7 +10,7 @@ Kaggle 데이터셋을 대상으로 EDA를 통해 인사이트를 도출하고, 
 
 - `kaggle_projects/` — 데이터 분석 파이프라인 프레임워크 및 개별 프로젝트 코드
 - `Dockerfile`, `.devcontainer/` — 개발 환경 (VS Code Dev Container 기반)
-- `.claude/skills/` — Claude Code 활용을 위한 커스텀 스킬 (향후 확장 예정)
+- `.claude/skills/` — Claude Code 커스텀 스킬 (kaggle-browse 등)
 
 ## Commands
 
@@ -22,8 +22,18 @@ uv sync
 uv pip install -r kaggle_projects/<project>/requirements.txt
 
 # 프로젝트 파이프라인 실행
-uv run python -m kaggle_projects.run_project --project_name=titanic
-uv run python -m kaggle_projects.run_project --project_name=titanic --pipeline_name=default
+uv run python -m kaggle_projects.run --project_name=titanic
+uv run python -m kaggle_projects.run --project_name=titanic --pipeline_name=default
+
+# Kaggle 대회/데이터셋 검색
+uv run python -m kaggle_projects.run --browse --type dataset --search "keyword"
+uv run python -m kaggle_projects.run --browse --type competition --search "keyword"
+uv run python -m kaggle_projects.browse --type dataset --search "keyword" --json
+uv run python -m kaggle_projects.browse --type dataset --search "keyword" --detail 1 --download
+
+# 데이터 프로파일링
+uv run python -m kaggle_projects.profile kaggle_projects/<project>/data
+uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
 
 # 전체 테스트 실행
 uv run pytest kaggle_projects/base/tests kaggle_projects/titanic/tests
@@ -50,7 +60,9 @@ uv run isort .
 
 ```
 kaggle_projects/
-├── run_project.py          # 엔트리포인트: --project_name으로 프로젝트 선택
+├── run.py                  # 엔트리포인트: --project_name으로 파이프라인 실행, --browse로 Kaggle 검색
+├── browse.py               # Kaggle 대회/데이터셋 검색 CLI (rich 테이블 + JSON 출력)
+├── profile.py              # 데이터 프로파일링 CLI (ydata-profiling + 핵심 요약 추출)
 ├── base/                   # 공통 컴포넌트 (download_data, extract_data_info)
 │   └── src/
 │       ├── components/     # 각 컴포넌트는 component.py + component.yaml
@@ -66,7 +78,7 @@ kaggle_projects/
 
 ### 실행 흐름
 
-1. `run_project.py`가 `--project_name`에 해당하는 `pipelines/default/pipeline.yaml` 설정을 로드
+1. `run.py`가 `--project_name`에 해당하는 `pipelines/default/pipeline.yaml` 설정을 로드
 2. Pipeline의 `call()`이 설정에 따라 Component들을 순차 실행
 3. 각 Component는 `RequestMessage`를 받아 `ResponseMessage`를 반환
 4. `upstream_events` 리스트로 이전 Component의 결과를 다음에 전달
@@ -84,7 +96,7 @@ kaggle_projects/
 
 - Python >=3.10, <3.13 (CI: 3.12)
 - uv로 의존성 관리
-- `pythonpath`는 `pyproject.toml`의 `[tool.pytest.ini_options]`에서 설정됨 (런타임은 `run_project.py`에서 처리)
+- `pythonpath`는 `pyproject.toml`의 `[tool.pytest.ini_options]`에서 설정됨 (런타임은 `run.py`에서 처리)
 - Kaggle API 사용 시 `~/.kaggle/kaggle.json` 필요
 
 ## CI
@@ -104,4 +116,16 @@ kaggle_projects/
 
 ## Workflow
 
-- 커밋 전 반드시 `/simplify` 스킬을 실행하여 변경된 코드의 재사용성, 품질, 효율성을 점검할 것
+- 커밋 시 `/commit` 스킬을 사용할 것 (simplify → 수정 → 커밋을 하나의 흐름으로 처리)
+- 사용자와 워크플로우 정렬이나 요구사항 정리가 필요할 때 `/interview` 스킬을 사용할 것
+
+## Skill Triggers
+
+사용자 요청에 아래 키워드가 포함되면, 직접 작업하지 말고 해당 스킬을 먼저 호출할 것.
+
+| 키워드 | 스킬 |
+|--------|------|
+| 인사이트, EDA, 프로파일링, 데이터 분석, 데이터 품질, 탐색적 분석 | `/kaggle-insight` |
+| 캐글 검색, 데이터셋 검색, 대회 검색 | `/kaggle-browse` |
+| 커밋, 마무리 | `/commit` |
+| 인터뷰, 워크플로우 정렬, 요구사항 정리 | `/interview` |
