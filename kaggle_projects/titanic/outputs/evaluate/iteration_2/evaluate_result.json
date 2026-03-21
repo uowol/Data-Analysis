@@ -1,0 +1,51 @@
+{
+  "iteration": 2,
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7922,
+  "total_misclassified": 135,
+  "false_negatives": {
+    "count": 84,
+    "profile": "남성 80%"
+  },
+  "false_positives": {
+    "count": 51,
+    "profile": "여성 51%"
+  },
+  "vs_iter1": {
+    "misclassified": "160→135",
+    "fn": "107→84",
+    "fp": "53→51"
+  },
+  "pclass_sex_misclass": {
+    "1_female": {
+      "rate": 0.032
+    },
+    "1_male": {
+      "rate": 0.352
+    },
+    "2_female": {
+      "rate": 0.079
+    },
+    "2_male": {
+      "rate": 0.083
+    },
+    "3_female": {
+      "rate": 0.236
+    },
+    "3_male": {
+      "rate": 0.115
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "GB 하이퍼파라미터 튜닝",
+      "rationale": "lr↓ n_estimators↑로 세밀한 보정",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "RF+GB 앙상블",
+      "rationale": "상보적 오분류 패턴 결합",
+      "expected_impact": "medium"
+    }
+  ]
+}

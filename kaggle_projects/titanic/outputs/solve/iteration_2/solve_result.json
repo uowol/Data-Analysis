@@ -1,0 +1,60 @@
+{
+  "iteration": 2,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 13,
+  "changes_from_previous": [
+    "PcSx_1_male 제거 (중요도 0.0)",
+    "GradientBoosting 추가"
+  ],
+  "models": {
+    "LogisticRegression": {
+      "f1": {
+        "mean": 0.7248
+      },
+      "vs_baseline": "+0.0154"
+    },
+    "RandomForest": {
+      "f1": {
+        "mean": 0.745
+      },
+      "vs_baseline": "+0.0356"
+    },
+    "GradientBoosting": {
+      "type": "boosting",
+      "rationale": "순차 보정으로 오분류 집중 구간 공략",
+      "f1": {
+        "mean": 0.7922,
+        "std": 0.0361,
+        "folds": [
+          0.8031,
+          0.8333,
+          0.7344,
+          0.7692,
+          0.8209
+        ]
+      },
+      "accuracy": 0.8485,
+      "precision": 0.8349,
+      "recall": 0.7543,
+      "vs_baseline": "+0.0828",
+      "vs_iter1": "+0.0462"
+    }
+  },
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7922,
+  "baseline_threshold": 0.7094
+}
