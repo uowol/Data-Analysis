@@ -1,0 +1,118 @@
+{
+  "lr_coefficients": [
+    {
+      "Feature": "Sex",
+      "Coefficient": -1.7239370902099052
+    },
+    {
+      "Feature": "PcSx_3_female",
+      "Coefficient": -0.5780985218733893
+    },
+    {
+      "Feature": "FamilyGroup",
+      "Coefficient": -0.4864273063950733
+    },
+    {
+      "Feature": "HasCabin",
+      "Coefficient": 0.40440927309205227
+    },
+    {
+      "Feature": "Pclass",
+      "Coefficient": -0.3897008293846246
+    },
+    {
+      "Feature": "Age",
+      "Coefficient": -0.3872773009854983
+    },
+    {
+      "Feature": "IsChild",
+      "Coefficient": 0.33170040339155227
+    },
+    {
+      "Feature": "Embarked_S",
+      "Coefficient": -0.24883799450530847
+    },
+    {
+      "Feature": "Fare_log",
+      "Coefficient": 0.2415585016788858
+    },
+    {
+      "Feature": "PcSx_2_female",
+      "Coefficient": 0.21479296650158197
+    },
+    {
+      "Feature": "PcSx_3_male",
+      "Coefficient": 0.05895740347339872
+    },
+    {
+      "Feature": "PcSx_2_male",
+      "Coefficient": -0.05372869098458622
+    },
+    {
+      "Feature": "Embarked_Q",
+      "Coefficient": -0.014833191746438512
+    },
+    {
+      "Feature": "PcSx_1_male",
+      "Coefficient": 0.0
+    }
+  ],
+  "rf_importances": [
+    {
+      "Feature": "Sex",
+      "Importance": 0.31061809739223073
+    },
+    {
+      "Feature": "Fare_log",
+      "Importance": 0.1152609877970191
+    },
+    {
+      "Feature": "PcSx_3_male",
+      "Importance": 0.09464249627437046
+    },
+    {
+      "Feature": "Pclass",
+      "Importance": 0.0887142824872019
+    },
+    {
+      "Feature": "Age",
+      "Importance": 0.0876219891586343
+    },
+    {
+      "Feature": "PcSx_2_female",
+      "Importance": 0.07778748434659204
+    },
+    {
+      "Feature": "HasCabin",
+      "Importance": 0.04952150228466762
+    },
+    {
+      "Feature": "FamilyGroup",
+      "Importance": 0.0474171727584342
+    },
+    {
+      "Feature": "PcSx_3_female",
+      "Importance": 0.04053267003636646
+    },
+    {
+      "Feature": "PcSx_2_male",
+      "Importance": 0.03464137936166413
+    },
+    {
+      "Feature": "IsChild",
+      "Importance": 0.027544211777121835
+    },
+    {
+      "Feature": "Embarked_S",
+      "Importance": 0.018549699013855326
+    },
+    {
+      "Feature": "Embarked_Q",
+      "Importance": 0.0071480273118420205
+    },
+    {
+      "Feature": "PcSx_1_male",
+      "Importance": 0.0
+    }
+  ]
+}

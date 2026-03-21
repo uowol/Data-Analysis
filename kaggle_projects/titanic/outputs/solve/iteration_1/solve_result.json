@@ -1,0 +1,63 @@
+{
+  "iteration": 1,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_1_male",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 14,
+  "models": {
+    "LogisticRegression": {
+      "type": "linear",
+      "rationale": "해석 가능한 선형 모델, 피처 계수로 기여도 추출",
+      "f1": {
+        "mean": 0.7248,
+        "std": 0.034,
+        "folds": [
+          0.748,
+          0.7143,
+          0.6723,
+          0.7727,
+          0.7167
+        ]
+      },
+      "accuracy": 0.8092,
+      "precision": 0.8104,
+      "recall": 0.658,
+      "vs_baseline": "+0.0154"
+    },
+    "RandomForest": {
+      "type": "ensemble_tree",
+      "rationale": "비선형 관계·상호작용 포착",
+      "f1": {
+        "mean": 0.746,
+        "std": 0.0293,
+        "folds": [
+          0.7717,
+          0.7559,
+          0.6929,
+          0.7717,
+          0.7377
+        ]
+      },
+      "accuracy": 0.8204,
+      "precision": 0.8167,
+      "recall": 0.6872,
+      "vs_baseline": "+0.0366"
+    }
+  },
+  "best_model": "RandomForest",
+  "best_f1": 0.746,
+  "baseline_threshold": 0.7094
+}
