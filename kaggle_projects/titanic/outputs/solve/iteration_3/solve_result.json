@@ -17,41 +17,37 @@
     "FamilyGroup"
   ],
   "feature_count": 14,
-  "changes_from_previous": "evaluate 피드백: RF+GB soft voting 앙상블 추가",
+  "changes": "+RF+GB soft voting",
   "models": {
-    "GradientBoosting": {
-      "f1": {
-        "mean": 0.7698,
-        "std": 0.0185,
-        "folds": [
-          0.768,
-          0.7939,
-          0.746,
-          0.7538,
-          0.7874
-        ]
-      },
-      "accuracy": 0.835,
-      "precision": 0.8291,
-      "recall": 0.7194
+    "GB": {
+      "f1": 0.7698,
+      "acc": 0.835,
+      "prec": 0.8291,
+      "rec": 0.7194,
+      "f1_std": 0.0185,
+      "folds": [
+        0.768,
+        0.7939,
+        0.746,
+        0.7538,
+        0.7874
+      ]
     },
-    "RF+GB_soft": {
-      "f1": {
-        "mean": 0.7684,
-        "std": 0.0248,
-        "folds": [
-          0.7812,
-          0.782,
-          0.7188,
-          0.7786,
-          0.7812
-        ]
-      },
-      "accuracy": 0.8316,
-      "precision": 0.8142,
-      "recall": 0.7281
+    "RF+GB": {
+      "f1": 0.7684,
+      "acc": 0.8316,
+      "prec": 0.8142,
+      "rec": 0.7281,
+      "f1_std": 0.0248,
+      "folds": [
+        0.7812,
+        0.782,
+        0.7188,
+        0.7786,
+        0.7812
+      ]
     }
   },
-  "best_model": "GradientBoosting",
+  "best_model": "GB",
   "best_f1": 0.7698
 }
