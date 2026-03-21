@@ -22,23 +22,31 @@ user_invocable: true
 
 ## Branch Strategy
 
-프로젝트별 브랜치에서 작업하고, 실험 분기 시 하위 브랜치를 생성한다.
+autopilot 실행마다 타임스탬프 기반 고유 브랜치를 생성하고, 하나의 PR에서 과정을 기록한다.
 
 ```
 dev (프레임워크/스킬 개발)
-  └── proj/<project> (프로젝트 메인 — Stage 1~3 실행)
-        ├── proj/<project>/plan-a (전처리 계획 A — Stage 4 실행)
-        ├── proj/<project>/plan-b (전처리 계획 B — Stage 4 실행)
-        └── 최선의 실험 브랜치를 proj/<project>에 merge
-              └── 완료 시 proj/<project> → main PR
+  └── proj/<project> (프로젝트 메인)
+        └── proj/<project>/autopilot-YYYYMMDD-HHMM (실행 브랜치)
+              ├── commit: Stage 1 insight
+              ├── commit: Stage 2+3 metric + baseline
+              ├── commit: Stage 4 iter1~N (각 iteration별 커밋)
+              └── commit: Stage 5 최종 확정
+
+            → PR to proj/<project> (1개)
+              ├── PR comment: Stage 1 결과 (전처리 계획, 품질 이슈)
+              ├── PR comment: Stage 2+3 결과 (평가지표, 베이스라인)
+              ├── PR comment: iter1 결과 + evaluate 피드백
+              ├── PR comment: iter2~N 결과 + 수렴 판단
+              └── PR comment: 최종 리포트
 ```
 
 ### 브랜치 생성 시점
 
-1. **autopilot 시작 시**: `dev`에서 `proj/<project>` 브랜치 생성 (이미 있으면 사용)
-2. **Stage 1 완료 후**: 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 분기
-3. **Stage 4 완료 후**: 최선의 plan 브랜치를 `proj/<project>`에 merge
-4. **단일 계획이면**: 분기 없이 `proj/<project>`에서 직선 실행
+1. **autopilot 시작 시**: `proj/<project>`에서 `proj/<project>/autopilot-YYYYMMDD-HHMM` 브랜치 생성
+2. **각 Stage 완료 시**: 해당 브랜치에 커밋 + PR 코멘트로 결과 기록
+3. **복수 전처리 계획 시**: 동일 브랜치에서 순차 실행, 결과 비교 후 최선 채택
+4. **완료 시**: PR을 통해 `proj/<project>`에 merge
 
 ## Pipeline
 
@@ -70,11 +78,11 @@ dev (프레임워크/스킬 개발)
 3. `baseline_result.json` 저장
 4. **여기까지 `proj/<project>` 브랜치에서 커밋**
 
-### Stage 3.5: 실험 브랜치 분기 (복수 계획 시)
+### Stage 3.5: PR 생성
 
-1. 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 브랜치 생성
-2. 각 브랜치에서 독립적으로 Stage 4를 실행
-3. 단일 계획이면 이 단계 건너뜀
+1. autopilot 브랜치를 push하고 `proj/<project>`로의 PR을 생성한다
+2. PR 본문에 Stage 1~3 요약을 포함한다
+3. 이후 Stage마다 PR 코멘트로 결과를 기록한다
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
@@ -92,12 +100,6 @@ dev (프레임워크/스킬 개발)
   - evaluate의 남은 개선안이 모두 low
   - 최대 반복 횟수(5) 도달
 ```
-
-### Stage 4.5: 실험 브랜치 merge (복수 계획 시)
-
-1. 각 plan 브랜치의 `best/solve_result.json`에서 주 평가 지표를 비교
-2. 최선의 브랜치를 `proj/<project>`에 merge
-3. 나머지 브랜치는 유지 (실험 이력)
 
 ### Stage 5: 완료
 
