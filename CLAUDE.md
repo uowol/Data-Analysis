@@ -96,6 +96,12 @@ kaggle_projects/
 
 - black (line-length=88), isort (profile=black)
 
+## Branch Strategy
+
+- `proj/<name>` — 개별 Kaggle 프로젝트 진행 (분석, 모델링). 완료 시 main에 PR
+- `dev` — 프레임워크 공통 기능 개발 (분석 도구, 인프라 등)
+- `main` — 안정 브랜치. PR을 통해서만 merge
+
 ## Workflow
 
 - 커밋 전 반드시 `/simplify` 스킬을 실행하여 변경된 코드의 재사용성, 품질, 효율성을 점검할 것
