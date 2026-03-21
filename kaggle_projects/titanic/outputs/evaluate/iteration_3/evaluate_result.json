@@ -1,10 +1,10 @@
 {
   "iteration": 3,
-  "current_best": {
-    "model": "GradientBoosting",
+  "best": {
+    "model": "GB",
     "f1": 0.7698
   },
-  "error_analysis": {
+  "error": {
     "total": 147,
     "fn": 96,
     "fp": 51,
@@ -15,11 +15,9 @@
       "Pclass=2,female": 7.9,
       "Pclass=3,male": 11.0,
       "Pclass=3,female": 31.2
-    },
-    "fn_profile": "male=77, female=19",
-    "fp_profile": "male=16, female=35"
+    }
   },
-  "delta_from_previous": 0.0,
+  "delta": 0.0,
   "convergence_count": 2,
   "converged": true
 }
