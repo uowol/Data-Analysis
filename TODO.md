@@ -31,11 +31,11 @@
   - 피처 인사이트와 교차 검증하여 개선 방향 도출
   - solve 재실행 판단 (high/medium이면 재실행, low/수렴이면 확정)
 
-- [ ] `/kaggle-autopilot` — 전체 파이프라인 자동 실행
-  - 위 스킬들을 순차 호출하는 오케스트레이션
-  - solve→evaluate 루프를 목표 달성까지 반복
-  - 목표 달성 시 사용자에게 알림 후 대기
-  - Issue/PR 자동 생성
+- [x] `/kaggle-autopilot` — 전체 파이프라인 자동 실행
+  - insight → metric → baseline → solve↔evaluate 루프 → 완료
+  - solve↔evaluate 루프 최대 5회, 수렴 조건 자동 감지
+  - 최종 모델은 전체 반복 중 주 평가 지표 최고 iteration 선택
+  - 이미 완료된 단계 건너뛰기 (재실행 지원)
 
 ## 원칙
 
