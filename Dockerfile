@@ -18,17 +18,16 @@ ARG USER_NAME=dev
 RUN useradd -m -s /bin/bash ${USER_NAME}
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.10 /uv /usr/local/bin/uv
 
-# Set working directory
+# Set working directory and switch to non-root user
+RUN mkdir -p /home/${USER_NAME}/data-analysis && chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/data-analysis
 WORKDIR /home/${USER_NAME}/data-analysis
+USER ${USER_NAME}
 
 # Install dependencies first (layer caching)
-COPY pyproject.toml uv.lock ./
+COPY --chown=${USER_NAME}:${USER_NAME} pyproject.toml uv.lock ./
 RUN uv sync --no-install-project
 
 # Copy source code
-COPY . .
-RUN chown -R ${USER_NAME}:${USER_NAME} /home/${USER_NAME}
-
-USER ${USER_NAME}
+COPY --chown=${USER_NAME}:${USER_NAME} . .
