@@ -1,0 +1,58 @@
+{
+  "iteration": 1,
+  "best_model": "RandomForest",
+  "best_f1": 0.746,
+  "total_misclassified": 160,
+  "false_negatives": {
+    "count": 107,
+    "profile": "남성 79%, 3등석 60%"
+  },
+  "false_positives": {
+    "count": 53,
+    "profile": "여성 70%, 3등석 53%"
+  },
+  "pclass_sex_misclass": {
+    "1_female": {
+      "rate": 0.032,
+      "count": 3,
+      "total": 94
+    },
+    "1_male": {
+      "rate": 0.418,
+      "count": 51,
+      "total": 122
+    },
+    "2_female": {
+      "rate": 0.079,
+      "count": 6,
+      "total": 76
+    },
+    "2_male": {
+      "rate": 0.074,
+      "count": 8,
+      "total": 108
+    },
+    "3_female": {
+      "rate": 0.354,
+      "count": 51,
+      "total": 144
+    },
+    "3_male": {
+      "rate": 0.118,
+      "count": 41,
+      "total": 347
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "GradientBoosting 추가",
+      "rationale": "1등석 남성(41.8%) 3등석 여성(35.4%) 오분류 집중. GB의 순차 보정이 잔여 오차 공략",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "PcSx_1_male 제거",
+      "rationale": "RF 중요도 0.0, LR 계수 0.0. noise 가능",
+      "expected_impact": "low"
+    }
+  ]
+}
