@@ -1,0 +1,62 @@
+{
+  "project": "titanic",
+  "iteration": 1,
+  "current_best": {
+    "model": "LogisticRegression",
+    "f1_score": 0.7774,
+    "baseline_threshold": 0.7094,
+    "improvement": "+0.0680"
+  },
+  "error_analysis": {
+    "total_misclassified": 150,
+    "false_negatives": {
+      "count": 80,
+      "profile": "92.5% male, 51.3% 3rd class, 86.3% Title=Mr, 70% alone",
+      "hardest_group": "1st class males (44 wrong / 122 total = 36.1%)"
+    },
+    "false_positives": {
+      "count": 70,
+      "profile": "78.6% female, 65.7% 3rd class, 51.4% Title=Miss",
+      "hardest_group": "3rd class females (50 wrong / 144 total = 34.7%)"
+    },
+    "pclass_sex_misclassification": {
+      "1_female": 0.032,
+      "1_male": 0.361,
+      "2_female": 0.105,
+      "2_male": 0.074,
+      "3_female": 0.347,
+      "3_male": 0.107
+    },
+    "age_misclassification": {
+      "Child_0-12": 0.087,
+      "Young_12-25": 0.168,
+      "Adult_25-40": 0.202,
+      "Middle_40-60": 0.195,
+      "Senior_60+": 0.091
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "Pclass×Sex 상호작용 피처 추가",
+      "rationale": "3rd class female(34.7%)과 1st class male(36.1%)에서 오분류 집중. 현재 모델이 Pclass와 Sex를 독립적으로 처리하여 이 교차 패턴을 포착 못함",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "GradientBoosting/XGBoost 도입",
+      "rationale": "LR이 RF보다 높은 F1을 기록(0.7774 vs 0.7526). 비선형 모델의 잠재력이 아직 발휘 안됨. GBM은 순차적 오차 보정으로 현재 오분류 패턴 학습에 유리",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "Age 구간화 (Child 플래그)",
+      "rationale": "Child(0-12) 오분류율 8.7%로 가장 낮음. Child 여부를 명시적 피처로 추가하면 모델이 이 패턴을 더 쉽게 학습",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "FamilySize 구간화 (Small/Large)",
+      "rationale": "FamilySize 2-4 생존율 55-72%, 5+ 급감. 현재 연속형 사용 시 5+ 급감 패턴 포착 어려움",
+      "expected_impact": "medium"
+    }
+  ],
+  "convergence": false,
+  "recommendation": "continue - high impact 개선안 2건 존재"
+}

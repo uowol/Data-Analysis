@@ -1,0 +1,85 @@
+{
+  "project": "titanic",
+  "iteration": 1,
+  "preprocessing_plan": "plan_a",
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare",
+    "FamilySize",
+    "IsAlone",
+    "HasCabin",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
+  ],
+  "changes_from_previous": "Initial iteration - full preprocessing plan applied",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
+  "models": {
+    "LogisticRegression": {
+      "type": "linear",
+      "rationale": "해석 가능한 선형 모델, 피처 기여도 추출",
+      "results": {
+        "f1_score": {
+          "mean": 0.7774,
+          "folds": [
+            0.8029,
+            0.7704,
+            0.7481,
+            0.7786,
+            0.7857
+          ],
+          "std": 0.018
+        },
+        "accuracy": {
+          "mean": 0.8316
+        },
+        "precision": {
+          "mean": 0.7892
+        },
+        "recall": {
+          "mean": 0.7661
+        }
+      },
+      "vs_baseline": "+0.0680"
+    },
+    "RandomForest": {
+      "type": "ensemble_tree",
+      "rationale": "비선형 관계·상호작용 포착, 스케일링 불필요",
+      "results": {
+        "f1_score": {
+          "mean": 0.7526,
+          "folds": [
+            0.7612,
+            0.7313,
+            0.7445,
+            0.7727,
+            0.7538
+          ],
+          "std": 0.0141
+        },
+        "accuracy": {
+          "mean": 0.8148
+        },
+        "precision": {
+          "mean": 0.7723
+        },
+        "recall": {
+          "mean": 0.7339
+        }
+      },
+      "vs_baseline": "+0.0432"
+    }
+  },
+  "best_model": "LogisticRegression",
+  "best_f1": 0.7774,
+  "baseline_threshold": 0.7094
+}
