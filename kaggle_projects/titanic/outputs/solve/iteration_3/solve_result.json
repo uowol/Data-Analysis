@@ -1,0 +1,74 @@
+{
+  "iteration": 3,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "FareBand",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 14,
+  "changes_from_previous": [
+    "FamilyGroup 3구간→4구간 (couple 분리)",
+    "FareBand 추가 (Fare 4분위 구간)",
+    "GB 튜닝: lr 0.1→0.05, n_estimators 200→400"
+  ],
+  "ablation": {
+    "FareBand": {
+      "with": 0.7857,
+      "without": 0.7828,
+      "diff": 0.003
+    },
+    "FamilyGroup_4bin": {
+      "4bin": 0.7857,
+      "3bin": 0.7832,
+      "diff": 0.0025
+    }
+  },
+  "models": {
+    "LogisticRegression": {
+      "f1": {
+        "mean": 0.7374,
+        "std": 0.0245
+      },
+      "vs_iter2": "+0.0126"
+    },
+    "RandomForest": {
+      "f1": {
+        "mean": 0.7512,
+        "std": 0.0276
+      },
+      "vs_iter2": "+0.0062"
+    },
+    "GradientBoosting": {
+      "f1": {
+        "mean": 0.7857,
+        "std": 0.0288,
+        "folds": [
+          0.8062,
+          0.8092,
+          0.7385,
+          0.7656,
+          0.8092
+        ]
+      },
+      "accuracy": 0.844,
+      "precision": 0.8307,
+      "recall": 0.7455,
+      "vs_baseline": "+0.0763",
+      "vs_iter2": "-0.0065"
+    }
+  },
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7857,
+  "note": "iter2 GB(0.7922)보다 하락. lr/n_estimators 변경이 역효과, FareBand/FamilyGroup 4구간 기여 미미"
+}

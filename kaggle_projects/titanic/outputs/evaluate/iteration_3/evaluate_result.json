@@ -1,0 +1,27 @@
+{
+  "iteration": 3,
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7857,
+  "global_best": {
+    "iteration": 2,
+    "f1": 0.7922
+  },
+  "total_misclassified": 139,
+  "false_negatives": {
+    "count": 87,
+    "profile": "남성 79%"
+  },
+  "false_positives": {
+    "count": 52,
+    "profile": "여성 54%"
+  },
+  "vs_iter2": {
+    "misclassified": "135→139 (+4)",
+    "fn": "84→87 (+3)",
+    "fp": "51→52 (+1)"
+  },
+  "convergence_check": {
+    "iter2_to_iter3_delta": -0.0065,
+    "status": "regressed"
+  }
+}
