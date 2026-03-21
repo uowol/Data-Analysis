@@ -1,0 +1,66 @@
+{
+  "project": "titanic",
+  "baseline_model": {
+    "name": "sex_rule",
+    "description": "female=생존, male=사망",
+    "rule_feature": "Sex",
+    "strongest_correlation": "Sex (r=-0.5434)"
+  },
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
+  "results": {
+    "f1_score": {
+      "mean": 0.7094,
+      "std": 0.0316,
+      "folds": [
+        0.7164,
+        0.6825,
+        0.6885,
+        0.6912,
+        0.7681
+      ]
+    },
+    "accuracy": {
+      "mean": 0.7868,
+      "std": 0.0188,
+      "folds": [
+        0.7877,
+        0.7753,
+        0.7865,
+        0.764,
+        0.8202
+      ]
+    },
+    "precision": {
+      "mean": 0.7434,
+      "std": 0.0302,
+      "folds": [
+        0.7385,
+        0.7414,
+        0.7778,
+        0.6912,
+        0.7681
+      ]
+    },
+    "recall": {
+      "mean": 0.681,
+      "std": 0.0535,
+      "folds": [
+        0.6957,
+        0.6324,
+        0.6176,
+        0.6912,
+        0.7681
+      ]
+    }
+  },
+  "majority_class_baseline": {
+    "accuracy": 0.6162,
+    "f1_score": 0.0
+  },
+  "target_metric": "f1_score",
+  "baseline_threshold": 0.7094
+}

@@ -1,0 +1,16 @@
+{
+  "project": "titanic",
+  "target": "Survived",
+  "problem_type": "binary_classification",
+  "class_distribution": {
+    "0": 549,
+    "1": 342
+  },
+  "primary_metric": "f1_score",
+  "secondary_metrics": [
+    "accuracy",
+    "precision",
+    "recall"
+  ],
+  "metric_rationale": "클래스 비율 1.60:1 불균형. 다수 클래스 예측만으로 accuracy 61.6% 달성 가능하므로, 정밀도와 재현율 균형을 반영하는 F1 Score 채택"
+}
