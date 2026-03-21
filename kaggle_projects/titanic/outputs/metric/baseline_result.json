@@ -13,7 +13,7 @@
   },
   "results": {
     "f1_score": {
-      "mean": 0.7093,
+      "mean": 0.7094,
       "std": 0.0316,
       "folds": [
         0.7164,
@@ -24,7 +24,7 @@
       ]
     },
     "accuracy": {
-      "mean": 0.7867,
+      "mean": 0.7868,
       "std": 0.0188,
       "folds": [
         0.7877,
@@ -62,5 +62,5 @@
     "f1_score": 0.0
   },
   "target_metric": "f1_score",
-  "baseline_threshold": 0.7093
+  "baseline_threshold": 0.7094
 }

@@ -1,0 +1,32 @@
+{
+  "iteration": 2,
+  "current_best": {
+    "model": "GradientBoosting",
+    "f1": 0.7698
+  },
+  "error_analysis": {
+    "total": 147,
+    "fn": 96,
+    "fp": 51,
+    "pclass_sex_err": {
+      "Pclass=1,male": 37.7,
+      "Pclass=1,female": 3.2,
+      "Pclass=2,male": 8.3,
+      "Pclass=2,female": 7.9,
+      "Pclass=3,male": 11.0,
+      "Pclass=3,female": 31.2
+    },
+    "fn_profile": "male=77, female=19",
+    "fp_profile": "male=16, female=35"
+  },
+  "delta_from_previous": 0.0049,
+  "convergence_count": 1,
+  "improvement_directions": [
+    {
+      "direction": "RF+GB Voting 앙상블",
+      "expected_impact": "medium",
+      "rationale": "RF FN/FP 균형적, GB Precision 치우침. 앙상블로 보정 가능"
+    }
+  ],
+  "converged": false
+}

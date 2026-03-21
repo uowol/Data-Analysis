@@ -1,0 +1,34 @@
+{
+  "LogisticRegression": {
+    "Sex": -1.0228,
+    "Pclass": -0.7253,
+    "PcSx_1_male": -0.5591,
+    "FamilyGroup": -0.4908,
+    "PcSx_2_male": -0.4355,
+    "HasCabin": 0.4125,
+    "Age": -0.3836,
+    "IsChild": 0.3341,
+    "PcSx_3_female": -0.3229,
+    "PcSx_3_male": -0.3164,
+    "PcSx_2_female": 0.2947,
+    "Embarked_S": -0.2504,
+    "Fare_log": 0.2451,
+    "Embarked_Q": -0.0156
+  },
+  "RandomForest": {
+    "Age": 0.2491,
+    "Fare_log": 0.248,
+    "Sex": 0.1627,
+    "PcSx_3_male": 0.0568,
+    "FamilyGroup": 0.0501,
+    "Pclass": 0.049,
+    "PcSx_2_female": 0.035,
+    "HasCabin": 0.0309,
+    "PcSx_3_female": 0.0254,
+    "IsChild": 0.0234,
+    "Embarked_S": 0.0215,
+    "PcSx_2_male": 0.0205,
+    "PcSx_1_male": 0.018,
+    "Embarked_Q": 0.0095
+  }
+}

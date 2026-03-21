@@ -11,11 +11,9 @@
     "Embarked_S"
   ],
   "feature_count": 8,
-  "changes_from_previous": "첫 실행. preprocessing_plan_a 기반 전처리 적용",
+  "changes_from_previous": "첫 실행",
   "models": {
     "LogisticRegression": {
-      "type": "linear",
-      "rationale": "해석 가능한 선형 모델, 피처 기여도 추출",
       "f1": {
         "mean": 0.7302,
         "std": 0.04,
@@ -30,11 +28,9 @@
       "accuracy": 0.8002,
       "precision": 0.7557,
       "recall": 0.7074,
-      "vs_baseline": "+0.0209"
+      "vs_baseline": "+0.0208"
     },
     "RandomForest": {
-      "type": "ensemble_tree",
-      "rationale": "비선형 관계·상호작용 포착, 스케일링 불필요",
       "f1": {
         "mean": 0.7649,
         "std": 0.0291,
@@ -49,10 +45,10 @@
       "accuracy": 0.8204,
       "precision": 0.7704,
       "recall": 0.7603,
-      "vs_baseline": "+0.0556"
+      "vs_baseline": "+0.0555"
     }
   },
   "best_model": "RandomForest",
   "best_f1": 0.7649,
-  "baseline_threshold": 0.7093
+  "baseline_threshold": 0.7094
 }

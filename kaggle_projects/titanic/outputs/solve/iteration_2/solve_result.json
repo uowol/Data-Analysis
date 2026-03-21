@@ -5,48 +5,75 @@
     "Sex",
     "Age",
     "Fare_log",
-    "FamilySize",
     "HasCabin",
-    "Pclass_Sex(수치)",
-    "IsChild",
-    "FamilyGroup",
-    "IsAloneFemale3rd",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "PcSx_1_male",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "IsChild",
+    "FamilyGroup"
   ],
-  "feature_count": 12,
-  "changes_from_previous": "evaluate 피드백 반영: Pclass_Sex(수치인코딩), IsChild, FamilyGroup 추가, IsAloneFemale3rd 추가. FamilySize 원본 유지(중복)",
-  "issues": [
-    "Pclass_Sex를 수치 인코딩 → 범주 간 의미 없는 순서 부여",
-    "FamilySize 원본과 FamilyGroup 동시 사용 → 정보 중복",
-    "IsAloneFemale3rd 과적합 위험 미검증",
-    "피처 설계 검증 체크리스트 미수행"
-  ],
+  "feature_count": 14,
+  "changes_from_previous": "evaluate 피드백: FamilySize→FamilyGroup, PcSx 원핫, IsChild 추가, GB 모델 추가",
   "models": {
     "LogisticRegression": {
       "f1": {
-        "mean": 0.7327
+        "mean": 0.7248,
+        "std": 0.034,
+        "folds": [
+          0.748,
+          0.7143,
+          0.6723,
+          0.7727,
+          0.7167
+        ]
       },
-      "vs_baseline": "+0.0234",
-      "vs_prev": "+0.0025"
+      "accuracy": 0.8092,
+      "precision": 0.8104,
+      "recall": 0.658,
+      "vs_baseline": "+0.0154",
+      "vs_iter1": "-0.0401"
     },
     "RandomForest": {
       "f1": {
-        "mean": 0.7504
+        "mean": 0.7641,
+        "std": 0.0197,
+        "folds": [
+          0.7481,
+          0.7591,
+          0.7407,
+          0.7941,
+          0.7786
+        ]
       },
-      "vs_baseline": "+0.0411",
-      "vs_prev": "-0.0145"
+      "accuracy": 0.8227,
+      "precision": 0.7814,
+      "recall": 0.7487,
+      "vs_baseline": "+0.0547",
+      "vs_iter1": "-0.0008"
     },
     "GradientBoosting": {
-      "type": "boosting",
-      "rationale": "오분류 집중 구간(1등석 남성 38.5%, 3등석 여성 32.6%)이 피처 조합에서 발생. 순차 보정 구조가 잔여 오차 패턴 집중 공략에 유리",
       "f1": {
-        "mean": 0.7654
+        "mean": 0.7698,
+        "std": 0.0185,
+        "folds": [
+          0.768,
+          0.7939,
+          0.746,
+          0.7538,
+          0.7874
+        ]
       },
-      "vs_baseline": "+0.0561"
+      "accuracy": 0.835,
+      "precision": 0.8291,
+      "recall": 0.7194,
+      "vs_baseline": "+0.0604",
+      "vs_iter1": "+0.0049"
     }
   },
   "best_model": "GradientBoosting",
-  "best_f1": 0.7654,
-  "status": "discarded — 피처 설계 오류로 재실행"
+  "best_f1": 0.7698
 }
