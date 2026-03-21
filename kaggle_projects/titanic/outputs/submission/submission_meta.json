@@ -1,0 +1,44 @@
+{
+  "project": "titanic",
+  "model": "GradientBoosting",
+  "iteration": 2,
+  "cv_f1": 0.7922,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "feature_count": 13,
+  "params": {
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "min_samples_leaf": 5,
+    "subsample": 0.8
+  },
+  "submission": {
+    "rows": 418,
+    "survived_count": 143,
+    "survived_rate": 0.342,
+    "columns": [
+      "PassengerId",
+      "Survived"
+    ]
+  },
+  "validation": {
+    "shape_match": true,
+    "columns_match": true,
+    "no_missing": true,
+    "valid_values": true
+  }
+}
