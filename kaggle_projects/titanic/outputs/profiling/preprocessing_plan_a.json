@@ -1,0 +1,106 @@
+{
+  "project": "titanic",
+  "target": "Survived",
+  "drop_columns": [
+    "PassengerId",
+    "Name",
+    "Ticket",
+    "Cabin",
+    "SibSp",
+    "Parch"
+  ],
+  "preprocessing": {
+    "Sex": {
+      "strategy": "binary_encode",
+      "mapping": {
+        "male": 1,
+        "female": 0
+      }
+    },
+    "Fare": {
+      "strategy": "log1p",
+      "new_column": "Fare_log",
+      "note": "skewness 4.79→0.39. Fare=0(15건) 그대로 유지. test Fare 결측 1건은 중앙값 대체 후 변환"
+    },
+    "Age": {
+      "strategy": "group_median_impute",
+      "group_by": [
+        "Pclass",
+        "Sex"
+      ],
+      "note": "19.9% 결측. Pclass×Sex 그룹별 중앙값이 랜덤 대체보다 안정적"
+    },
+    "Cabin": {
+      "strategy": "binary_flag",
+      "new_column": "HasCabin",
+      "note": "77.1% 결측. 유무 자체가 생존율과 상관(66.7% vs 30.0%)"
+    },
+    "Embarked": {
+      "strategy": "mode_impute_and_onehot",
+      "impute_value": "S",
+      "drop_first": true,
+      "note": "2건 결측→최빈값(S) 대체. C가 기준범주(drop), Embarked_Q/Embarked_S 생성"
+    },
+    "SibSp_Parch": {
+      "strategy": "combine_and_group",
+      "formula": "SibSp + Parch + 1",
+      "new_column": "FamilyGroup",
+      "groups": {
+        "alone": [
+          1
+        ],
+        "small": [
+          2,
+          3,
+          4
+        ],
+        "large": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "encoding": {
+        "alone": 0,
+        "small": 1,
+        "large": 2
+      },
+      "note": "2-4인 최적(55-72%), 혼자(30%) 및 대가족(0-33%) 불리. 원본 SibSp/Parch drop"
+    },
+    "IsChild": {
+      "strategy": "threshold",
+      "source": "Age",
+      "threshold": 12,
+      "note": "Age<=12 생존율 58% vs 성인 38.8%. diff=0.192로 10/14/16보다 효과적"
+    },
+    "Pclass_Sex": {
+      "strategy": "interaction_onehot",
+      "columns": [
+        "Pclass",
+        "Sex"
+      ],
+      "note": "Pclass×Sex 교호작용이 강함(1F:96.8% vs 3M:13.5%). 원핫 인코딩으로 각 조합을 독립 피처화. 1_female(기준) drop"
+    }
+  },
+  "final_features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare_log",
+    "HasCabin",
+    "IsChild",
+    "FamilyGroup",
+    "PcSx_1_male",
+    "PcSx_2_female",
+    "PcSx_2_male",
+    "PcSx_3_female",
+    "PcSx_3_male",
+    "Embarked_Q",
+    "Embarked_S"
+  ],
+  "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
+}

@@ -1,0 +1,149 @@
+{
+  "project": "titanic",
+  "dataset": {
+    "train_shape": [
+      891,
+      15
+    ],
+    "test_shape": [
+      418,
+      11
+    ],
+    "columns": [
+      "PassengerId",
+      "Survived",
+      "Pclass",
+      "Name",
+      "Sex",
+      "Age",
+      "SibSp",
+      "Parch",
+      "Ticket",
+      "Fare",
+      "Cabin",
+      "Embarked",
+      "FamilySize",
+      "HasCabin",
+      "Title"
+    ],
+    "dtypes": {
+      "PassengerId": "int64",
+      "Survived": "int64",
+      "Pclass": "int64",
+      "Name": "object",
+      "Sex": "object",
+      "Age": "float64",
+      "SibSp": "int64",
+      "Parch": "int64",
+      "Ticket": "object",
+      "Fare": "float64",
+      "Cabin": "object",
+      "Embarked": "object",
+      "FamilySize": "int64",
+      "HasCabin": "int64",
+      "Title": "object"
+    }
+  },
+  "target": {
+    "name": "Survived",
+    "type": "binary",
+    "distribution": {
+      "0": 549,
+      "1": 342
+    },
+    "positive_rate": 0.384
+  },
+  "missing_values": {
+    "Age": {
+      "count": 177,
+      "pct": 19.9
+    },
+    "Cabin": {
+      "count": 687,
+      "pct": 77.1
+    },
+    "Embarked": {
+      "count": 2,
+      "pct": 0.2
+    }
+  },
+  "test_missing_values": {
+    "Age": {
+      "count": 86,
+      "pct": 20.6
+    },
+    "Fare": {
+      "count": 1,
+      "pct": 0.2
+    },
+    "Cabin": {
+      "count": 327,
+      "pct": 78.2
+    }
+  },
+  "key_findings": {
+    "Sex": {
+      "correlation_with_target": -0.5434,
+      "female_survival": 0.742,
+      "male_survival": 0.189,
+      "note": "가장 강한 생존 예측 변수"
+    },
+    "Pclass": {
+      "correlation_with_target": -0.3385,
+      "class1_survival": 0.63,
+      "class2_survival": 0.473,
+      "class3_survival": 0.242,
+      "note": "등급이 높을수록 생존율 증가"
+    },
+    "Pclass_Sex_interaction": {
+      "1_female": 0.968,
+      "2_female": 0.921,
+      "3_female": 0.5,
+      "1_male": 0.369,
+      "2_male": 0.157,
+      "3_male": 0.135,
+      "note": "3등석 여성(50%)과 1등석 남성(36.9%)이 중간 구간. 강한 교호작용"
+    },
+    "Fare": {
+      "skewness": 4.79,
+      "log1p_skewness": 0.39,
+      "zero_count": 15,
+      "note": "극심한 우치우침, log1p 변환 필요"
+    },
+    "Age": {
+      "missing_pct": 19.9,
+      "mean_survived": 28.34,
+      "mean_not_survived": 30.63,
+      "child_threshold_best": 12,
+      "child_survival_diff": 0.192,
+      "note": "결측 높음. 어린이(<=12) 생존율 유의미하게 높음"
+    },
+    "FamilySize": {
+      "optimal_range": "2-4",
+      "solo_survival": 0.304,
+      "family_2_4_survival": "0.55-0.72",
+      "large_5plus_survival": "0.00-0.33",
+      "note": "2-4인 가족 최적, 혼자이거나 대가족이면 불리"
+    },
+    "HasCabin": {
+      "with_cabin_survival": 0.667,
+      "without_cabin_survival": 0.3,
+      "note": "Cabin 유무가 Pclass와 독립적으로 생존율에 영향"
+    },
+    "Embarked": {
+      "C_survival": 0.554,
+      "Q_survival": 0.39,
+      "S_survival": 0.337,
+      "missing": 2,
+      "note": "C(Cherbourg)가 높지만 Pclass 분포와 교란 가능"
+    }
+  },
+  "quality_issues": [
+    "Age 결측 19.9% — Pclass×Sex 그룹 중앙값 대체 권장",
+    "Cabin 결측 77.1% — 원본 사용 불가, HasCabin 이진 변환",
+    "Fare 극심한 우치우침 — log1p 변환 필수",
+    "Fare=0 15건 — 승선 기록 누락 가능, 그대로 유지",
+    "test에 Fare 결측 1건 — 중앙값 대체",
+    "Embarked 결측 2건 — 최빈값(S) 대체"
+  ]
+}
