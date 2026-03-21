@@ -1,0 +1,198 @@
+{
+  "filename": "train.csv",
+  "overview": {
+    "rows": 891,
+    "columns": 12,
+    "missing_cells": 866,
+    "missing_pct": 0.08099513655069211,
+    "duplicate_rows": 0,
+    "duplicate_pct": 0.0
+  },
+  "columns": {
+    "PassengerId": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 891,
+      "distinct_pct": 1.0,
+      "mean": 446.0,
+      "std": 257.3538420152301,
+      "min": 1,
+      "max": 891,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.0,
+      "kurtosis": -1.1999999999999997
+    },
+    "Survived": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 2,
+      "distinct_pct": 0.002244668911335578,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 549
+        },
+        {
+          "value": "1",
+          "count": 342
+        }
+      ]
+    },
+    "Pclass": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 3,
+      "distinct_pct": 0.003367003367003367,
+      "top_values": [
+        {
+          "value": "3",
+          "count": 491
+        },
+        {
+          "value": "1",
+          "count": 216
+        },
+        {
+          "value": "2",
+          "count": 184
+        }
+      ]
+    },
+    "Name": {
+      "type": "Text",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 891,
+      "distinct_pct": 1.0
+    },
+    "Sex": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 2,
+      "distinct_pct": 0.002244668911335578,
+      "top_values": [
+        {
+          "value": "male",
+          "count": 577
+        },
+        {
+          "value": "female",
+          "count": 314
+        }
+      ]
+    },
+    "Age": {
+      "type": "Numeric",
+      "missing": 177,
+      "missing_pct": 0.19865319865319866,
+      "distinct": 88,
+      "distinct_pct": 0.12324929971988796,
+      "mean": 29.69911764705882,
+      "std": 14.526497332334042,
+      "min": 0.42,
+      "max": 80.0,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.38910778230082693,
+      "kurtosis": 0.1782741536421022
+    },
+    "SibSp": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 7,
+      "distinct_pct": 0.007856341189674524,
+      "mean": 0.5230078563411896,
+      "std": 1.1027434322934317,
+      "min": 0,
+      "max": 8,
+      "zeros": 608,
+      "zeros_pct": 0.6823793490460157,
+      "skewness": 3.6953517271630565,
+      "kurtosis": 17.880419726645968
+    },
+    "Parch": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 7,
+      "distinct_pct": 0.007856341189674524,
+      "mean": 0.38159371492704824,
+      "std": 0.8060572211299483,
+      "min": 0,
+      "max": 6,
+      "zeros": 678,
+      "zeros_pct": 0.7609427609427609,
+      "skewness": 2.7491170471010933,
+      "kurtosis": 9.778125179021648
+    },
+    "Ticket": {
+      "type": "Text",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 681,
+      "distinct_pct": 0.7643097643097643
+    },
+    "Fare": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 248,
+      "distinct_pct": 0.2783389450056117,
+      "mean": 32.204207968574636,
+      "std": 49.6934285971809,
+      "min": 0.0,
+      "max": 512.3292,
+      "zeros": 15,
+      "zeros_pct": 0.016835016835016835,
+      "skewness": 4.787316519674893,
+      "kurtosis": 33.39814088089868
+    },
+    "Cabin": {
+      "type": "Text",
+      "missing": 687,
+      "missing_pct": 0.7710437710437711,
+      "distinct": 147,
+      "distinct_pct": 0.7205882352941176
+    },
+    "Embarked": {
+      "type": "Categorical",
+      "missing": 2,
+      "missing_pct": 0.002244668911335578,
+      "distinct": 3,
+      "distinct_pct": 0.003374578177727784,
+      "top_values": [
+        {
+          "value": "S",
+          "count": 644
+        },
+        {
+          "value": "C",
+          "count": 168
+        },
+        {
+          "value": "Q",
+          "count": 77
+        }
+      ]
+    }
+  },
+  "top_correlations": [],
+  "alerts": [
+    "[Sex] is highly overall correlated with [Survived]",
+    "[Survived] is highly overall correlated with [Sex]",
+    "[Age] 177 (19.9%) missing values",
+    "[Cabin] 687 (77.1%) missing values",
+    "[PassengerId] is uniformly distributed",
+    "[PassengerId] has unique values",
+    "[Name] has unique values",
+    "[SibSp] has 608 (68.2%) zeros",
+    "[Parch] has 678 (76.1%) zeros",
+    "[Fare] has 15 (1.7%) zeros"
+  ]
+}
