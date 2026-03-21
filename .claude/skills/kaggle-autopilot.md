@@ -22,23 +22,31 @@ user_invocable: true
 
 ## Branch Strategy
 
-프로젝트별 브랜치에서 작업하고, 실험 분기 시 하위 브랜치를 생성한다.
+autopilot 실행마다 타임스탬프 기반 고유 브랜치를 생성하고, 하나의 PR에서 과정을 기록한다.
 
 ```
 dev (프레임워크/스킬 개발)
-  └── proj/<project> (프로젝트 메인 — Stage 1~3 실행)
-        ├── proj/<project>/plan-a (전처리 계획 A — Stage 4 실행)
-        ├── proj/<project>/plan-b (전처리 계획 B — Stage 4 실행)
-        └── 최선의 실험 브랜치를 proj/<project>에 merge
-              └── 완료 시 proj/<project> → main PR
+  └── proj/<project> (프로젝트 메인)
+        └── autopilot/<project>-YYYYMMDD-HHMM (실행 브랜치)
+              ├── commit: Stage 1 insight
+              ├── commit: Stage 2+3 metric + baseline
+              ├── commit: Stage 4 iter1~N (각 iteration별 커밋)
+              └── commit: Stage 5 최종 확정
+
+            → PR to proj/<project> (1개)
+              ├── PR comment: Stage 1 결과 (전처리 계획, 품질 이슈)
+              ├── PR comment: Stage 2+3 결과 (평가지표, 베이스라인)
+              ├── PR comment: iter1 결과 + evaluate 피드백
+              ├── PR comment: iter2~N 결과 + 수렴 판단
+              └── PR comment: 최종 리포트
 ```
 
 ### 브랜치 생성 시점
 
-1. **autopilot 시작 시**: `dev`에서 `proj/<project>` 브랜치 생성 (이미 있으면 사용)
-2. **Stage 1 완료 후**: 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 분기
-3. **Stage 4 완료 후**: 최선의 plan 브랜치를 `proj/<project>`에 merge
-4. **단일 계획이면**: 분기 없이 `proj/<project>`에서 직선 실행
+1. **autopilot 시작 시**: `proj/<project>`에서 `autopilot/<project>-YYYYMMDD-HHMM` 브랜치 생성
+2. **각 Stage 완료 시**: 해당 브랜치에 커밋 + PR 코멘트로 결과 기록
+3. **복수 전처리 계획 시**: 동일 브랜치에서 순차 실행, 결과 비교 후 최선 채택
+4. **완료 시**: PR을 통해 `proj/<project>`에 merge
 
 ## Pipeline
 
@@ -70,22 +78,23 @@ dev (프레임워크/스킬 개발)
 3. `baseline_result.json` 저장
 4. **여기까지 `proj/<project>` 브랜치에서 커밋**
 
-### Stage 3.5: 실험 브랜치 분기 (복수 계획 시)
+### Stage 3.5: PR 생성
 
-1. 전처리 계획이 복수면 `proj/<project>/plan-a`, `plan-b`, ... 브랜치 생성
-2. 각 브랜치에서 독립적으로 Stage 4를 실행
-3. 단일 계획이면 이 단계 건너뜀
+1. autopilot 브랜치를 push하고 `proj/<project>`로의 PR을 생성한다
+2. PR 본문에 Stage 1~3 요약을 포함한다
+3. 이후 Stage마다 PR 코멘트로 결과를 기록한다
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
-```
-반복 N=1:
-  solve: 전처리 적용 + 선형/비선형 모델 학습 + 피처 인사이트 추출
-  evaluate: 오분류 분석 + 피처 개선안 + 모델 검토 + 수렴 판단
+각 iteration은 **pre → 실행 → 커밋 → post** 순서를 엄격히 따르며, 코멘트 작성이 실행보다 선행한다. 이는 사후 합리화를 방지하고, pre-iteration의 계획이 실제 실행에 영향을 주는 진정한 단계별 진행을 보장한다.
 
-반복 N=2~5:
-  solve: evaluate 피드백 반영 (피처 검증 → 모델 추가 → 학습 → ablation)
-  evaluate: 반복 간 비교 + 수렴 판단
+```
+반복 N:
+  1. PR 코멘트: pre-iteration (계획 + 가설) ← 실행 전에 반드시 먼저 작성
+  2. solve + evaluate 실행 ← pre-iteration 계획대로 실행
+  3. 커밋 + push: iteration_N 결과
+  4. PR 코멘트: post-iteration (결과 분석 + 가설 검증)
+  5. post-iteration의 "다음 계획"이 다음 pre-iteration의 입력이 됨
 
 수렴 조건 (하나라도 충족 시 종료):
   - 주 평가 지표 개선폭 < 0.005 (2회 연속)
@@ -93,22 +102,93 @@ dev (프레임워크/스킬 개발)
   - 최대 반복 횟수(5) 도달
 ```
 
-### Stage 4.5: 실험 브랜치 merge (복수 계획 시)
+**중요: 실행 순서를 지킬 것.** pre 코멘트를 쓰지 않고 실행하거나, 모든 iteration을 한번에 돌린 뒤 코멘트를 사후 작성하면 안 된다. 코멘트가 실행의 입력이 되는 흐름을 유지해야 한다.
 
-1. 각 plan 브랜치의 `best/solve_result.json`에서 주 평가 지표를 비교
-2. 최선의 브랜치를 `proj/<project>`에 merge
-3. 나머지 브랜치는 유지 (실험 이력)
+#### 1. pre-iteration PR 코멘트 (실행 전에 반드시 작성)
 
-### Stage 5: 완료
+무엇을 시도하고 왜 그런지 설명. 이 코멘트의 내용이 이후 실행의 설계 문서가 된다:
+- **피처 변경**: 어떤 피처를 추가/수정/제거할 것인지 + 각각의 근거
+- **모델 선정**: 새 모델 추가 시 선정 이유 (이전 iteration의 구체적 한계와 연결), 대안을 제외한 이유
+- **가설**: 이 변경으로 기대하는 효과와 수치적 근거. 결과를 보기 전에 작성하므로 틀려도 됨
+
+#### 2. solve + evaluate 실행
+
+- pre-iteration 계획대로 실행 (계획에 없는 변경을 임의로 추가하지 않음)
+- solve: 전처리 적용 + 모델 학습 + 피처 인사이트 추출
+- evaluate: 오분류 분석 + 피처 개선안 + 모델 검토 + 수렴 판단
+
+#### 3. 커밋 + push
+
+- iteration 결과 JSON + 시각화 PNG 커밋
+- push하여 PR에 diff 반영
+
+#### 4. post-iteration PR 코멘트 (실행 후 작성)
+
+결과 분석과 다음 방향:
+- **결과 요약**: 모델별 F1, 이전 iteration 대비 변화, 오분류 건수
+- **가설 검증**: pre-iteration에서 세운 가설이 맞았는지 수치로 확인. 틀렸으면 왜 틀렸는지 분석
+- **오분류 분석**: FN/FP 프로필, 오분류 집중 구간 변화
+- **시각화**: 모델 비교 차트, confusion matrix, 피처 중요도 (이미지 첨부)
+- **다음 계획**: 수렴이면 종료 선언, 아니면 다음 iteration의 방향 → 이것이 다음 pre-iteration의 입력
+
+### Stage 5: Submit (`/kaggle-submit`)
+
+1. test.csv에 대해 최종 모델로 예측 생성
+2. submission CSV 저장 + 검증 (행 수, 결측, 포맷)
+3. 커밋 + PR 코멘트 (예측 분포, 검증 결과)
+
+### Stage 6: 완료
 
 1. 전체 반복 중 주 평가 지표가 가장 높았던 iteration을 `best/`에 저장
-2. 최종 리포트 출력:
-   - 최종 모델명, 피처 목록, 주 평가 지표 (CV 평균 ± 표준편차)
-   - baseline 대비 개선폭
-   - 반복 간 성능 추이 테이블
-   - 잔존 오분류 집중 구간
+2. 최종 리포트 PR 코멘트 출력 (아래 PR 품질 가이드라인 참조)
 3. `proj/<project>` 브랜치에 최종 커밋
 4. 사용자에게 결과를 보고한다
+
+## PR 품질 가이드라인
+
+PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지 판단할 수 있어야 한다.
+
+### 시각화 (필수)
+
+각 Stage/iteration의 PR 코멘트에 시각화를 포함한다. matplotlib로 생성하여 `<project>/outputs/figures/` 에 PNG로 저장하고, git에 커밋한 뒤 PR 코멘트에서 GitHub 이미지 URL로 참조한다.
+
+**Stage 1 (Insight)**:
+- 타겟 변수 분포 (bar chart)
+- 주요 수치형 피처 분포 (히스토그램, 변환 전후 비교)
+- 결측률 히트맵 또는 바 차트
+- 상관관계 히트맵
+
+**Stage 3 (Baseline)**:
+- 베이스라인 Confusion Matrix 히트맵
+
+**각 Iteration (Solve + Evaluate)**:
+- 모델별 F1 비교 바 차트
+- Confusion Matrix 히트맵 (최선 모델)
+- 피처 중요도 바 차트 (상위 10개)
+- Pclass×Sex 오분류율 히트맵
+
+**최종 리포트 (Stage 6)**:
+- 반복 간 F1 추이 라인 차트
+- 최종 모델 Confusion Matrix
+- 피처 중요도 최종 바 차트
+- submission 예측 분포 (있을 경우)
+
+### PR 코멘트 이미지 참조 형식
+
+```markdown
+![Chart Title](https://github.com/<owner>/<repo>/blob/<branch>/<project>/outputs/figures/<filename>.png?raw=true)
+```
+
+### 모델 선정 근거 (필수)
+
+각 pre-iteration 코멘트에 반드시 포함:
+- 선정한 모델의 구조적 특성과 현재 데이터/문제에 적합한 이유
+- 대안 모델을 제외한 이유 (데이터 크기, 피처 특성, 인사이트 제공 여부 등)
+- 이전 iteration의 구체적 한계와 연결
+
+### 결과 파일 링크 (필수)
+
+최종 리포트에 모든 iteration의 solve_result.json + best + submission.csv 다운로드 링크를 포함한다.
 
 ## Output
 
@@ -128,8 +208,14 @@ dev (프레임워크/스킬 개발)
 │   │   └── ablation.json (있을 경우)
 │   └── best/
 │       └── solve_result.json
-└── evaluate/
-    └── evaluate_result.json
+├── evaluate/
+│   └── iteration_1/ ~ iteration_N/
+│       └── evaluate_result.json
+├── submission/
+│   ├── submission.csv
+│   └── submission_meta.json
+└── figures/
+    └── *.png (시각화 차트)
 ```
 
 ## Error Handling
