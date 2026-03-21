@@ -1,5 +1,5 @@
 {
-  "LogisticRegression": {
+  "LR_coefs": {
     "Sex": -1.2792,
     "Pclass": -0.6535,
     "Age": -0.5632,
@@ -9,7 +9,7 @@
     "Embarked_S": -0.1426,
     "Embarked_Q": -0.0407
   },
-  "RandomForest": {
+  "RF_importance": {
     "Age": 0.2677,
     "Sex": 0.2575,
     "Fare_log": 0.2505,
@@ -18,10 +18,5 @@
     "HasCabin": 0.0419,
     "Embarked_S": 0.0211,
     "Embarked_Q": 0.0091
-  },
-  "top_features": [
-    "Sex",
-    "Pclass",
-    "Age"
-  ]
+  }
 }

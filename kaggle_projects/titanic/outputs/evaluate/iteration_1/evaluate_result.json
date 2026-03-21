@@ -1,10 +1,10 @@
 {
   "iteration": 1,
-  "current_best": {
-    "model": "RandomForest",
+  "best": {
+    "model": "RF",
     "f1": 0.7649
   },
-  "error_analysis": {
+  "error": {
     "total": 160,
     "fn": 82,
     "fp": 78,
@@ -15,32 +15,27 @@
       "Pclass=2,female": 7.9,
       "Pclass=3,male": 12.7,
       "Pclass=3,female": 32.6
-    },
-    "fn_profile": "male=65, female=17",
-    "fp_profile": "male=39, female=39"
+    }
   },
-  "delta_from_previous": 0.0555,
+  "delta": 0.0555,
   "convergence_count": 0,
-  "improvement_directions": [
+  "directions": [
     {
-      "direction": "Pclass×Sex 상호작용 피처 (원핫)",
-      "expected_impact": "high",
-      "rationale": "1등석 남성 오분류율 38.5%, 3등석 여성 32.6%"
+      "direction": "Pclass×Sex 원핫",
+      "impact": "high",
+      "rationale": "1등석남 38.5%, 3등석여 32.6%"
     },
     {
-      "direction": "IsChild (Age<=12) 피처",
-      "expected_impact": "medium",
-      "rationale": "어린이 생존율 높음, 명시적 분리"
+      "direction": "IsChild (Age<=12)",
+      "impact": "medium"
     },
     {
-      "direction": "FamilyGroup 구간화 (Alone/Small/Large), FamilySize 원본 제거",
-      "expected_impact": "medium",
-      "rationale": "FamilySize 비선형 패턴(2~4 최적, 5+ 급락)"
+      "direction": "FamilyGroup (FamilySize 대체)",
+      "impact": "medium"
     },
     {
-      "direction": "GradientBoosting 모델 추가",
-      "expected_impact": "medium",
-      "rationale": "오분류 집중 구간이 피처 조합에서 발생, 순차 보정 구조 유리"
+      "direction": "GradientBoosting 추가",
+      "impact": "medium"
     }
   ],
   "converged": false
