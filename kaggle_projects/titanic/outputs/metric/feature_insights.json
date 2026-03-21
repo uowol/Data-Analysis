@@ -1,0 +1,10 @@
+{
+  "correlations_with_survived": {
+    "Sex_enc": 0.5434,
+    "Pclass": 0.3385,
+    "Fare": 0.2573,
+    "Parch": 0.0816,
+    "Age": 0.0772,
+    "SibSp": 0.0353
+  }
+}
