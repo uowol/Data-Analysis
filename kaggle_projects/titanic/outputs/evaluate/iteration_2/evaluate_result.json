@@ -1,0 +1,52 @@
+{
+  "iteration": 2,
+  "best_model": "GradientBoosting",
+  "best_f1": 0.7922,
+  "total_misclassified": 135,
+  "misclassified_pct": 15.2,
+  "false_negatives": {
+    "count": 84,
+    "profile": "남성 80%, 3등석 62%"
+  },
+  "false_positives": {
+    "count": 51,
+    "profile": "여성 51%, 3등석 43%"
+  },
+  "vs_iter1": {
+    "misclassified": "160→135 (-25)",
+    "fn": "107→84 (-23)",
+    "fp": "53→51 (-2)"
+  },
+  "pclass_sex_misclass": {
+    "1_female": {
+      "rate": 0.032,
+      "count": 3,
+      "total": 94
+    },
+    "1_male": {
+      "rate": 0.352,
+      "count": 43,
+      "total": 122
+    },
+    "2_female": {
+      "rate": 0.079,
+      "count": 6,
+      "total": 76
+    },
+    "2_male": {
+      "rate": 0.083,
+      "count": 9,
+      "total": 108
+    },
+    "3_female": {
+      "rate": 0.236,
+      "count": 34,
+      "total": 144
+    },
+    "3_male": {
+      "rate": 0.115,
+      "count": 40,
+      "total": 347
+    }
+  }
+}
