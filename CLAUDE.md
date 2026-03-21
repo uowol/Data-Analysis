@@ -114,6 +114,35 @@ kaggle_projects/
 - `dev` — 프레임워크 공통 기능 개발 (분석 도구, 인프라 등)
 - `main` — 안정 브랜치. PR을 통해서만 merge
 
+## Automation Pipeline (목표)
+
+데이터만 지정하면 end-to-end로 자동 수행하는 스킬 파이프라인을 점진적으로 구축한다.
+상세 로드맵은 `TODO.md` 참조. 각 스킬은 titanic 프로젝트로 검증 후 범용화.
+
+```
+다운로드 → 인사이트 추출 → metric 정의 → baseline 모델 → 문제 해결 → 결과 분석 → 개선 반복 → 목표 달성 → 알림
+(browse)   (insight)       (metric)      (baseline)     (solve)      (evaluate)   (solve↔evaluate loop)   (autopilot)
+```
+
+### 스킬 현황
+
+| 스킬 | 상태 | 설명 |
+|------|------|------|
+| `/kaggle-browse` | 완료 | Kaggle 검색 및 다운로드 |
+| `/kaggle-insight` | 완료 | 프로파일링 및 품질 분석 |
+| `/kaggle-metric` | 미구현 | metric 정의, 평가 기준 설정 |
+| `/kaggle-baseline` | 미구현 | baseline 모델 + 목표 metric |
+| `/kaggle-solve` | 미구현 | 전처리 + 모델링 |
+| `/kaggle-evaluate` | 미구현 | 결과 분석 + 개선 방향 |
+| `/kaggle-autopilot` | 미구현 | 전체 파이프라인 자동 실행 |
+
+### 개발 방침
+
+- **TDD**: 테스트 먼저 작성 → 실패 확인 → 최소 구현 → 검증 반복
+- **점진적 자동화**: 처음은 사용자와 논의하며 의사결정, 스킬이 성숙하면 자동화 수준을 높임
+- **스킬 독립성**: 각 스킬은 단독 실행 가능, 스킬 간 데이터 전달은 파일 기반 (JSON/CSV)
+- **데이터 기반**: 모든 인사이트/결정은 데이터 수치 근거에서만 도출 (사전 지식 사용 금지)
+
 ## Workflow
 
 - 커밋 시 `/commit` 스킬을 사용할 것 (simplify → 수정 → 커밋을 하나의 흐름으로 처리)
