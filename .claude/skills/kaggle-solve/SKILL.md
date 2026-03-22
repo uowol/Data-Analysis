@@ -28,12 +28,15 @@ user-invocable: true
 소규모 데이터셋에서는 과적합 방지가 핵심이다. 아래 원칙을 따른다:
 
 - **부스팅 모델 선택**: sklearn GradientBoosting 대신 **XGBoost를 기본으로** 사용한다. XGBoost는 gamma, subsample, colsample_bytree 등 세밀한 정규화 파라미터를 제공한다.
-- **공격적 정규화**: 소규모 데이터에서 부스팅 모델의 기본 하이퍼파라미터 가이드:
-  - `learning_rate`: 0.01~0.05 (낮을수록 안정적, n_estimators를 비례 증가)
-  - `max_depth`: 3~4 (깊을수록 과적합 위험)
-  - `n_estimators`: 500~2000 (lr이 낮으면 보상으로 높게)
-  - `gamma`: 0.3~0.6 (분할 최소 손실 감소)
-  - `subsample`: 0.7~0.8, `colsample_bytree`: 0.7~0.8 (확률적 부스팅)
+- **정규화 전략**: L2 정규화(`reg_lambda`)가 split 기반 정규화(`gamma`)보다 효과적인 경우가 많다. 수동 튜닝의 직관("gamma를 높이면 과적합이 줄어든다")이 틀릴 수 있으므로, Bayesian HPO로 검증한다.
+  - 수동 튜닝 초기값 가이드:
+    - `learning_rate`: 0.02~0.05, `n_estimators`: 1000~2500 (lr과 반비례)
+    - `max_depth`: 2~3 (깊을수록 과적합 위험)
+    - `gamma`: 0.0~0.3 (낮게 시작. 높은 gamma가 항상 좋지 않음)
+    - `reg_lambda`: 1.0~3.0 (L2 정규화. **과적합 제어의 핵심 — gamma보다 우선 조정**)
+    - `reg_alpha`: 0.0~0.5 (L1 정규화)
+    - `subsample`: 0.7~0.8, `colsample_bytree`: 0.6~0.8
+  - **Bayesian HPO (Optuna) 필수**: 수동 튜닝으로 수렴한 후 반드시 Optuna로 100~150 trials 탐색한다. 수동 직관의 사각지대(예: 낮은 gamma + 높은 reg_lambda 조합)를 발견할 수 있다.
 - **연속형 변수 구간화**: log 변환뿐 아니라 categorical binning도 반드시 시도한다. 트리 모델에서 구간화된 피처가 연속값보다 일반화 성능이 높은 경우가 빈번하다.
   - **데이터 기반 구간화**: `DecisionTreeClassifier(max_leaf_nodes=N)`으로 타겟 대비 최적 분할점을 찾는다.
   - **분위수 구간화**: `pd.qcut()`으로 등빈도 구간을 생성한다.
@@ -71,7 +74,7 @@ evaluate_result.json이 존재하면 이전 반복의 피드백을 반영한다:
 3. CV로 주 평가 지표 + 보조 지표를 측정한다
 4. baseline_threshold 및 이전 반복 결과와 비교하여 개선폭을 보고한다
 5. **성능 하락 시 원인 분석**: 이전 반복 대비 하락한 모델이 있으면 어떤 피처/변경이 원인인지 ablation(피처 제거 실험)으로 확인한다
-6. **모델 전략 우선순위**: 이전 iteration에서 큰 폭의 개선(>0.03)이 있었으면, 다음에는 하이퍼파라미터 튜닝보다 모델 구조 변경(앙상블, 다른 알고리즘)을 먼저 시도한다. 튜닝은 모델 구조가 확정된 후에 수행한다.
+6. **모델 전략 우선순위**: 이전 iteration에서 큰 폭의 개선(>0.03)이 있었으면, 다음에는 하이퍼파라미터 튜닝보다 모델 구조 변경(앙상블, 다른 알고리즘)을 먼저 시도한다. 피처와 모델 구조가 수렴한 후에는 **Optuna Bayesian HPO**로 최종 튜닝한다. 소규모 데이터에서 앙상블(Stacking, Voting)은 메타러너 과적합 위험이 높으므로, 단독 모델 + HPO가 더 효과적일 수 있다.
 
 ### Step 3: 피처 인사이트 추출
 
