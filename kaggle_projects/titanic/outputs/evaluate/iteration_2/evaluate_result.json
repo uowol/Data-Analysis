@@ -1,0 +1,53 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "current_best": {
+    "model": "LogisticRegression",
+    "f1_score": 0.7748,
+    "vs_prev": "-0.0118"
+  },
+  "overfit_diagnosis": {
+    "XGBoost": {
+      "gap": 0.0568,
+      "improved_from": 0.095,
+      "still_above_threshold": true
+    },
+    "LR": {
+      "gap": 0.0096,
+      "status": "OK"
+    },
+    "RF": {
+      "gap": 0.0361,
+      "status": "OK"
+    }
+  },
+  "error_analysis": {
+    "total": 149,
+    "FP": 64,
+    "FN": 85
+  },
+  "convergence_check": {
+    "iter1_best": 0.7866,
+    "iter2_best": 0.7748,
+    "delta": -0.0118
+  },
+  "improvement_directions": [
+    {
+      "direction": "XGBoost 중간 정규화로 복귀 (depth=3, gamma=0.6, lr=0.02, n=1000)",
+      "rationale": "iter2는 과도한 정규화. iter1 XGB(0.787)가 iter2(0.771)보다 나음. depth=2가 너무 단순.",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "iter1 피처 중 Fare_log + iter2 축소 피처 조합 탐색",
+      "rationale": "iter1 노이즈 피처 제거는 유지하되, XGB 정규화는 iter1 수준으로",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "LR은 이미 안정적(gap 0.01). LR 기반 Stacking 시도",
+      "rationale": "LR이 0.7748로 안정적. XGB/RF 확률을 LR로 결합.",
+      "expected_impact": "medium"
+    }
+  ],
+  "convergence": false,
+  "recommendation": "iter2 과정규화로 성능 하락. iter3에서 중간점 찾기: iter1 XGB params + iter2 피처 축소."
+}

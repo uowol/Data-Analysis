@@ -1,21 +1,15 @@
 {
   "project": "titanic",
-  "iteration": 1,
-  "preprocessing_plan": "plan_a_v2",
+  "iteration": 2,
   "features": [
     "Pclass",
     "Sex",
-    "Age",
     "WordsCount",
     "CategoricalAge",
     "FamilySize",
     "HasCabin",
-    "TicketCount",
     "DividedFare",
     "Fare_log",
-    "CategoricalFare",
-    "TP_PC",
-    "TP_NUM",
     "Embarked_C",
     "Embarked_Q",
     "Embarked_S",
@@ -25,79 +19,58 @@
     "Title_Mrs",
     "Title_rare"
   ],
-  "changes_from_previous": "New run with improved skills. Added: TicketCount, DividedFare, TP_PC/NUM, WordsCount, CategoricalAge, CategoricalFare. XGBoost with aggressive regularization.",
-  "cv": {
-    "method": "StratifiedKFold",
-    "n_splits": 5,
-    "random_state": 42
-  },
+  "changes_from_previous": "Removed: TP_PC, TP_NUM, CategoricalFare, Age(continuous), TicketCount. XGBoost: lr=0.01, depth=2, n=2000, gamma=0.8, subsample=0.7.",
   "models": {
     "LogisticRegression": {
-      "results": {
-        "f1_score": {
-          "mean": 0.7787,
-          "std": 0.0174,
-          "folds": [
-            0.8,
-            0.7704,
-            0.75,
-            0.7907,
-            0.7826
-          ]
-        },
-        "accuracy": {
-          "mean": 0.835
-        }
+      "f1": {
+        "mean": 0.7748,
+        "std": 0.0172,
+        "folds": [
+          0.7971,
+          0.7576,
+          0.7597,
+          0.7656,
+          0.7941
+        ]
       },
-      "train_f1": 0.794,
-      "overfit_gap": 0.0153,
-      "vs_baseline": "+0.0694"
+      "train_f1": 0.7844,
+      "gap": 0.0096,
+      "vs_prev": "-0.0118"
     },
     "RandomForest": {
-      "results": {
-        "f1_score": {
-          "mean": 0.7647,
-          "std": 0.0195,
-          "folds": [
-            0.7939,
-            0.7576,
-            0.7377,
-            0.7559,
-            0.7786
-          ]
-        },
-        "accuracy": {
-          "mean": 0.8305
-        }
+      "f1": {
+        "mean": 0.7737,
+        "std": 0.017,
+        "folds": [
+          0.8,
+          0.7761,
+          0.748,
+          0.7656,
+          0.7786
+        ]
       },
-      "train_f1": 0.8031,
-      "overfit_gap": 0.0384,
-      "vs_baseline": "+0.0554"
+      "train_f1": 0.8098,
+      "gap": 0.0361,
+      "vs_prev": "-0.0129"
     },
     "XGBoost": {
-      "results": {
-        "f1_score": {
-          "mean": 0.7866,
-          "std": 0.0209,
-          "folds": [
-            0.8182,
-            0.7941,
-            0.7634,
-            0.7937,
-            0.7634
-          ]
-        },
-        "accuracy": {
-          "mean": 0.8428
-        }
+      "f1": {
+        "mean": 0.7712,
+        "std": 0.0242,
+        "folds": [
+          0.8148,
+          0.7704,
+          0.7541,
+          0.7727,
+          0.7442
+        ]
       },
-      "train_f1": 0.8816,
-      "overfit_gap": 0.095,
-      "vs_baseline": "+0.0773"
+      "train_f1": 0.828,
+      "gap": 0.0568,
+      "vs_prev": "-0.0154"
     }
   },
-  "best_model": "XGBoost",
-  "best_f1": 0.7866,
-  "baseline_threshold": 0.7093,
-  "vs_baseline": "+0.0773"
+  "best_model": "LogisticRegression",
+  "best_f1": 0.7748,
+  "vs_prev_iteration": "-0.0118"
 }
