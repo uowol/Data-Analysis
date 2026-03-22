@@ -1,0 +1,38 @@
+{
+  "project": "titanic",
+  "model": "GradientBoostingClassifier",
+  "params": {
+    "learning_rate": 0.05,
+    "max_depth": 5,
+    "n_estimators": 100
+  },
+  "feature_set": "v3 (iter3)",
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare",
+    "FamilySize",
+    "FamilySize_small",
+    "Cabin_known",
+    "Embarked_C",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
+  ],
+  "cv_f1": 0.7878,
+  "prediction_distribution": {
+    "0": 264,
+    "1": 154
+  },
+  "survival_rate": 0.3684,
+  "validation": {
+    "rows_match": true,
+    "no_missing": true,
+    "format_match": true
+  }
+}
