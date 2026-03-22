@@ -1,6 +1,7 @@
 {
   "project": "titanic",
-  "iteration": 3,
+  "iteration": 4,
+  "method": "Optuna Bayesian HPO (150 trials)",
   "features": [
     "Pclass",
     "Sex",
@@ -19,34 +20,32 @@
     "Title_Mrs",
     "Title_rare"
   ],
-  "changes_from_previous": "Same features. XGB: lr=0.02, depth=3, gamma=0.6 (middle ground). Added Stacking.",
-  "models": {
-    "LogisticRegression": {
-      "f1_mean": 0.7748,
-      "train_f1": 0.7844,
-      "gap": 0.0096,
-      "vs_prev": "0.0000"
-    },
-    "RandomForest": {
-      "f1_mean": 0.7737,
-      "train_f1": 0.8098,
-      "gap": 0.0361,
-      "vs_prev": "-0.0011"
-    },
-    "XGBoost": {
-      "f1_mean": 0.7865,
-      "train_f1": 0.8632,
-      "gap": 0.0767,
-      "vs_prev": "+0.0117"
-    },
-    "Stacking": {
-      "f1_mean": 0.76,
-      "train_f1": 0.8406,
-      "gap": 0.0806,
-      "vs_prev": "-0.0148"
-    }
+  "feature_count": 16,
+  "best_model": "XGBoost_Optuna",
+  "best_params": {
+    "learning_rate": 0.039087,
+    "max_depth": 2,
+    "n_estimators": 2214,
+    "gamma": 0.095681,
+    "subsample": 0.769065,
+    "colsample_bytree": 0.691843,
+    "min_child_weight": 1,
+    "reg_alpha": 0.332444,
+    "reg_lambda": 2.760734
   },
-  "best_model": "XGBoost",
-  "best_f1": 0.7865,
-  "vs_prev_iteration": "+0.0117"
+  "best_f1": 0.7958,
+  "train_f1": 0.8675,
+  "overfit_gap": 0.0717,
+  "vs_baseline": "+0.0865",
+  "vs_prev_iteration": "+0.0093",
+  "experiments_tried": {
+    "Optuna_XGB_v2c": 0.7955,
+    "Optuna_XGB_v2d": 0.7867,
+    "Ensemble_nested": 0.7938,
+    "Ensemble_simple": 0.7895,
+    "V3_extra_features": 0.7803,
+    "Pruned_no_TitleMiss": 0.7885,
+    "scale_pos_weight": 0.7839,
+    "Nested_threshold": 0.7874
+  }
 }

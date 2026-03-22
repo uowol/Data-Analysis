@@ -1,12 +1,15 @@
 {
-  "model": "XGBClassifier",
+  "model": "XGBClassifier_Optuna",
   "params": {
-    "lr": 0.02,
-    "depth": 3,
-    "n": 1000,
-    "gamma": 0.6,
-    "subsample": 0.8,
-    "colsample": 0.8
+    "learning_rate": 0.039087,
+    "max_depth": 2,
+    "n_estimators": 2214,
+    "gamma": 0.095681,
+    "subsample": 0.769065,
+    "colsample_bytree": 0.691843,
+    "min_child_weight": 1,
+    "reg_alpha": 0.332444,
+    "reg_lambda": 2.760734
   },
   "features": [
     "Pclass",
@@ -26,15 +29,10 @@
     "Title_Mrs",
     "Title_rare"
   ],
-  "cv_f1": 0.7878,
+  "cv_f1": 0.7958,
   "prediction": {
-    "0": 252,
-    "1": 166
+    "0": 257,
+    "1": 161
   },
-  "survival_rate": 0.3971,
-  "validation": {
-    "rows": true,
-    "missing": true,
-    "format": true
-  }
+  "survival_rate": 0.3852
 }
