@@ -1,0 +1,25 @@
+{
+  "project": "titanic",
+  "iteration": 3,
+  "current_best": {
+    "model": "XGBoost",
+    "f1_score": 0.7865,
+    "gap": 0.0767
+  },
+  "overall_best": {
+    "iteration": 1,
+    "model": "XGBoost",
+    "f1_score": 0.7866,
+    "note": "iter1 and iter3 essentially equal (0.0001 diff)"
+  },
+  "convergence_check": {
+    "iter1": 0.7866,
+    "iter2": 0.7748,
+    "iter3": 0.7865,
+    "iter1_to_iter3_delta": -0.0001,
+    "note": "3 iterations, net improvement ~0. Converged."
+  },
+  "convergence": true,
+  "convergence_reason": "iter1(0.7866)≈iter3(0.7865). 피처 축소+정규화 조정으로 과적합은 개선(0.095→0.077)했으나 CV F1은 동일. 추가 iteration의 기대 개선폭 < 0.005.",
+  "recommendation": "Converged. iter3 XGBoost (depth=3, gamma=0.6)를 최종 모델로 사용. gap 0.077은 iter1(0.095) 대비 개선되었으며, 축소된 피처 세트(16개)가 일반화에 유리."
+}

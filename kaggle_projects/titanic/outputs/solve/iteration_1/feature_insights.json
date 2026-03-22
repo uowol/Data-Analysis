@@ -1,46 +1,113 @@
 {
-  "project": "titanic",
-  "models": {
-    "LogisticRegression": {
-      "type": "linear",
-      "coefficients_standardized": {
-        "Sex": -1.2792,
-        "Pclass": -0.6535,
-        "Age": -0.5632,
-        "FamilySize": -0.4812,
-        "Fare_log": 0.2916,
-        "HasCabin": 0.2645,
-        "Embarked_S": -0.1426,
-        "Embarked_Q": -0.0407
-      },
-      "interpretation": "계수 절대값이 클수록 생존 예측에 강한 영향. 음수=생존 확률 감소, 양수=증가"
+  "iteration": 1,
+  "xgb_importance": {
+    "Title_Mr": 0.2896,
+    "Sex": 0.1299,
+    "Pclass": 0.0963,
+    "HasCabin": 0.0457,
+    "Title_rare": 0.0449,
+    "Title_Miss": 0.0382,
+    "FamilySize": 0.0365,
+    "TicketCount": 0.0358,
+    "CategoricalAge": 0.0353,
+    "Title_Mrs": 0.0289,
+    "Embarked_S": 0.027,
+    "Title_Master": 0.0256,
+    "CategoricalFare": 0.0212,
+    "Fare_log": 0.0211,
+    "DividedFare": 0.0207,
+    "Age": 0.0197,
+    "WordsCount": 0.0195,
+    "Embarked_C": 0.0181,
+    "TP_NUM": 0.0164,
+    "TP_PC": 0.0156,
+    "Embarked_Q": 0.0142
+  },
+  "lr_coefficients": {
+    "FamilySize": -0.6771,
+    "Pclass": -0.5479,
+    "Sex": 0.5442,
+    "Title_Mr": -0.5132,
+    "Title_Mrs": 0.3548,
+    "Fare_log": 0.3469,
+    "Title_Master": 0.3198,
+    "HasCabin": 0.2704,
+    "Age": -0.2596,
+    "Title_Miss": 0.2076,
+    "CategoricalAge": -0.1943,
+    "WordsCount": 0.1588,
+    "TP_PC": -0.1375,
+    "Title_rare": -0.1309,
+    "TicketCount": -0.1092,
+    "Embarked_S": -0.105,
+    "Embarked_C": 0.0967,
+    "TP_NUM": -0.0798,
+    "DividedFare": -0.0398,
+    "Embarked_Q": 0.0322,
+    "CategoricalFare": 0.0119
+  },
+  "ablation": {
+    "TicketCount": {
+      "with": 0.7866,
+      "without": 0.7872,
+      "diff": -0.0006
     },
-    "RandomForest": {
-      "type": "ensemble_tree",
-      "feature_importances_gini": {
-        "Age": 0.2677,
-        "Sex": 0.2575,
-        "Fare_log": 0.2505,
-        "Pclass": 0.0779,
-        "FamilySize": 0.0743,
-        "HasCabin": 0.0419,
-        "Embarked_S": 0.0211,
-        "Embarked_Q": 0.0091
-      },
-      "interpretation": "Gini 중요도가 높을수록 분류에 많이 기여. 비선형 관계도 반영"
+    "DividedFare": {
+      "with": 0.7866,
+      "without": 0.7855,
+      "diff": 0.0011
+    },
+    "TP_PC": {
+      "with": 0.7866,
+      "without": 0.7896,
+      "diff": -0.003
+    },
+    "TP_NUM": {
+      "with": 0.7866,
+      "without": 0.7866,
+      "diff": 0.0
+    },
+    "WordsCount": {
+      "with": 0.7866,
+      "without": 0.7846,
+      "diff": 0.002
+    },
+    "CategoricalAge": {
+      "with": 0.7866,
+      "without": 0.7854,
+      "diff": 0.0012
+    },
+    "CategoricalFare": {
+      "with": 0.7866,
+      "without": 0.7896,
+      "diff": -0.003
+    },
+    "Age_continuous": {
+      "with": 0.7866,
+      "without": 0.7891,
+      "diff": -0.0025
+    },
+    "Fare_log": {
+      "with": 0.7866,
+      "without": 0.7835,
+      "diff": 0.0031
     }
   },
-  "consensus": {
-    "top_features": [
-      "Sex",
-      "Age"
-    ],
-    "note": "두 모델 모두 Sex와 Age를 상위 피처로 선정. Sex는 가장 강한 단일 예측 인자, Age는 비선형 모델에서 특히 중요",
-    "divergence": "Pclass(LR 2위) vs Fare_log(RF 3위) — 선형 모델은 등급 자체를, 트리 모델은 운임의 세밀한 분할을 더 활용"
-  },
-  "next_directions": [
-    "Age 구간화 실험 — RF에서 Age 중요도가 1위이나 비선형 패턴이 있을 수 있음",
-    "FamilySize 구간화 실험 — LR에서 4위로 영향력 있으나 비선형(2~4 최적) 패턴 미반영",
-    "Pclass × Sex 상호작용 피처 — 두 모델 모두 상위에 위치하므로 조합 효과 확인"
-  ]
+  "overfit_analysis": {
+    "LogisticRegression": {
+      "cv_f1": 0.7787,
+      "train_f1": 0.794,
+      "gap": 0.0153
+    },
+    "RandomForest": {
+      "cv_f1": 0.7647,
+      "train_f1": 0.8031,
+      "gap": 0.0384
+    },
+    "XGBoost": {
+      "cv_f1": 0.7866,
+      "train_f1": 0.8816,
+      "gap": 0.095
+    }
+  }
 }

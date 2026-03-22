@@ -1,0 +1,38 @@
+{
+  "model": "XGBClassifier_Optuna",
+  "params": {
+    "learning_rate": 0.039087,
+    "max_depth": 2,
+    "n_estimators": 2214,
+    "gamma": 0.095681,
+    "subsample": 0.769065,
+    "colsample_bytree": 0.691843,
+    "min_child_weight": 1,
+    "reg_alpha": 0.332444,
+    "reg_lambda": 2.760734
+  },
+  "features": [
+    "Pclass",
+    "Sex",
+    "WordsCount",
+    "CategoricalAge",
+    "FamilySize",
+    "HasCabin",
+    "DividedFare",
+    "Fare_log",
+    "Embarked_C",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
+  ],
+  "cv_f1": 0.7958,
+  "prediction": {
+    "0": 257,
+    "1": 161
+  },
+  "survival_rate": 0.3852
+}

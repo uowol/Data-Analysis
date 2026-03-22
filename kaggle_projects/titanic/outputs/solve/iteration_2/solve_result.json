@@ -1,52 +1,76 @@
 {
+  "project": "titanic",
   "iteration": 2,
   "features": [
     "Pclass",
     "Sex",
-    "Age",
-    "Fare_log",
+    "WordsCount",
+    "CategoricalAge",
     "FamilySize",
     "HasCabin",
-    "Pclass_Sex(수치)",
-    "IsChild",
-    "FamilyGroup",
-    "IsAloneFemale3rd",
+    "DividedFare",
+    "Fare_log",
+    "Embarked_C",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
   ],
-  "feature_count": 12,
-  "changes_from_previous": "evaluate 피드백 반영: Pclass_Sex(수치인코딩), IsChild, FamilyGroup 추가, IsAloneFemale3rd 추가. FamilySize 원본 유지(중복)",
-  "issues": [
-    "Pclass_Sex를 수치 인코딩 → 범주 간 의미 없는 순서 부여",
-    "FamilySize 원본과 FamilyGroup 동시 사용 → 정보 중복",
-    "IsAloneFemale3rd 과적합 위험 미검증",
-    "피처 설계 검증 체크리스트 미수행"
-  ],
+  "changes_from_previous": "Removed: TP_PC, TP_NUM, CategoricalFare, Age(continuous), TicketCount. XGBoost: lr=0.01, depth=2, n=2000, gamma=0.8, subsample=0.7.",
   "models": {
     "LogisticRegression": {
       "f1": {
-        "mean": 0.7327
+        "mean": 0.7748,
+        "std": 0.0172,
+        "folds": [
+          0.7971,
+          0.7576,
+          0.7597,
+          0.7656,
+          0.7941
+        ]
       },
-      "vs_baseline": "+0.0234",
-      "vs_prev": "+0.0025"
+      "train_f1": 0.7844,
+      "gap": 0.0096,
+      "vs_prev": "-0.0118"
     },
     "RandomForest": {
       "f1": {
-        "mean": 0.7504
+        "mean": 0.7737,
+        "std": 0.017,
+        "folds": [
+          0.8,
+          0.7761,
+          0.748,
+          0.7656,
+          0.7786
+        ]
       },
-      "vs_baseline": "+0.0411",
-      "vs_prev": "-0.0145"
+      "train_f1": 0.8098,
+      "gap": 0.0361,
+      "vs_prev": "-0.0129"
     },
-    "GradientBoosting": {
-      "type": "boosting",
-      "rationale": "오분류 집중 구간(1등석 남성 38.5%, 3등석 여성 32.6%)이 피처 조합에서 발생. 순차 보정 구조가 잔여 오차 패턴 집중 공략에 유리",
+    "XGBoost": {
       "f1": {
-        "mean": 0.7654
+        "mean": 0.7712,
+        "std": 0.0242,
+        "folds": [
+          0.8148,
+          0.7704,
+          0.7541,
+          0.7727,
+          0.7442
+        ]
       },
-      "vs_baseline": "+0.0561"
+      "train_f1": 0.828,
+      "gap": 0.0568,
+      "vs_prev": "-0.0154"
     }
   },
-  "best_model": "GradientBoosting",
-  "best_f1": 0.7654,
-  "status": "discarded — 피처 설계 오류로 재실행"
+  "best_model": "LogisticRegression",
+  "best_f1": 0.7748,
+  "vs_prev_iteration": "-0.0118"
 }
