@@ -24,46 +24,45 @@ user_invocable: true
 
 autopilot 시작 전 아래를 반드시 확인한다:
 
-1. **스킬 인식 확인**: `/kaggle-insight` 등 각 스킬이 Skill 도구로 호출 가능한지 확인한다. 불가능하면 대상 브랜치의 `.claude/skills/` 구조를 점검하고 `dev` 브랜치에서 cherry-pick한다.
+1. **스킬 인식 확인**: `/kaggle-insight` 등 각 스킬이 Skill 도구로 호출 가능한지 확인한다. 불가능하면 `.claude/skills/` 구조를 점검한다.
 2. **의존성 확인**: 파이프라인에서 사용할 패키지(xgboost 등)가 설치되어 있는지 확인한다. 미설치 시 `uv pip install`로 사전 설치.
 3. **데이터 확인**: `<project>/data/train.csv`, `test.csv` 존재 여부.
 
 ## Branch Strategy
 
-autopilot 실행마다 타임스탬프 기반 고유 브랜치를 생성하고, 하나의 PR에서 과정을 기록한다.
+autopilot 실행마다 `dev`에서 타임스탬프 기반 고유 브랜치를 생성하고, 하나의 PR에서 과정을 기록한다.
 
 ```
-dev (프레임워크/스킬 개발)
-  └── proj/<project> (프로젝트 메인)
-        └── autopilot/<project>-YYYYMMDD-HHMM (실행 브랜치)
-              ├── commit: Stage 1 insight
-              ├── commit: Stage 2+3 metric + baseline
-              ├── commit: Stage 4 iter1~N (각 iteration별 커밋)
-              └── commit: Stage 5 최종 확정
+dev (프레임워크/스킬 개발 + autopilot 결과 수집)
+  └── autopilot/<project>-YYYYMMDD-HHMM (실행 브랜치)
+        ├── commit: Stage 1 insight
+        ├── commit: Stage 2+3 metric + baseline
+        ├── commit: Stage 4 iter1~N (각 iteration별 커밋)
+        └── commit: Stage 5 최종 확정
 
-            → PR to proj/<project> (1개)
-              ├── PR comment: Stage 1 결과 (전처리 계획, 품질 이슈)
-              ├── PR comment: Stage 2+3 결과 (평가지표, 베이스라인)
-              ├── PR comment: iter1 결과 + evaluate 피드백
-              ├── PR comment: iter2~N 결과 + 수렴 판단
-              └── PR comment: 최종 리포트
+      → PR to dev (1개)
+        ├── PR comment: Stage 1 결과 (전처리 계획, 품질 이슈)
+        ├── PR comment: Stage 2+3 결과 (평가지표, 베이스라인)
+        ├── PR comment: iter1 결과 + evaluate 피드백
+        ├── PR comment: iter2~N 결과 + 수렴 판단
+        └── PR comment: 최종 리포트
 ```
 
 ### 브랜치 생성 시점
 
-1. **autopilot 시작 시**: `proj/<project>`에서 `autopilot/<project>-YYYYMMDD-HHMM` 브랜치 생성
+1. **autopilot 시작 시**: `dev`에서 `autopilot/<project>-YYYYMMDD-HHMM` 브랜치 생성
 2. **각 Stage 완료 시**: 해당 브랜치에 커밋 + PR 코멘트로 결과 기록
 3. **복수 전처리 계획 시**: 동일 브랜치에서 순차 실행, 결과 비교 후 최선 채택
-4. **완료 시**: PR을 통해 `proj/<project>`에 merge
+4. **완료 시**: PR을 통해 `dev`에 merge
 
 ## Pipeline
 
 ```
-[proj/<project> 브랜치 생성]
+[dev에서 autopilot 브랜치 생성]
 1. insight → 2. metric → 3. baseline
-[복수 계획 시 plan 브랜치 분기]
+[복수 계획 시 순차 실행]
 4. solve ↔ evaluate (루프)
-[최선 plan을 proj/<project>에 merge]
+[완료 시 dev에 merge]
 5. 완료
 ```
 
@@ -84,11 +83,11 @@ dev (프레임워크/스킬 개발)
 1. 타겟과 최강 상관 피처 식별
 2. 단순 규칙 베이스라인 CV 평가
 3. `baseline_result.json` 저장
-4. **여기까지 `proj/<project>` 브랜치에서 커밋**
+4. **여기까지 autopilot 브랜치에서 커밋**
 
 ### Stage 3.5: PR 생성
 
-1. autopilot 브랜치를 push하고 `proj/<project>`로의 PR을 생성한다
+1. autopilot 브랜치를 push하고 `dev`로의 PR을 생성한다
 2. PR 본문에 Stage 1~3 요약 + progress 체크리스트를 포함한다
 3. 이후 Stage마다 PR 코멘트로 결과를 기록한다
 4. **각 Stage 완료 시 `gh pr edit`으로 progress 체크리스트를 즉시 업데이트한다** (마지막에 몰아서 하지 않음)
@@ -150,7 +149,7 @@ dev (프레임워크/스킬 개발)
 
 1. 전체 반복 중 주 평가 지표가 가장 높았던 iteration을 `best/`에 저장
 2. 최종 리포트 PR 코멘트 출력 (아래 PR 품질 가이드라인 참조)
-3. `proj/<project>` 브랜치에 최종 커밋
+3. autopilot 브랜치에 최종 커밋
 4. 사용자에게 결과를 보고한다
 
 ## PR 품질 가이드라인

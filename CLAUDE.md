@@ -110,8 +110,8 @@ kaggle_projects/
 
 ## Branch Strategy
 
-- `proj/<name>` — 개별 Kaggle 프로젝트 진행 (분석, 모델링). 완료 시 main에 PR
-- `dev` — 프레임워크 공통 기능 개발 (분석 도구, 인프라 등)
+- `dev` — 프레임워크 공통 기능 개발 + autopilot 실행 결과 수집
+- `autopilot/<project>-YYYYMMDD-HHMM` — autopilot 실행 브랜치 (dev에서 분기, PR to dev)
 - `main` — 안정 브랜치. PR을 통해서만 merge
 
 ## Automation Pipeline (목표)
