@@ -43,6 +43,10 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 높은 결측률 (>5%): 결측 여부 vs 타겟 상관성 + 다른 주요 변수와의 교차 분석 (Pclass 통제 등)
    - 영값 과다 (zeros > 30%): 영값 케이스의 전체 프로필 패턴 (Sex, Pclass, Embarked 등 주요 변수 분포)
    - 관련 컬럼 쌍: 합산/파생 피처 후보 생성 + 타겟별 분포 확인
+4. **고카디널리티/텍스트 컬럼의 잠재 정보를 탐색한다:**
+   - 이름 컬럼: 호칭(Title) 추출 + 단어 수(WordsCount) 등 파생 피처 탐색
+   - 티켓/ID 컬럼: 접두사 패턴 추출, 동일 값 공유 여부(그룹 정보), 공유 시 Fare/인원수 나누기(DividedFare) 등 탐색. **안이하게 drop하지 말고, 구조적 패턴이 있는지 먼저 확인한다**
+   - 결측률이 높은 텍스트 컬럼: 존재 여부 이진 플래그 + 존재 시 접두사/카테고리 추출 시도
 4. 데이터 품질 이슈를 표로 정리하고, 선제 분석 결과와 함께 보고한다
 
 ### Phase 2: 전처리 계획 수립 + JSON 출력
@@ -52,6 +56,7 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 이상치 처리 방안
    - 인코딩 전략 (범주형)
    - 피처 엔지니어링 (합산, 파생, drop 대상)
+   - **연속형 변수 구간화 전략**: log 변환과 구간화(binning) 양쪽을 전처리 계획에 포함한다. 구간 경계는 DecisionTree 기반 데이터 최적 분할 또는 분위수 기반으로 설정한다. 자의적 경계를 사용하지 않는다.
    - 스케일링 필요성
 6. 전처리 계획을 JSON으로 저장한다:
    - 단일 계획: `preprocessing_plan_a.json`
@@ -76,7 +81,7 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
   "drop_columns": ["PassengerId", "Name", "Ticket", "Cabin", "SibSp", "Parch"],
   "preprocessing": {
     "<column>": {
-      "strategy": "log1p | group_median_impute | binary_flag | mode_impute_and_onehot | binary_encode | combine",
+      "strategy": "log1p | data_driven_binning | quantile_binning | group_median_impute | binary_flag | mode_impute_and_onehot | binary_encode | combine | extract_prefix | shared_count_divide",
       "note": "수치 근거 기반 선정 이유 (결측 시 생존율 차이, 교란 변수 통제 결과 등 구체적 수치 포함)",
       ...strategy별 추가 필드
     }

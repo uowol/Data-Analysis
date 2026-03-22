@@ -73,7 +73,20 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
    - 각 제안에 "왜 현재 상황에서 효과가 기대되는지" 논리적 근거를 명시한다
 4. 신규 모델 제안 시 선정 이유를 현재 모델의 구체적 한계와 연결한다
 
-### Step 4.5: Ablation 분석 (필수)
+### Step 4.5: 과적합 진단 (필수)
+
+소규모 데이터에서 일반화 성능이 핵심이다. 아래를 반드시 확인한다:
+
+1. **Train vs CV 갭 측정**: 최선 모델을 전체 train에 fit한 뒤 train F1을 측정하고, CV F1과 비교한다.
+   - 갭 > 0.05: 과적합 경고. 정규화 강화를 권장한다.
+   - 갭 > 0.10: 심각한 과적합. 모델 복잡도 축소 필수 (max_depth↓, gamma↑, subsample↓).
+2. **Fold 분산 확인**: CV fold별 F1의 std가 0.04 이상이면 모델이 데이터 분할에 민감하다는 신호. 정규화 또는 피처 축소를 검토한다.
+3. **정규화 권고**: 과적합이 의심되면 구체적 파라미터 조정 방향을 제시한다:
+   - XGBoost: learning_rate↓ + n_estimators↑, max_depth↓, gamma↑, subsample/colsample↓
+   - RandomForest: max_depth↓, min_samples_leaf↑
+   - LogisticRegression: C↓ (정규화 강화)
+
+### Step 4.6: Ablation 분석 (필수)
 
 이번 iteration에서 새 피처를 추가했거나 피처를 변경한 경우, 변경의 기여를 검증한다:
 
