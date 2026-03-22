@@ -28,15 +28,20 @@ user-invocable: true
 소규모 데이터셋에서는 과적합 방지가 핵심이다. 아래 원칙을 따른다:
 
 - **부스팅 모델 선택**: sklearn GradientBoosting 대신 **XGBoost를 기본으로** 사용한다. XGBoost는 gamma, subsample, colsample_bytree 등 세밀한 정규화 파라미터를 제공한다.
-- **정규화 전략**: L2 정규화(`reg_lambda`)가 split 기반 정규화(`gamma`)보다 효과적인 경우가 많다. 수동 튜닝의 직관("gamma를 높이면 과적합이 줄어든다")이 틀릴 수 있으므로, Bayesian HPO로 검증한다.
-  - 수동 튜닝 초기값 가이드:
-    - `learning_rate`: 0.02~0.05, `n_estimators`: 1000~2500 (lr과 반비례)
-    - `max_depth`: 2~3 (깊을수록 과적합 위험)
-    - `gamma`: 0.0~0.3 (낮게 시작. 높은 gamma가 항상 좋지 않음)
-    - `reg_lambda`: 1.0~3.0 (L2 정규화. **과적합 제어의 핵심 — gamma보다 우선 조정**)
-    - `reg_alpha`: 0.0~0.5 (L1 정규화)
-    - `subsample`: 0.7~0.8, `colsample_bytree`: 0.6~0.8
-  - **Bayesian HPO (Optuna) 필수**: 수동 튜닝으로 수렴한 후 반드시 Optuna로 100~150 trials 탐색한다. 수동 직관의 사각지대(예: 낮은 gamma + 높은 reg_lambda 조합)를 발견할 수 있다.
+- **정규화 전략**: 수동 튜닝 초기값은 보수적으로 설정한다:
+    - `learning_rate`: 0.01~0.05, `n_estimators`: lr과 반비례로 설정
+    - `max_depth`: 2~4 (소규모 데이터에서 3이 안정적인 시작점)
+    - `min_child_weight`: 2 이상 (1은 단일 샘플 리프를 허용하여 과적합 위험)
+    - `subsample`: 0.7~0.9, `colsample_bytree`: 0.7~0.9
+    - gamma, reg_lambda, reg_alpha 등 정규화 파라미터 간 최적 조합은 데이터마다 다르므로 수동 직관에 의존하지 말고 HPO로 탐색한다.
+  - **CV 과적합 방지 (Bayesian HPO 사용 시)**:
+    - CV 스코어를 최대화해도 실제 테스트 일반화가 보장되지 않는다. HPO가 CV fold 구조에 과적합(selection bias)할 수 있다.
+    - Optuna 탐색 공간을 **좁게** 유지한다 (넓은 범위 + 많은 trial = CV overfit 위험).
+    - CV fold 수를 **10-fold**로 늘려 추정 안정성을 높인다.
+    - trial 수는 **60~80회**로 제한한다 (150+ trials는 CV overfit 위험이 높아진다).
+    - **대회 평가 지표와 동일한 metric으로 최적화**한다 (예: 대회가 Accuracy면 F1이 아닌 Accuracy로 최적화).
+  - **피처 수 제어**: 소규모 데이터에서 피처를 과도하게 늘리면 CV에서는 좋아도 실제 테스트에서 하락할 수 있다. ablation 결과도 CV에 종속적임을 인지하고, 의심스러우면 단순한 피처 세트를 우선한다.
+  - **인코딩 전략**: one-hot 인코딩은 피처 수를 급증시킨다. 트리 모델에서는 **ordinal 인코딩**이 피처 수를 줄이고 일반화에 유리할 수 있다. 양쪽을 시도하여 비교한다.
 - **연속형 변수 구간화**: log 변환뿐 아니라 categorical binning도 반드시 시도한다. 트리 모델에서 구간화된 피처가 연속값보다 일반화 성능이 높은 경우가 빈번하다.
   - **데이터 기반 구간화**: `DecisionTreeClassifier(max_leaf_nodes=N)`으로 타겟 대비 최적 분할점을 찾는다.
   - **분위수 구간화**: `pd.qcut()`으로 등빈도 구간을 생성한다.
