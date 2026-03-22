@@ -26,6 +26,9 @@ jobs:
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$GITHUB_WORKSPACE/kaggle_projects" >> $GITHUB_ENV
 
+      - name: Add venv to PATH
+        run: echo "$GITHUB_WORKSPACE/.venv/bin" >> $GITHUB_PATH
+
       - name: Decode and write kaggle.json
         run: |
           mkdir -p ~/.kaggle
