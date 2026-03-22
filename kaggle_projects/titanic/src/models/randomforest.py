@@ -4,9 +4,6 @@ import pandas as pd
 from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from titanic.src.formats import (
     RequestModeling, ResponseModeling
 )

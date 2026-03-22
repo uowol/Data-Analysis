@@ -1,5 +1,9 @@
-poetry.lock
 data/*
+**/data/
+**/outputs/**/*.html
+**/outputs/profiling/**/*.png
+# figures/ 디렉토리의 PNG는 PR 시각화용으로 git 추적
+.omc/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

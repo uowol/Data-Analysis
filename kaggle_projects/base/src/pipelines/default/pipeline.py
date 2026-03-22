@@ -3,9 +3,6 @@ import yaml
 from pathlib import Path
 from typing import Optional
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from base.src.pipelines import base
 from base.src.components import (
     DownloadDataComponent,

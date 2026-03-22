@@ -1,9 +1,6 @@
 import os
 from pathlib import Path
 
-import sys
-sys.path.append("kaggle_projects/")
-
 from titanic.src.components import (
     TestOutputComponent,
 )
