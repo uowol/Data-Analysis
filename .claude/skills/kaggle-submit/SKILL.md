@@ -1,7 +1,7 @@
 ---
 name: kaggle-submit
 description: Generate predictions on test data and create Kaggle submission CSV
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Submit Skill

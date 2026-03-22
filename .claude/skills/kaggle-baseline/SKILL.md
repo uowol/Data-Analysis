@@ -1,7 +1,7 @@
 ---
 name: kaggle-baseline
 description: Build baseline model and set target metric for Kaggle projects
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Baseline Skill

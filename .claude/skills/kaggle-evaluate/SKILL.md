@@ -1,7 +1,7 @@
 ---
 name: kaggle-evaluate
 description: Analyze model results and derive improvement directions for Kaggle projects
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Evaluate Skill

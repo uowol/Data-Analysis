@@ -1,7 +1,7 @@
 ---
 name: interview
 description: Structured interview for workflow alignment
-user_invocable: true
+user-invocable: true
 ---
 
 # Interview Skill

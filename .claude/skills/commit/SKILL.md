@@ -1,7 +1,7 @@
 ---
 name: commit
 description: Simplify review then commit changes
-user_invocable: true
+user-invocable: true
 ---
 
 # Commit Skill

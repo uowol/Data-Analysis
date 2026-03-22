@@ -1,7 +1,7 @@
 ---
 name: kaggle-insight
 description: Data profiling and quality analysis for Kaggle project datasets
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Insight Skill

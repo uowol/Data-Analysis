@@ -1,7 +1,7 @@
 ---
 name: kaggle-metric
 description: Define target variable, problem type, and evaluation metric for Kaggle projects
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Metric Skill

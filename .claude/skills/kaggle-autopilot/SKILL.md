@@ -1,7 +1,7 @@
 ---
 name: kaggle-autopilot
 description: End-to-end automated pipeline orchestration for Kaggle projects
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Autopilot Skill
@@ -232,8 +232,10 @@ PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지
 - **기존 상태 무시**: 이전 autopilot 실행의 결과물(JSON, CSV, figures)은 참조하지 않는다. 각 실행은 독립적이다.
 - **브랜치 격리**: 각 실행은 고유 브랜치에서 진행되므로 서로 간섭하지 않는다.
 - **중간 멈춤 금지**: 도구 호출 결과가 돌아오면 텍스트 출력 없이 바로 다음 도구를 호출한다. 중간 진행 상황은 PR 코멘트로 기록하고, 사용자에게는 전체 완료 후 최종 결과만 보고한다.
-- **스킬 호출 필수**: 각 Stage에서 해당 kaggle 스킬(`/kaggle-insight`, `/kaggle-metric`, `/kaggle-baseline`, `/kaggle-solve`, `/kaggle-evaluate`, `/kaggle-submit`)을 `Skill` 도구로 반드시 호출한다. python_repl로 직접 구현하지 않는다. 스킬 호출이 실패하면 브랜치의 스킬 파일 구조를 점검하고 해결한 뒤 재시도한다 (Pre-flight Checklist 참조).
+- **스킬 호출 규칙**: 각 Stage의 첫 실행 시 해당 kaggle 스킬(`/kaggle-insight`, `/kaggle-metric`, `/kaggle-baseline`, `/kaggle-solve`, `/kaggle-evaluate`, `/kaggle-submit`)을 `Skill` 도구로 호출하여 워크플로우를 로드한다. **solve↔evaluate 루프에서는 iteration 1에서만 `/kaggle-solve`와 `/kaggle-evaluate`를 각 1회 호출하고, iteration 2 이후는 동일 워크플로우를 Skill 재호출 없이 직접 수행한다.** 스킬 SKILL.md는 이미 컨텍스트에 로드되어 있으므로 반복 호출은 컨텍스트 낭비다.
 - **PR progress 실시간 업데이트**: 각 Stage 완료 시 `gh pr edit`으로 PR 본문의 progress 체크리스트를 즉시 `[x]`로 갱신한다.
+- **인코딩**: Windows 환경에서 Bash로 Python을 실행할 때 `PYTHONIOENCODING=utf-8`을 항상 설정한다. python_repl에서는 파일 I/O 시 `encoding='utf-8'`을 명시한다.
+- **절대 경로 사용**: Bash에서 `cd`로 작업 디렉토리를 변경하지 않는다. 항상 프로젝트 루트 기준 상대 경로 또는 절대 경로를 사용한다.
 
 ## 시각화 표준
 

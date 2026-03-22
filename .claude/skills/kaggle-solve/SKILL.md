@@ -1,7 +1,7 @@
 ---
 name: kaggle-solve
 description: Apply preprocessing and train models with feature insights for Kaggle projects
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Solve Skill

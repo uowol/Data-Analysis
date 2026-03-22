@@ -1,7 +1,7 @@
 ---
 name: kaggle-browse
 description: Search, recommend, and download Kaggle competitions/datasets
-user_invocable: true
+user-invocable: true
 ---
 
 # Kaggle Browse Skill
