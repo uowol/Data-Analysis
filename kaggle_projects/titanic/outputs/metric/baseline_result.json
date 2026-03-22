@@ -2,9 +2,8 @@
   "project": "titanic",
   "baseline_model": {
     "name": "sex_rule",
-    "description": "female=생존, male=사망",
-    "rule_feature": "Sex",
-    "strongest_correlation": "Sex (r=-0.5434)"
+    "description": "female=survived, male=dead",
+    "rule_feature": "Sex"
   },
   "cv": {
     "method": "StratifiedKFold",
@@ -58,8 +57,7 @@
     }
   },
   "majority_class_baseline": {
-    "accuracy": 0.6162,
-    "f1_score": 0.0
+    "accuracy": 0.6162
   },
   "target_metric": "f1_score",
   "baseline_threshold": 0.7093
