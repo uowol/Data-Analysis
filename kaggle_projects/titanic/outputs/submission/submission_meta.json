@@ -1,0 +1,40 @@
+{
+  "model": "XGBClassifier",
+  "params": {
+    "lr": 0.02,
+    "depth": 3,
+    "n": 1000,
+    "gamma": 0.6,
+    "subsample": 0.8,
+    "colsample": 0.8
+  },
+  "features": [
+    "Pclass",
+    "Sex",
+    "WordsCount",
+    "CategoricalAge",
+    "FamilySize",
+    "HasCabin",
+    "DividedFare",
+    "Fare_log",
+    "Embarked_C",
+    "Embarked_Q",
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
+  ],
+  "cv_f1": 0.7878,
+  "prediction": {
+    "0": 252,
+    "1": 166
+  },
+  "survival_rate": 0.3971,
+  "validation": {
+    "rows": true,
+    "missing": true,
+    "format": true
+  }
+}
