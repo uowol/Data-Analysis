@@ -1,0 +1,17 @@
+{
+  "PclassSex_interaction": {
+    "with": 0.7739,
+    "without": 0.7781,
+    "diff": -0.0042
+  },
+  "FamilySize_buckets": {
+    "with": 0.7739,
+    "without": 0.769,
+    "diff": 0.0049
+  },
+  "Cabin_known": {
+    "with": 0.7739,
+    "without": 0.7765,
+    "diff": -0.0026
+  }
+}
