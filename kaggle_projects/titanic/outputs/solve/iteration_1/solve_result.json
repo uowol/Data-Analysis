@@ -1,58 +1,103 @@
 {
+  "project": "titanic",
   "iteration": 1,
+  "preprocessing_plan": "plan_a_v2",
   "features": [
     "Pclass",
     "Sex",
     "Age",
-    "Fare_log",
+    "WordsCount",
+    "CategoricalAge",
     "FamilySize",
     "HasCabin",
+    "TicketCount",
+    "DividedFare",
+    "Fare_log",
+    "CategoricalFare",
+    "TP_PC",
+    "TP_NUM",
+    "Embarked_C",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
   ],
-  "feature_count": 8,
-  "changes_from_previous": "첫 실행. preprocessing_plan_a 기반 전처리 적용",
+  "changes_from_previous": "New run with improved skills. Added: TicketCount, DividedFare, TP_PC/NUM, WordsCount, CategoricalAge, CategoricalFare. XGBoost with aggressive regularization.",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
   "models": {
     "LogisticRegression": {
-      "type": "linear",
-      "rationale": "해석 가능한 선형 모델, 피처 기여도 추출",
-      "f1": {
-        "mean": 0.7302,
-        "std": 0.04,
-        "folds": [
-          0.7353,
-          0.7481,
-          0.656,
-          0.7353,
-          0.7761
-        ]
+      "results": {
+        "f1_score": {
+          "mean": 0.7787,
+          "std": 0.0174,
+          "folds": [
+            0.8,
+            0.7704,
+            0.75,
+            0.7907,
+            0.7826
+          ]
+        },
+        "accuracy": {
+          "mean": 0.835
+        }
       },
-      "accuracy": 0.8002,
-      "precision": 0.7557,
-      "recall": 0.7074,
-      "vs_baseline": "+0.0209"
+      "train_f1": 0.794,
+      "overfit_gap": 0.0153,
+      "vs_baseline": "+0.0694"
     },
     "RandomForest": {
-      "type": "ensemble_tree",
-      "rationale": "비선형 관계·상호작용 포착, 스케일링 불필요",
-      "f1": {
-        "mean": 0.7649,
-        "std": 0.0291,
-        "folds": [
-          0.7669,
-          0.7681,
-          0.7101,
-          0.7883,
-          0.791
-        ]
+      "results": {
+        "f1_score": {
+          "mean": 0.7647,
+          "std": 0.0195,
+          "folds": [
+            0.7939,
+            0.7576,
+            0.7377,
+            0.7559,
+            0.7786
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8305
+        }
       },
-      "accuracy": 0.8204,
-      "precision": 0.7704,
-      "recall": 0.7603,
-      "vs_baseline": "+0.0556"
+      "train_f1": 0.8031,
+      "overfit_gap": 0.0384,
+      "vs_baseline": "+0.0554"
+    },
+    "XGBoost": {
+      "results": {
+        "f1_score": {
+          "mean": 0.7866,
+          "std": 0.0209,
+          "folds": [
+            0.8182,
+            0.7941,
+            0.7634,
+            0.7937,
+            0.7634
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8428
+        }
+      },
+      "train_f1": 0.8816,
+      "overfit_gap": 0.095,
+      "vs_baseline": "+0.0773"
     }
   },
-  "best_model": "RandomForest",
-  "best_f1": 0.7649,
-  "baseline_threshold": 0.7093
+  "best_model": "XGBoost",
+  "best_f1": 0.7866,
+  "baseline_threshold": 0.7093,
+  "vs_baseline": "+0.0773"
 }
