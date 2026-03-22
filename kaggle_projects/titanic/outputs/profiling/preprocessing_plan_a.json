@@ -2,49 +2,134 @@
   "project": "titanic",
   "target": "Survived",
   "drop_columns": [
-    "PassengerId",
-    "Name",
-    "Ticket",
-    "Cabin",
-    "SibSp",
-    "Parch"
+    "PassengerId"
   ],
   "preprocessing": {
-    "Fare": {
-      "strategy": "log1p",
-      "note": "skewness 4.79→0.39로 감소. Fare=0 (15건)은 그대로 유지"
-    },
     "Age": {
       "strategy": "group_median_impute",
       "group_by": [
         "Pclass",
-        "Sex"
+        "Title_group"
       ],
-      "note": "19.9% 결측, Pclass·Sex 그룹별 중앙값 대체"
+      "note": "19.9% missing. Pclass+Title별 중앙값 대체. DT 최적 분할: [1.0, 6.5, 62.5]"
     },
-    "Cabin": {
-      "strategy": "binary_flag",
-      "new_column": "HasCabin",
-      "note": "77.1% 결측. 결측 여부가 Pclass 통제 후에도 Survived와 상관. 원본 drop"
+    "CategoricalAge": {
+      "strategy": "data_driven_binning",
+      "method": "DecisionTreeClassifier(max_leaf_nodes=4)",
+      "note": "DT 기반 최적 구간화. Infant(<=6.5) 65% 생존, Adult(6.5-62.5) 39%, Senior(62.5+) 극소수. 연속 Age와 함께 사용하여 ablation 비교."
     },
-    "Embarked": {
-      "strategy": "mode_impute_and_onehot",
-      "impute_value": "S",
-      "note": "2건 결측 → 최빈값(S) 대체, 원핫 인코딩"
+    "Fare": {
+      "strategy": "quantile_binning",
+      "n_bins": 4,
+      "note": "skewness 4.79. 분위수 4구간: Q1 19.7%, Q2 30.4%, Q3 45.5%, Q4 58.1%. log1p도 병행하여 ablation 비교."
+    },
+    "Fare_log": {
+      "strategy": "log1p",
+      "note": "log1p 변환 (skew 4.79→0.39). CategoricalFare와 ablation 비교용."
     },
     "Sex": {
       "strategy": "binary_encode",
       "mapping": {
-        "male": 1,
-        "female": 0
-      }
+        "male": 0,
+        "female": 1
+      },
+      "note": "여성 74.2% vs 남성 18.9%. 최강 예측 변수."
     },
-    "SibSp_Parch": {
+    "Embarked": {
+      "strategy": "mode_impute_and_onehot",
+      "mode": "S",
+      "note": "2건 결측 → S 대체. C 55.4%, Q 38.9%, S 33.7%."
+    },
+    "Pclass": {
+      "strategy": "ordinal",
+      "note": "1등급 63.0%, 2등급 47.3%, 3등급 24.2%."
+    },
+    "FamilySize": {
       "strategy": "combine",
-      "new_column": "FamilySize",
+      "derived": "FamilySize",
       "formula": "SibSp + Parch + 1",
-      "note": "2~4인 가족 생존율 최고(55~72%), 5+ 급락. 구간화는 모델링 단계에서 실험"
+      "note": "2-4: 55-72%, 1: 30.4%, 5+: 급감. 비선형 패턴."
+    },
+    "Title": {
+      "strategy": "extract_and_group",
+      "source": "Name",
+      "groups": {
+        "Mr": "Mr",
+        "Miss": "Miss",
+        "Mrs": "Mrs",
+        "Master": "Master",
+        "rare": [
+          "Dr",
+          "Rev",
+          "Col",
+          "Major",
+          "Capt",
+          "Sir",
+          "Lady",
+          "Countess",
+          "Don",
+          "Jonkheer",
+          "Mlle",
+          "Mme",
+          "Ms"
+        ]
+      },
+      "encoding": "onehot",
+      "note": "Mr 15.7%, Miss 69.8%, Mrs 79.2%, Master 57.5%. Mlle/Ms→Miss, Mme→Mrs로 통합."
+    },
+    "HasCabin": {
+      "strategy": "binary_flag",
+      "condition": "Cabin is not null",
+      "note": "77.1% 결측. 존재 시 66.7% vs 미존재 30.0%. 사회경제 프록시."
+    },
+    "TicketCount": {
+      "strategy": "shared_count_divide",
+      "source": "Ticket",
+      "note": "동일 티켓 공유 인원 수. 1인: 29.8%, 2인: 57.4%, 3인: 69.8%. 그룹 여행 정보."
+    },
+    "DividedFare": {
+      "strategy": "shared_count_divide",
+      "formula": "Fare / TicketCount",
+      "note": "공유 티켓 고려 실제 개인 지불 운임. Fare보다 실제 경제 수준을 정확히 반영."
+    },
+    "TicketPrefix": {
+      "strategy": "extract_prefix",
+      "source": "Ticket",
+      "rare_threshold": 5,
+      "rare_label": "Other",
+      "encoding": "onehot",
+      "note": "PC: 65.0% 생존(n=60), NUM: 38.4%(n=661). 빈도 5 미만 → Other 통합."
+    },
+    "WordsCount": {
+      "strategy": "extract",
+      "source": "Name",
+      "formula": "len(name.split())",
+      "note": "Survived 상관 0.277. 긴 이름 = 높은 사회적 지위 가능성."
     }
   },
+  "final_features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "CategoricalAge",
+    "Fare_log",
+    "CategoricalFare",
+    "FamilySize",
+    "HasCabin",
+    "TicketCount",
+    "DividedFare",
+    "Title_Mr",
+    "Title_Miss",
+    "Title_Mrs",
+    "Title_Master",
+    "Title_rare",
+    "TicketPrefix_PC",
+    "TicketPrefix_Other",
+    "TicketPrefix_NUM",
+    "Embarked_C",
+    "Embarked_Q",
+    "Embarked_S",
+    "WordsCount"
+  ],
   "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
 }
