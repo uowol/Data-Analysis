@@ -1,0 +1,18 @@
+{
+  "project": "house_prices",
+  "model": "3-model ensemble (XGBoost+LightGBM+Ridge, equal weights)",
+  "cv_RMSLE": 0.1122,
+  "test_predictions": {
+    "count": 1459,
+    "mean": 178706.24,
+    "median": 156504.8,
+    "std": 78467.03,
+    "min": 40206.86,
+    "max": 754450.52
+  },
+  "validation": {
+    "rows_match": true,
+    "no_nulls": true,
+    "no_negatives": true
+  }
+}
