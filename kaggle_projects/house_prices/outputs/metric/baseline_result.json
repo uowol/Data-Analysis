@@ -1,0 +1,65 @@
+{
+  "project": "house_prices",
+  "baselines": [
+    {
+      "name": "mean_prediction",
+      "description": "타겟 평균값 예측 (DummyRegressor)",
+      "RMSLE": {
+        "mean": 0.3988,
+        "std": 0.0251,
+        "folds": [
+          0.4332,
+          0.3958,
+          0.3754,
+          0.421,
+          0.3685
+        ]
+      },
+      "MAE": 0.31,
+      "R2": -0.0013
+    },
+    {
+      "name": "lr_single_feature",
+      "description": "LinearRegression(OverallQual) — 타겟 최고 상관 단일 피처 (r=0.791)",
+      "RMSLE": {
+        "mean": 0.2308,
+        "std": 0.0069,
+        "folds": [
+          0.2311,
+          0.2272,
+          0.2351,
+          0.2406,
+          0.2202
+        ]
+      },
+      "MAE": 0.1739,
+      "R2": 0.6655
+    },
+    {
+      "name": "lr_top3_features",
+      "description": "LinearRegression(OverallQual, GrLivArea, GarageCars) — 상위 3 피처",
+      "RMSLE": {
+        "mean": 0.19,
+        "std": 0.0201,
+        "folds": [
+          0.1939,
+          0.1768,
+          0.2199,
+          0.1987,
+          0.1608
+        ]
+      },
+      "MAE": 0.1373,
+      "R2": 0.771
+    }
+  ],
+  "cv": {
+    "method": "KFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42
+  },
+  "primary_metric": "RMSLE",
+  "baseline_threshold": 0.19,
+  "note": "이후 모델은 RMSLE < 0.1744를 넘어야 의미 있음"
+}

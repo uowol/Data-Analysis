@@ -1,0 +1,300 @@
+{
+  "project": "house_prices",
+  "target": "SalePrice",
+  "target_transform": "log1p",
+  "evaluation_metric": "RMSLE",
+  "outlier_removal": {
+    "strategy": "conditional_drop",
+    "condition": "GrLivArea > 4000 & SalePrice < 300000",
+    "note": "Id=524(4676sqft, 184K), Id=1299(5642sqft, 160K) — 초대형 면적+극저가 2건. 모델 학습 왜곡 방지"
+  },
+  "drop_columns": [
+    "Id",
+    "Street",
+    "Utilities",
+    "Condition2",
+    "RoofMatl",
+    "GarageArea",
+    "GarageYrBlt",
+    "TotRmsAbvGrd",
+    "1stFlrSF",
+    "2ndFlrSF",
+    "FullBath",
+    "HalfBath",
+    "BsmtFullBath",
+    "BsmtHalfBath",
+    "OpenPorchSF",
+    "EnclosedPorch",
+    "3SsnPorch",
+    "ScreenPorch"
+  ],
+  "drop_columns_note": {
+    "Id": "고유 식별자, 정보 없음",
+    "Street": "99.6% Pave, 거의 상수",
+    "Utilities": "99.9% AllPub, 거의 상수",
+    "Condition2": "99.0% Norm, 거의 상수",
+    "RoofMatl": "98.2% CompShg, 거의 상수",
+    "GarageArea": "GarageCars(r=0.640)와 다중공선성 0.88, GarageArea(r=0.623) 제거",
+    "GarageYrBlt": "YearBuilt(r=0.523)와 다중공선성 0.83, GarageYrBlt(r=0.486) 제거",
+    "TotRmsAbvGrd": "GrLivArea(r=0.709)와 다중공선성 0.83, TotRmsAbvGrd(r=0.534) 제거",
+    "1stFlrSF": "TotalSF 파생 피처에 합산 후 제거",
+    "2ndFlrSF": "TotalSF 파생 피처에 합산 후 제거",
+    "FullBath,HalfBath,BsmtFullBath,BsmtHalfBath": "TotalBath 파생 피처에 합산 후 제거",
+    "OpenPorchSF,EnclosedPorch,3SsnPorch,ScreenPorch": "TotalPorchSF 파생 피처에 합산 후 제거"
+  },
+  "preprocessing": {
+    "LotFrontage": {
+      "strategy": "group_median_impute",
+      "group_by": "Neighborhood",
+      "note": "결측 17.7%. 결측 vs 존재 SalePrice 차이 -850으로 MCAR 추정. Neighborhood별 중앙값 대체"
+    },
+    "MasVnrType": {
+      "strategy": "fill_none_and_onehot",
+      "fill_value": "None",
+      "note": "결측 59.7%. NA='외장재 없음'. 존재 시 SalePrice +59,500 유의미 차이"
+    },
+    "MasVnrArea": {
+      "strategy": "fill_zero_and_log1p",
+      "fill_value": 0,
+      "note": "결측 0.5%. MasVnrType=None이면 Area=0. skewness=2.67 → log1p 변환"
+    },
+    "Alley": {
+      "strategy": "fill_none_and_onehot",
+      "fill_value": "None",
+      "note": "결측 93.8%. NA='골목 접근 없음'"
+    },
+    "BsmtQual": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "결측 2.5%. NA='지하실 없음'. 순서형 인코딩 r=+0.644"
+    },
+    "BsmtCond": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "결측 2.5%. NA='지하실 없음'. r=+0.161"
+    },
+    "BsmtExposure": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "No": 1, "Mn": 2, "Av": 3, "Gd": 4},
+      "note": "결측 2.6%. NA='지하실 없음'"
+    },
+    "BsmtFinType1": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Unf": 1, "LwQ": 2, "Rec": 3, "BLQ": 4, "ALQ": 5, "GLQ": 6},
+      "note": "결측 2.5%"
+    },
+    "BsmtFinType2": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Unf": 1, "LwQ": 2, "Rec": 3, "BLQ": 4, "ALQ": 5, "GLQ": 6},
+      "note": "결측 2.6%"
+    },
+    "FireplaceQu": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "결측 47.3%. NA='벽난로 없음'. r=+0.296"
+    },
+    "GarageType": {
+      "strategy": "fill_none_and_onehot",
+      "fill_value": "None",
+      "note": "결측 5.5%. NA='차고 없음'. 차고 없는 집 평균가 103K (전체 평균 181K)"
+    },
+    "GarageFinish": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Unf": 1, "RFn": 2, "Fin": 3},
+      "note": "결측 5.5%"
+    },
+    "GarageQual": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "결측 5.5%. r=+0.157"
+    },
+    "GarageCond": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "결측 5.5%. r=+0.125"
+    },
+    "PoolQC": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "Fa": 1, "TA": 2, "Gd": 3, "Ex": 4},
+      "note": "결측 99.5%. NA='풀 없음'. 대부분 None"
+    },
+    "Fence": {
+      "strategy": "fill_none_and_ordinal",
+      "fill_value": "None",
+      "mapping": {"None": 0, "MnWw": 1, "GdWo": 2, "MnPrv": 3, "GdPrv": 4},
+      "note": "결측 80.8%. NA='담장 없음'"
+    },
+    "MiscFeature": {
+      "strategy": "fill_none_and_onehot",
+      "fill_value": "None",
+      "note": "결측 96.3%. NA='기타 시설 없음'"
+    },
+    "ExterQual": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "순서형. r=+0.683 (타겟 상관 2위)"
+    },
+    "ExterCond": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "순서형. r=+0.019 (약함)"
+    },
+    "HeatingQC": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "순서형. r=+0.428"
+    },
+    "KitchenQual": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5},
+      "note": "순서형. r=+0.660 (타겟 상관 3위)"
+    },
+    "Functional": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Sal": 1, "Sev": 2, "Maj2": 3, "Maj1": 4, "Mod": 5, "Min2": 6, "Min1": 7, "Typ": 8},
+      "note": "순서형. test에 2건 결측 → mode 대체 후 인코딩"
+    },
+    "LandSlope": {
+      "strategy": "ordinal_encode",
+      "mapping": {"Sev": 1, "Mod": 2, "Gtl": 3},
+      "note": "순서형"
+    },
+    "LotShape": {
+      "strategy": "ordinal_encode",
+      "mapping": {"IR3": 1, "IR2": 2, "IR1": 3, "Reg": 4},
+      "note": "순서형"
+    },
+    "PavedDrive": {
+      "strategy": "ordinal_encode",
+      "mapping": {"N": 0, "P": 1, "Y": 2},
+      "note": "순서형"
+    },
+    "CentralAir": {
+      "strategy": "binary_encode",
+      "mapping": {"N": 0, "Y": 1},
+      "note": "이진 변수"
+    },
+    "MSSubClass": {
+      "strategy": "cast_to_categorical_and_onehot",
+      "note": "수치 코드이지만 범주형. 클래스별 SalePrice 중앙값 88K~215K 범위. 숫자 순서 의미 없음"
+    },
+    "MSZoning": {
+      "strategy": "mode_impute_and_onehot",
+      "note": "test 4건 결측. mode='RL'로 대체 후 원핫"
+    },
+    "Neighborhood": {
+      "strategy": "onehot_encode",
+      "note": "25개 카테고리. NridgHt(315K) vs MeadowV(88K) 중앙값 큰 차이. 중요 피처"
+    },
+    "LotArea": {
+      "strategy": "log1p",
+      "note": "skewness=12.21 → log1p 변환"
+    },
+    "LotFrontage_after_impute": {
+      "strategy": "log1p",
+      "note": "skewness=2.16 → 결측 대체 후 log1p 변환"
+    },
+    "PoolArea": {
+      "strategy": "binary_flag",
+      "note": "99.5% 영값. 면적 자체보다 풀 유무가 정보적"
+    },
+    "MiscVal": {
+      "strategy": "binary_flag",
+      "note": "96.4% 영값. skewness=24.48. 유무 플래그로 변환"
+    },
+    "LowQualFinSF": {
+      "strategy": "binary_flag",
+      "note": "98.2% 영값. 유무 플래그로 변환"
+    },
+    "BsmtFinSF2": {
+      "strategy": "log1p",
+      "note": "skewness=4.26. 88.6% 영값이지만 BsmtFinType2와 연관되어 보존"
+    },
+    "ScreenPorch": {
+      "strategy": "include_in_total_porch",
+      "note": "TotalPorchSF에 합산. 개별 제거"
+    },
+    "Electrical": {
+      "strategy": "mode_impute_and_onehot",
+      "note": "train 1건 결측. mode 대체"
+    },
+    "remaining_categorical": {
+      "strategy": "onehot_encode",
+      "columns": ["LandContour", "LotConfig", "Condition1", "BldgType", "HouseStyle", "RoofStyle", "Exterior1st", "Exterior2nd", "Foundation", "Heating", "SaleType", "SaleCondition"],
+      "note": "나머지 범주형 컬럼. test 결측 있는 경우 mode 대체 후 원핫"
+    },
+    "remaining_numeric_skewed": {
+      "strategy": "log1p_if_skew_gt_0.75",
+      "note": "skewness > 0.75인 수치형 컬럼에 log1p 적용 (Box-Cox 대안)"
+    }
+  },
+  "feature_engineering": {
+    "TotalSF": {
+      "formula": "TotalBsmtSF + 1stFlrSF + 2ndFlrSF",
+      "note": "r=0.782. 개별 피처(0.606~0.614)보다 높은 상관"
+    },
+    "TotalBath": {
+      "formula": "FullBath + 0.5*HalfBath + BsmtFullBath + 0.5*BsmtHalfBath",
+      "note": "r=0.632. FullBath(0.561) 단독보다 개선"
+    },
+    "TotalPorchSF": {
+      "formula": "OpenPorchSF + EnclosedPorch + 3SsnPorch + ScreenPorch",
+      "note": "r=0.196. 개별 포치 컬럼 합산"
+    },
+    "HouseAge": {
+      "formula": "YrSold - YearBuilt",
+      "note": "r=-0.523. YearBuilt와 등가지만 해석 용이"
+    },
+    "RemodAge": {
+      "formula": "YrSold - YearRemodAdd",
+      "note": "r=-0.509"
+    },
+    "HasMasVnr": {
+      "formula": "1 if MasVnrArea > 0 else 0",
+      "note": "존재 시 SalePrice +59,105. 이진 플래그"
+    },
+    "HasWoodDeck": {
+      "formula": "1 if WoodDeckSF > 0 else 0",
+      "note": "존재 시 SalePrice +47,321"
+    },
+    "HasOpenPorch": {
+      "formula": "1 if OpenPorchSF > 0 else 0",
+      "note": "존재 시 SalePrice +65,930. TotalPorchSF와 별도 유지"
+    }
+  },
+  "final_features": [
+    "MSSubClass_onehot", "MSZoning_onehot", "LotFrontage_log1p", "LotArea_log1p",
+    "Alley_onehot", "LotShape_ordinal", "LandContour_onehot", "LotConfig_onehot",
+    "LandSlope_ordinal", "Neighborhood_onehot", "Condition1_onehot",
+    "BldgType_onehot", "HouseStyle_onehot", "OverallQual", "OverallCond",
+    "HouseAge", "RemodAge", "RoofStyle_onehot",
+    "Exterior1st_onehot", "Exterior2nd_onehot",
+    "MasVnrType_onehot", "MasVnrArea_log1p", "HasMasVnr",
+    "ExterQual_ordinal", "ExterCond_ordinal", "Foundation_onehot",
+    "BsmtQual_ordinal", "BsmtCond_ordinal", "BsmtExposure_ordinal",
+    "BsmtFinType1_ordinal", "BsmtFinSF1", "BsmtFinType2_ordinal", "BsmtFinSF2_log1p",
+    "BsmtUnfSF", "TotalBsmtSF",
+    "Heating_onehot", "HeatingQC_ordinal", "CentralAir_binary",
+    "Electrical_onehot", "GrLivArea",
+    "TotalSF", "TotalBath", "TotalPorchSF",
+    "KitchenAbvGr", "KitchenQual_ordinal", "Functional_ordinal",
+    "Fireplaces", "FireplaceQu_ordinal",
+    "GarageType_onehot", "GarageFinish_ordinal", "GarageCars", "GarageQual_ordinal", "GarageCond_ordinal",
+    "PavedDrive_ordinal", "WoodDeckSF", "HasWoodDeck", "HasOpenPorch",
+    "PoolQC_ordinal", "HasPool", "Fence_ordinal",
+    "MiscFeature_onehot", "HasMiscVal",
+    "MoSold", "YrSold", "SaleType_onehot", "SaleCondition_onehot",
+    "HasLowQualFin", "HasBsmtFinSF2"
+  ],
+  "scaling": "모델에 따라 결정. 트리 기반(XGBoost/LightGBM): 불필요. 선형 모델(Ridge/Lasso/ElasticNet): StandardScaler 적용"
+}

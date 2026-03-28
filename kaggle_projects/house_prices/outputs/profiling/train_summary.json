@@ -1,0 +1,1896 @@
+{
+  "filename": "train.csv",
+  "overview": {
+    "rows": 1460,
+    "columns": 81,
+    "missing_cells": 7829,
+    "missing_pct": 0.06620158971757145,
+    "duplicate_rows": 0,
+    "duplicate_pct": 0.0
+  },
+  "columns": {
+    "Id": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 1460,
+      "distinct_pct": 1.0,
+      "mean": 730.5,
+      "std": 421.6100093688479,
+      "min": 1,
+      "max": 1460,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.0,
+      "kurtosis": -1.1999999999999997
+    },
+    "MSSubClass": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 15,
+      "distinct_pct": 0.010273972602739725,
+      "mean": 56.897260273972606,
+      "std": 42.300570993810425,
+      "min": 20,
+      "max": 190,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 1.4076567471495591,
+      "kurtosis": 1.5801879649863309
+    },
+    "MSZoning": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "RL",
+          "count": 1151
+        },
+        {
+          "value": "RM",
+          "count": 218
+        },
+        {
+          "value": "FV",
+          "count": 65
+        },
+        {
+          "value": "RH",
+          "count": 16
+        },
+        {
+          "value": "C (all)",
+          "count": 10
+        }
+      ]
+    },
+    "LotFrontage": {
+      "type": "Numeric",
+      "missing": 259,
+      "missing_pct": 0.1773972602739726,
+      "distinct": 110,
+      "distinct_pct": 0.09159034138218151,
+      "mean": 70.04995836802665,
+      "std": 24.284751774483208,
+      "min": 21.0,
+      "max": 313.0,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 2.1635691423248837,
+      "kurtosis": 17.452867259818408
+    },
+    "LotArea": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 1073,
+      "distinct_pct": 0.7349315068493151,
+      "mean": 10516.828082191782,
+      "std": 9981.26493237915,
+      "min": 1300,
+      "max": 215245,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 12.207687851233496,
+      "kurtosis": 203.24327101886033
+    },
+    "Street": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 2,
+      "distinct_pct": 0.0013698630136986301,
+      "top_values": [
+        {
+          "value": "Pave",
+          "count": 1454
+        },
+        {
+          "value": "Grvl",
+          "count": 6
+        }
+      ]
+    },
+    "Alley": {
+      "type": "Categorical",
+      "missing": 1369,
+      "missing_pct": 0.9376712328767123,
+      "distinct": 2,
+      "distinct_pct": 0.02197802197802198,
+      "top_values": [
+        {
+          "value": "Grvl",
+          "count": 50
+        },
+        {
+          "value": "Pave",
+          "count": 41
+        }
+      ]
+    },
+    "LotShape": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "Reg",
+          "count": 925
+        },
+        {
+          "value": "IR1",
+          "count": 484
+        },
+        {
+          "value": "IR2",
+          "count": 41
+        },
+        {
+          "value": "IR3",
+          "count": 10
+        }
+      ]
+    },
+    "LandContour": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "Lvl",
+          "count": 1311
+        },
+        {
+          "value": "Bnk",
+          "count": 63
+        },
+        {
+          "value": "HLS",
+          "count": 50
+        },
+        {
+          "value": "Low",
+          "count": 36
+        }
+      ]
+    },
+    "Utilities": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 2,
+      "distinct_pct": 0.0013698630136986301,
+      "top_values": [
+        {
+          "value": "AllPub",
+          "count": 1459
+        },
+        {
+          "value": "NoSeWa",
+          "count": 1
+        }
+      ]
+    },
+    "LotConfig": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "Inside",
+          "count": 1052
+        },
+        {
+          "value": "Corner",
+          "count": 263
+        },
+        {
+          "value": "CulDSac",
+          "count": 94
+        },
+        {
+          "value": "FR2",
+          "count": 47
+        },
+        {
+          "value": "FR3",
+          "count": 4
+        }
+      ]
+    },
+    "LandSlope": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 3,
+      "distinct_pct": 0.002054794520547945,
+      "top_values": [
+        {
+          "value": "Gtl",
+          "count": 1382
+        },
+        {
+          "value": "Mod",
+          "count": 65
+        },
+        {
+          "value": "Sev",
+          "count": 13
+        }
+      ]
+    },
+    "Neighborhood": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 25,
+      "distinct_pct": 0.017123287671232876,
+      "top_values": [
+        {
+          "value": "NAmes",
+          "count": 225
+        },
+        {
+          "value": "CollgCr",
+          "count": 150
+        },
+        {
+          "value": "OldTown",
+          "count": 113
+        },
+        {
+          "value": "Edwards",
+          "count": 100
+        },
+        {
+          "value": "Somerst",
+          "count": 86
+        }
+      ]
+    },
+    "Condition1": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 9,
+      "distinct_pct": 0.0061643835616438354,
+      "top_values": [
+        {
+          "value": "Norm",
+          "count": 1260
+        },
+        {
+          "value": "Feedr",
+          "count": 81
+        },
+        {
+          "value": "Artery",
+          "count": 48
+        },
+        {
+          "value": "RRAn",
+          "count": 26
+        },
+        {
+          "value": "PosN",
+          "count": 19
+        }
+      ]
+    },
+    "Condition2": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 8,
+      "distinct_pct": 0.005479452054794521,
+      "top_values": [
+        {
+          "value": "Norm",
+          "count": 1445
+        },
+        {
+          "value": "Feedr",
+          "count": 6
+        },
+        {
+          "value": "Artery",
+          "count": 2
+        },
+        {
+          "value": "RRNn",
+          "count": 2
+        },
+        {
+          "value": "PosN",
+          "count": 2
+        }
+      ]
+    },
+    "BldgType": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "1Fam",
+          "count": 1220
+        },
+        {
+          "value": "TwnhsE",
+          "count": 114
+        },
+        {
+          "value": "Duplex",
+          "count": 52
+        },
+        {
+          "value": "Twnhs",
+          "count": 43
+        },
+        {
+          "value": "2fmCon",
+          "count": 31
+        }
+      ]
+    },
+    "HouseStyle": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 8,
+      "distinct_pct": 0.005479452054794521,
+      "top_values": [
+        {
+          "value": "1Story",
+          "count": 726
+        },
+        {
+          "value": "2Story",
+          "count": 445
+        },
+        {
+          "value": "1.5Fin",
+          "count": 154
+        },
+        {
+          "value": "SLvl",
+          "count": 65
+        },
+        {
+          "value": "SFoyer",
+          "count": 37
+        }
+      ]
+    },
+    "OverallQual": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 10,
+      "distinct_pct": 0.00684931506849315,
+      "mean": 6.0993150684931505,
+      "std": 1.3829965467415934,
+      "min": 1,
+      "max": 10,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.2169439277628693,
+      "kurtosis": 0.09629277835615113
+    },
+    "OverallCond": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 9,
+      "distinct_pct": 0.0061643835616438354,
+      "mean": 5.575342465753424,
+      "std": 1.1127993367127316,
+      "min": 1,
+      "max": 9,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.6930674724842182,
+      "kurtosis": 1.1064134613731684
+    },
+    "YearBuilt": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 112,
+      "distinct_pct": 0.07671232876712329,
+      "mean": 1971.267808219178,
+      "std": 30.202904042525258,
+      "min": 1872,
+      "max": 2010,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": -0.613461172488183,
+      "kurtosis": -0.43955194159361977
+    },
+    "YearRemodAdd": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 61,
+      "distinct_pct": 0.04178082191780822,
+      "mean": 1984.8657534246574,
+      "std": 20.645406807709413,
+      "min": 1950,
+      "max": 2010,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": -0.5035620027004709,
+      "kurtosis": -1.2722451924732956
+    },
+    "RoofStyle": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 6,
+      "distinct_pct": 0.00410958904109589,
+      "top_values": [
+        {
+          "value": "Gable",
+          "count": 1141
+        },
+        {
+          "value": "Hip",
+          "count": 286
+        },
+        {
+          "value": "Flat",
+          "count": 13
+        },
+        {
+          "value": "Gambrel",
+          "count": 11
+        },
+        {
+          "value": "Mansard",
+          "count": 7
+        }
+      ]
+    },
+    "RoofMatl": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 8,
+      "distinct_pct": 0.005479452054794521,
+      "top_values": [
+        {
+          "value": "CompShg",
+          "count": 1434
+        },
+        {
+          "value": "Tar&Grv",
+          "count": 11
+        },
+        {
+          "value": "WdShngl",
+          "count": 6
+        },
+        {
+          "value": "WdShake",
+          "count": 5
+        },
+        {
+          "value": "Metal",
+          "count": 1
+        }
+      ]
+    },
+    "Exterior1st": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 15,
+      "distinct_pct": 0.010273972602739725,
+      "top_values": [
+        {
+          "value": "VinylSd",
+          "count": 515
+        },
+        {
+          "value": "HdBoard",
+          "count": 222
+        },
+        {
+          "value": "MetalSd",
+          "count": 220
+        },
+        {
+          "value": "Wd Sdng",
+          "count": 206
+        },
+        {
+          "value": "Plywood",
+          "count": 108
+        }
+      ]
+    },
+    "Exterior2nd": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 16,
+      "distinct_pct": 0.010958904109589041,
+      "top_values": [
+        {
+          "value": "VinylSd",
+          "count": 504
+        },
+        {
+          "value": "MetalSd",
+          "count": 214
+        },
+        {
+          "value": "HdBoard",
+          "count": 207
+        },
+        {
+          "value": "Wd Sdng",
+          "count": 197
+        },
+        {
+          "value": "Plywood",
+          "count": 142
+        }
+      ]
+    },
+    "MasVnrType": {
+      "type": "Categorical",
+      "missing": 872,
+      "missing_pct": 0.5972602739726027,
+      "distinct": 3,
+      "distinct_pct": 0.00510204081632653,
+      "top_values": [
+        {
+          "value": "BrkFace",
+          "count": 445
+        },
+        {
+          "value": "Stone",
+          "count": 128
+        },
+        {
+          "value": "BrkCmn",
+          "count": 15
+        }
+      ]
+    },
+    "MasVnrArea": {
+      "type": "Numeric",
+      "missing": 8,
+      "missing_pct": 0.005479452054794521,
+      "distinct": 327,
+      "distinct_pct": 0.22520661157024793,
+      "mean": 103.68526170798899,
+      "std": 181.0662065872166,
+      "min": 0.0,
+      "max": 1600.0,
+      "zeros": 861,
+      "zeros_pct": 0.5897260273972603,
+      "skewness": 2.6690842101828625,
+      "kurtosis": 10.08241731736711
+    },
+    "ExterQual": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 906
+        },
+        {
+          "value": "Gd",
+          "count": 488
+        },
+        {
+          "value": "Ex",
+          "count": 52
+        },
+        {
+          "value": "Fa",
+          "count": 14
+        }
+      ]
+    },
+    "ExterCond": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 1282
+        },
+        {
+          "value": "Gd",
+          "count": 146
+        },
+        {
+          "value": "Fa",
+          "count": 28
+        },
+        {
+          "value": "Ex",
+          "count": 3
+        },
+        {
+          "value": "Po",
+          "count": 1
+        }
+      ]
+    },
+    "Foundation": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 6,
+      "distinct_pct": 0.00410958904109589,
+      "top_values": [
+        {
+          "value": "PConc",
+          "count": 647
+        },
+        {
+          "value": "CBlock",
+          "count": 634
+        },
+        {
+          "value": "BrkTil",
+          "count": 146
+        },
+        {
+          "value": "Slab",
+          "count": 24
+        },
+        {
+          "value": "Stone",
+          "count": 6
+        }
+      ]
+    },
+    "BsmtQual": {
+      "type": "Categorical",
+      "missing": 37,
+      "missing_pct": 0.025342465753424658,
+      "distinct": 4,
+      "distinct_pct": 0.0028109627547434997,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 649
+        },
+        {
+          "value": "Gd",
+          "count": 618
+        },
+        {
+          "value": "Ex",
+          "count": 121
+        },
+        {
+          "value": "Fa",
+          "count": 35
+        }
+      ]
+    },
+    "BsmtCond": {
+      "type": "Categorical",
+      "missing": 37,
+      "missing_pct": 0.025342465753424658,
+      "distinct": 4,
+      "distinct_pct": 0.0028109627547434997,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 1311
+        },
+        {
+          "value": "Gd",
+          "count": 65
+        },
+        {
+          "value": "Fa",
+          "count": 45
+        },
+        {
+          "value": "Po",
+          "count": 2
+        }
+      ]
+    },
+    "BsmtExposure": {
+      "type": "Categorical",
+      "missing": 38,
+      "missing_pct": 0.026027397260273973,
+      "distinct": 4,
+      "distinct_pct": 0.0028129395218002813,
+      "top_values": [
+        {
+          "value": "No",
+          "count": 953
+        },
+        {
+          "value": "Av",
+          "count": 221
+        },
+        {
+          "value": "Gd",
+          "count": 134
+        },
+        {
+          "value": "Mn",
+          "count": 114
+        }
+      ]
+    },
+    "BsmtFinType1": {
+      "type": "Categorical",
+      "missing": 37,
+      "missing_pct": 0.025342465753424658,
+      "distinct": 6,
+      "distinct_pct": 0.004216444132115249,
+      "top_values": [
+        {
+          "value": "Unf",
+          "count": 430
+        },
+        {
+          "value": "GLQ",
+          "count": 418
+        },
+        {
+          "value": "ALQ",
+          "count": 220
+        },
+        {
+          "value": "BLQ",
+          "count": 148
+        },
+        {
+          "value": "Rec",
+          "count": 133
+        }
+      ]
+    },
+    "BsmtFinSF1": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 637,
+      "distinct_pct": 0.4363013698630137,
+      "mean": 443.6397260273973,
+      "std": 456.0980908409277,
+      "min": 0,
+      "max": 5644,
+      "zeros": 467,
+      "zeros_pct": 0.3198630136986301,
+      "skewness": 1.685503071910789,
+      "kurtosis": 11.118236291964712
+    },
+    "BsmtFinType2": {
+      "type": "Categorical",
+      "missing": 38,
+      "missing_pct": 0.026027397260273973,
+      "distinct": 6,
+      "distinct_pct": 0.004219409282700422,
+      "top_values": [
+        {
+          "value": "Unf",
+          "count": 1256
+        },
+        {
+          "value": "Rec",
+          "count": 54
+        },
+        {
+          "value": "LwQ",
+          "count": 46
+        },
+        {
+          "value": "BLQ",
+          "count": 33
+        },
+        {
+          "value": "ALQ",
+          "count": 19
+        }
+      ]
+    },
+    "BsmtFinSF2": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 144,
+      "distinct_pct": 0.09863013698630137,
+      "mean": 46.54931506849315,
+      "std": 161.31927280654173,
+      "min": 0,
+      "max": 1474,
+      "zeros": 1293,
+      "zeros_pct": 0.8856164383561644,
+      "skewness": 4.255261108933303,
+      "kurtosis": 20.11333754558646
+    },
+    "BsmtUnfSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 780,
+      "distinct_pct": 0.5342465753424658,
+      "mean": 567.2404109589041,
+      "std": 441.86695529243417,
+      "min": 0,
+      "max": 2336,
+      "zeros": 118,
+      "zeros_pct": 0.08082191780821918,
+      "skewness": 0.9202684528039037,
+      "kurtosis": 0.47499398780908475
+    },
+    "TotalBsmtSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 721,
+      "distinct_pct": 0.49383561643835616,
+      "mean": 1057.4294520547944,
+      "std": 438.7053244594708,
+      "min": 0,
+      "max": 6110,
+      "zeros": 37,
+      "zeros_pct": 0.025342465753424658,
+      "skewness": 1.5242545490627664,
+      "kurtosis": 13.250483281984796
+    },
+    "Heating": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 6,
+      "distinct_pct": 0.00410958904109589,
+      "top_values": [
+        {
+          "value": "GasA",
+          "count": 1428
+        },
+        {
+          "value": "GasW",
+          "count": 18
+        },
+        {
+          "value": "Grav",
+          "count": 7
+        },
+        {
+          "value": "Wall",
+          "count": 4
+        },
+        {
+          "value": "OthW",
+          "count": 2
+        }
+      ]
+    },
+    "HeatingQC": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "Ex",
+          "count": 741
+        },
+        {
+          "value": "TA",
+          "count": 428
+        },
+        {
+          "value": "Gd",
+          "count": 241
+        },
+        {
+          "value": "Fa",
+          "count": 49
+        },
+        {
+          "value": "Po",
+          "count": 1
+        }
+      ]
+    },
+    "CentralAir": {
+      "type": "Boolean",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 2,
+      "distinct_pct": 0.0013698630136986301
+    },
+    "Electrical": {
+      "type": "Categorical",
+      "missing": 1,
+      "missing_pct": 0.0006849315068493151,
+      "distinct": 5,
+      "distinct_pct": 0.003427004797806717,
+      "top_values": [
+        {
+          "value": "SBrkr",
+          "count": 1334
+        },
+        {
+          "value": "FuseA",
+          "count": 94
+        },
+        {
+          "value": "FuseF",
+          "count": 27
+        },
+        {
+          "value": "FuseP",
+          "count": 3
+        },
+        {
+          "value": "Mix",
+          "count": 1
+        }
+      ]
+    },
+    "1stFlrSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 753,
+      "distinct_pct": 0.5157534246575343,
+      "mean": 1162.626712328767,
+      "std": 386.5877380410744,
+      "min": 334,
+      "max": 4692,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 1.3767566220336365,
+      "kurtosis": 5.74584148244079
+    },
+    "2ndFlrSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 417,
+      "distinct_pct": 0.2856164383561644,
+      "mean": 346.99246575342465,
+      "std": 436.5284358862568,
+      "min": 0,
+      "max": 2065,
+      "zeros": 829,
+      "zeros_pct": 0.5678082191780822,
+      "skewness": 0.8130298163023265,
+      "kurtosis": -0.5534635576075795
+    },
+    "LowQualFinSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 24,
+      "distinct_pct": 0.01643835616438356,
+      "mean": 5.844520547945206,
+      "std": 48.62308143352019,
+      "min": 0,
+      "max": 572,
+      "zeros": 1434,
+      "zeros_pct": 0.9821917808219178,
+      "skewness": 9.011341288465387,
+      "kurtosis": 83.2348166744174
+    },
+    "GrLivArea": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 861,
+      "distinct_pct": 0.5897260273972603,
+      "mean": 1515.463698630137,
+      "std": 525.4803834232025,
+      "min": 334,
+      "max": 5642,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 1.3665603560164552,
+      "kurtosis": 4.895120580693174
+    },
+    "BsmtFullBath": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 856
+        },
+        {
+          "value": "1",
+          "count": 588
+        },
+        {
+          "value": "2",
+          "count": 15
+        },
+        {
+          "value": "3",
+          "count": 1
+        }
+      ]
+    },
+    "BsmtHalfBath": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 3,
+      "distinct_pct": 0.002054794520547945,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 1378
+        },
+        {
+          "value": "1",
+          "count": 80
+        },
+        {
+          "value": "2",
+          "count": 2
+        }
+      ]
+    },
+    "FullBath": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "2",
+          "count": 768
+        },
+        {
+          "value": "1",
+          "count": 650
+        },
+        {
+          "value": "3",
+          "count": 33
+        },
+        {
+          "value": "0",
+          "count": 9
+        }
+      ]
+    },
+    "HalfBath": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 3,
+      "distinct_pct": 0.002054794520547945,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 913
+        },
+        {
+          "value": "1",
+          "count": 535
+        },
+        {
+          "value": "2",
+          "count": 12
+        }
+      ]
+    },
+    "BedroomAbvGr": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 8,
+      "distinct_pct": 0.005479452054794521,
+      "mean": 2.8664383561643834,
+      "std": 0.8157780441442284,
+      "min": 0,
+      "max": 8,
+      "zeros": 6,
+      "zeros_pct": 0.00410958904109589,
+      "skewness": 0.21179009627507137,
+      "kurtosis": 2.230874582191236
+    },
+    "KitchenAbvGr": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "1",
+          "count": 1392
+        },
+        {
+          "value": "2",
+          "count": 65
+        },
+        {
+          "value": "3",
+          "count": 2
+        },
+        {
+          "value": "0",
+          "count": 1
+        }
+      ]
+    },
+    "KitchenQual": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 735
+        },
+        {
+          "value": "Gd",
+          "count": 586
+        },
+        {
+          "value": "Ex",
+          "count": 100
+        },
+        {
+          "value": "Fa",
+          "count": 39
+        }
+      ]
+    },
+    "TotRmsAbvGrd": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 12,
+      "distinct_pct": 0.00821917808219178,
+      "mean": 6.517808219178082,
+      "std": 1.6253932905840505,
+      "min": 2,
+      "max": 14,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.6763408364355531,
+      "kurtosis": 0.8807615657189474
+    },
+    "Functional": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 7,
+      "distinct_pct": 0.004794520547945206,
+      "top_values": [
+        {
+          "value": "Typ",
+          "count": 1360
+        },
+        {
+          "value": "Min2",
+          "count": 34
+        },
+        {
+          "value": "Min1",
+          "count": 31
+        },
+        {
+          "value": "Mod",
+          "count": 15
+        },
+        {
+          "value": "Maj1",
+          "count": 14
+        }
+      ]
+    },
+    "Fireplaces": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 4,
+      "distinct_pct": 0.0027397260273972603,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 690
+        },
+        {
+          "value": "1",
+          "count": 650
+        },
+        {
+          "value": "2",
+          "count": 115
+        },
+        {
+          "value": "3",
+          "count": 5
+        }
+      ]
+    },
+    "FireplaceQu": {
+      "type": "Categorical",
+      "missing": 690,
+      "missing_pct": 0.4726027397260274,
+      "distinct": 5,
+      "distinct_pct": 0.006493506493506494,
+      "top_values": [
+        {
+          "value": "Gd",
+          "count": 380
+        },
+        {
+          "value": "TA",
+          "count": 313
+        },
+        {
+          "value": "Fa",
+          "count": 33
+        },
+        {
+          "value": "Ex",
+          "count": 24
+        },
+        {
+          "value": "Po",
+          "count": 20
+        }
+      ]
+    },
+    "GarageType": {
+      "type": "Categorical",
+      "missing": 81,
+      "missing_pct": 0.05547945205479452,
+      "distinct": 6,
+      "distinct_pct": 0.00435097897026831,
+      "top_values": [
+        {
+          "value": "Attchd",
+          "count": 870
+        },
+        {
+          "value": "Detchd",
+          "count": 387
+        },
+        {
+          "value": "BuiltIn",
+          "count": 88
+        },
+        {
+          "value": "Basment",
+          "count": 19
+        },
+        {
+          "value": "CarPort",
+          "count": 9
+        }
+      ]
+    },
+    "GarageYrBlt": {
+      "type": "Numeric",
+      "missing": 81,
+      "missing_pct": 0.05547945205479452,
+      "distinct": 97,
+      "distinct_pct": 0.07034082668600435,
+      "mean": 1978.5061638868744,
+      "std": 24.689724768590242,
+      "min": 1900.0,
+      "max": 2010.0,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": -0.6494146238714678,
+      "kurtosis": -0.41834099797296487
+    },
+    "GarageFinish": {
+      "type": "Categorical",
+      "missing": 81,
+      "missing_pct": 0.05547945205479452,
+      "distinct": 3,
+      "distinct_pct": 0.002175489485134155,
+      "top_values": [
+        {
+          "value": "Unf",
+          "count": 605
+        },
+        {
+          "value": "RFn",
+          "count": 422
+        },
+        {
+          "value": "Fin",
+          "count": 352
+        }
+      ]
+    },
+    "GarageCars": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "2",
+          "count": 824
+        },
+        {
+          "value": "1",
+          "count": 369
+        },
+        {
+          "value": "3",
+          "count": 181
+        },
+        {
+          "value": "0",
+          "count": 81
+        },
+        {
+          "value": "4",
+          "count": 5
+        }
+      ]
+    },
+    "GarageArea": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 441,
+      "distinct_pct": 0.30205479452054795,
+      "mean": 472.9801369863014,
+      "std": 213.80484145338042,
+      "min": 0,
+      "max": 1418,
+      "zeros": 81,
+      "zeros_pct": 0.05547945205479452,
+      "skewness": 0.17998090674623907,
+      "kurtosis": 0.9170672022708684
+    },
+    "GarageQual": {
+      "type": "Categorical",
+      "missing": 81,
+      "missing_pct": 0.05547945205479452,
+      "distinct": 5,
+      "distinct_pct": 0.0036258158085569255,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 1311
+        },
+        {
+          "value": "Fa",
+          "count": 48
+        },
+        {
+          "value": "Gd",
+          "count": 14
+        },
+        {
+          "value": "Ex",
+          "count": 3
+        },
+        {
+          "value": "Po",
+          "count": 3
+        }
+      ]
+    },
+    "GarageCond": {
+      "type": "Categorical",
+      "missing": 81,
+      "missing_pct": 0.05547945205479452,
+      "distinct": 5,
+      "distinct_pct": 0.0036258158085569255,
+      "top_values": [
+        {
+          "value": "TA",
+          "count": 1326
+        },
+        {
+          "value": "Fa",
+          "count": 35
+        },
+        {
+          "value": "Gd",
+          "count": 9
+        },
+        {
+          "value": "Po",
+          "count": 7
+        },
+        {
+          "value": "Ex",
+          "count": 2
+        }
+      ]
+    },
+    "PavedDrive": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 3,
+      "distinct_pct": 0.002054794520547945,
+      "top_values": [
+        {
+          "value": "Y",
+          "count": 1340
+        },
+        {
+          "value": "N",
+          "count": 90
+        },
+        {
+          "value": "P",
+          "count": 30
+        }
+      ]
+    },
+    "WoodDeckSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 274,
+      "distinct_pct": 0.18767123287671234,
+      "mean": 94.2445205479452,
+      "std": 125.3387943517241,
+      "min": 0,
+      "max": 857,
+      "zeros": 761,
+      "zeros_pct": 0.5212328767123288,
+      "skewness": 1.5413757571931312,
+      "kurtosis": 2.992950924703908
+    },
+    "OpenPorchSF": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 202,
+      "distinct_pct": 0.13835616438356163,
+      "mean": 46.66027397260274,
+      "std": 66.25602767664971,
+      "min": 0,
+      "max": 547,
+      "zeros": 656,
+      "zeros_pct": 0.44931506849315067,
+      "skewness": 2.3643417403694404,
+      "kurtosis": 8.490335805910506
+    },
+    "EnclosedPorch": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 120,
+      "distinct_pct": 0.0821917808219178,
+      "mean": 21.954109589041096,
+      "std": 61.1191486017286,
+      "min": 0,
+      "max": 552,
+      "zeros": 1252,
+      "zeros_pct": 0.8575342465753425,
+      "skewness": 3.08987190371177,
+      "kurtosis": 10.430765944030428
+    },
+    "3SsnPorch": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 20,
+      "distinct_pct": 0.0136986301369863,
+      "mean": 3.4095890410958902,
+      "std": 29.31733055678188,
+      "min": 0,
+      "max": 508,
+      "zeros": 1436,
+      "zeros_pct": 0.9835616438356164,
+      "skewness": 10.304342032693112,
+      "kurtosis": 123.66237944970538
+    },
+    "ScreenPorch": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 76,
+      "distinct_pct": 0.052054794520547946,
+      "mean": 15.060958904109588,
+      "std": 55.757415281874174,
+      "min": 0,
+      "max": 480,
+      "zeros": 1344,
+      "zeros_pct": 0.9205479452054794,
+      "skewness": 4.122213743143115,
+      "kurtosis": 18.43906784486968
+    },
+    "PoolArea": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 8,
+      "distinct_pct": 0.005479452054794521,
+      "mean": 2.758904109589041,
+      "std": 40.17730694453019,
+      "min": 0,
+      "max": 738,
+      "zeros": 1453,
+      "zeros_pct": 0.9952054794520548,
+      "skewness": 14.828373640750588,
+      "kurtosis": 223.2684989181717
+    },
+    "PoolQC": {
+      "type": "Categorical",
+      "missing": 1453,
+      "missing_pct": 0.9952054794520548,
+      "distinct": 3,
+      "distinct_pct": 0.42857142857142855,
+      "top_values": [
+        {
+          "value": "Gd",
+          "count": 3
+        },
+        {
+          "value": "Ex",
+          "count": 2
+        },
+        {
+          "value": "Fa",
+          "count": 2
+        }
+      ]
+    },
+    "Fence": {
+      "type": "Categorical",
+      "missing": 1179,
+      "missing_pct": 0.8075342465753425,
+      "distinct": 4,
+      "distinct_pct": 0.014234875444839857,
+      "top_values": [
+        {
+          "value": "MnPrv",
+          "count": 157
+        },
+        {
+          "value": "GdPrv",
+          "count": 59
+        },
+        {
+          "value": "GdWo",
+          "count": 54
+        },
+        {
+          "value": "MnWw",
+          "count": 11
+        }
+      ]
+    },
+    "MiscFeature": {
+      "type": "Categorical",
+      "missing": 1406,
+      "missing_pct": 0.963013698630137,
+      "distinct": 4,
+      "distinct_pct": 0.07407407407407407,
+      "top_values": [
+        {
+          "value": "Shed",
+          "count": 49
+        },
+        {
+          "value": "Gar2",
+          "count": 2
+        },
+        {
+          "value": "Othr",
+          "count": 2
+        },
+        {
+          "value": "TenC",
+          "count": 1
+        }
+      ]
+    },
+    "MiscVal": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 21,
+      "distinct_pct": 0.014383561643835616,
+      "mean": 43.489041095890414,
+      "std": 496.12302445794415,
+      "min": 0,
+      "max": 15500,
+      "zeros": 1408,
+      "zeros_pct": 0.9643835616438357,
+      "skewness": 24.476794188821916,
+      "kurtosis": 701.0033422801193
+    },
+    "MoSold": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 12,
+      "distinct_pct": 0.00821917808219178,
+      "mean": 6.321917808219178,
+      "std": 2.7036262083595126,
+      "min": 1,
+      "max": 12,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 0.21205298505146022,
+      "kurtosis": -0.40410934153702316
+    },
+    "YrSold": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 5,
+      "distinct_pct": 0.003424657534246575,
+      "top_values": [
+        {
+          "value": "2009",
+          "count": 338
+        },
+        {
+          "value": "2007",
+          "count": 329
+        },
+        {
+          "value": "2006",
+          "count": 314
+        },
+        {
+          "value": "2008",
+          "count": 304
+        },
+        {
+          "value": "2010",
+          "count": 175
+        }
+      ]
+    },
+    "SaleType": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 9,
+      "distinct_pct": 0.0061643835616438354,
+      "top_values": [
+        {
+          "value": "WD",
+          "count": 1267
+        },
+        {
+          "value": "New",
+          "count": 122
+        },
+        {
+          "value": "COD",
+          "count": 43
+        },
+        {
+          "value": "ConLD",
+          "count": 9
+        },
+        {
+          "value": "ConLI",
+          "count": 5
+        }
+      ]
+    },
+    "SaleCondition": {
+      "type": "Categorical",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 6,
+      "distinct_pct": 0.00410958904109589,
+      "top_values": [
+        {
+          "value": "Normal",
+          "count": 1198
+        },
+        {
+          "value": "Partial",
+          "count": 125
+        },
+        {
+          "value": "Abnorml",
+          "count": 101
+        },
+        {
+          "value": "Family",
+          "count": 20
+        },
+        {
+          "value": "Alloca",
+          "count": 12
+        }
+      ]
+    },
+    "SalePrice": {
+      "type": "Numeric",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "distinct": 663,
+      "distinct_pct": 0.4541095890410959,
+      "mean": 180921.19589041095,
+      "std": 79442.50288288662,
+      "min": 34900,
+      "max": 755000,
+      "zeros": 0,
+      "zeros_pct": 0.0,
+      "skewness": 1.8828757597682129,
+      "kurtosis": 6.536281860064529
+    }
+  },
+  "top_correlations": [],
+  "alerts": [
+    "[1stFlrSF] is highly overall correlated with [SalePrice] and 1 other fields",
+    "[2ndFlrSF] is highly overall correlated with [BedroomAbvGr] and 2 other fields",
+    "[3SsnPorch] is highly overall correlated with [Alley] and 1 other fields",
+    "[Alley] is highly overall correlated with [3SsnPorch] and 19 other fields",
+    "[BedroomAbvGr] is highly overall correlated with [2ndFlrSF] and 2 other fields",
+    "[BldgType] is highly overall correlated with [Alley] and 2 other fields",
+    "[BsmtCond] is highly overall correlated with [PoolQC]",
+    "[BsmtFinSF1] is highly overall correlated with [BsmtUnfSF] and 1 other fields",
+    "[BsmtFinSF2] is highly overall correlated with [MiscFeature] and 1 other fields",
+    "[BsmtFinType2] is highly overall correlated with [PoolQC]",
+    "[BsmtQual] is highly overall correlated with [Alley] and 3 other fields",
+    "[BsmtUnfSF] is highly overall correlated with [BsmtFinSF1]",
+    "[CentralAir] is highly overall correlated with [PoolQC]",
+    "[Condition2] is highly overall correlated with [Alley] and 1 other fields",
+    "[Electrical] is highly overall correlated with [PoolQC]",
+    "[ExterQual] is highly overall correlated with [Alley] and 2 other fields",
+    "[Exterior1st] is highly overall correlated with [Exterior2nd]",
+    "[Exterior2nd] is highly overall correlated with [Exterior1st]",
+    "[Fence] is highly overall correlated with [Street] and 1 other fields",
+    "[Foundation] is highly overall correlated with [Alley] and 2 other fields",
+    "[FullBath] is highly overall correlated with [MiscFeature]",
+    "[Functional] is highly overall correlated with [PoolQC]",
+    "[GarageArea] is highly overall correlated with [GarageCars] and 5 other fields",
+    "[GarageCars] is highly overall correlated with [GarageArea]",
+    "[GarageCond] is highly overall correlated with [GarageQual]",
+    "[GarageFinish] is highly overall correlated with [Alley] and 1 other fields",
+    "[GarageQual] is highly overall correlated with [GarageCond]",
+    "[GarageYrBlt] is highly overall correlated with [Alley] and 5 other fields",
+    "[GrLivArea] is highly overall correlated with [2ndFlrSF] and 4 other fields",
+    "[HalfBath] is highly overall correlated with [MSSubClass]",
+    "[Heating] is highly overall correlated with [PoolQC]",
+    "[HouseStyle] is highly overall correlated with [MSSubClass]",
+    "[KitchenAbvGr] is highly overall correlated with [PoolQC]",
+    "[KitchenQual] is highly overall correlated with [ExterQual] and 1 other fields",
+    "[LandSlope] is highly overall correlated with [PoolQC]",
+    "[LotArea] is highly overall correlated with [Alley] and 1 other fields",
+    "[LotFrontage] is highly overall correlated with [LotArea] and 1 other fields",
+    "[LowQualFinSF] is highly overall correlated with [MasVnrType]",
+    "[MSSubClass] is highly overall correlated with [Alley] and 3 other fields",
+    "[MSZoning] is highly overall correlated with [Alley] and 2 other fields",
+    "[MasVnrType] is highly overall correlated with [LowQualFinSF]",
+    "[MiscFeature] is highly overall correlated with [Alley] and 6 other fields",
+    "[MiscVal] is highly overall correlated with [Alley] and 1 other fields",
+    "[Neighborhood] is highly overall correlated with [Alley] and 3 other fields",
+    "[OverallQual] is highly overall correlated with [Alley] and 9 other fields",
+    "[PavedDrive] is highly overall correlated with [PoolQC]",
+    "[PoolArea] is highly overall correlated with [Alley] and 1 other fields",
+    "[PoolQC] is highly overall correlated with [3SsnPorch] and 22 other fields",
+    "[RoofMatl] is highly overall correlated with [Alley] and 1 other fields",
+    "[SaleCondition] is highly overall correlated with [PoolQC]",
+    "[SalePrice] is highly overall correlated with [1stFlrSF] and 9 other fields",
+    "[Street] is highly overall correlated with [Alley] and 2 other fields",
+    "[TotRmsAbvGrd] is highly overall correlated with [2ndFlrSF] and 3 other fields",
+    "[TotalBsmtSF] is highly overall correlated with [1stFlrSF] and 1 other fields",
+    "[Utilities] is highly overall correlated with [Alley] and 4 other fields",
+    "[YearBuilt] is highly overall correlated with [Alley] and 7 other fields",
+    "[YearRemodAdd] is highly overall correlated with [GarageYrBlt] and 3 other fields",
+    "[MSZoning] is highly imbalanced (0.5690638870490405)",
+    "[Street] is highly imbalanced (0.9615074656870156)",
+    "[LandContour] is highly imbalanced (0.6832289051991438)",
+    "[Utilities] is highly imbalanced (0.9918123606108415)",
+    "[LandSlope] is highly imbalanced (0.7883246476021821)",
+    "[Condition1] is highly imbalanced (0.7169534008115104)",
+    "[Condition2] is highly imbalanced (0.9639964860341718)",
+    "[BldgType] is highly imbalanced (0.5939176545378675)",
+    "[RoofStyle] is highly imbalanced (0.6508960953307187)",
+    "[RoofMatl] is highly imbalanced (0.9439939537584318)",
+    "[ExterCond] is highly imbalanced (0.7278819716800567)",
+    "[BsmtCond] is highly imbalanced (0.7583869804059103)",
+    "[BsmtFinType2] is highly imbalanced (0.7012257031708407)",
+    "[Heating] is highly imbalanced (0.9265184955296741)",
+    "[CentralAir] is highly imbalanced (0.6527553117588452)",
+    "[Electrical] is highly imbalanced (0.7824600982676887)",
+    "[BsmtHalfBath] is highly imbalanced (0.7972709009430905)",
+    "[KitchenAbvGr] is highly imbalanced (0.857148075194488)",
+    "[Functional] is highly imbalanced (0.8193791900875614)",
+    "[GarageQual] is highly imbalanced (0.8519795527332745)",
+    "[GarageCond] is highly imbalanced (0.8756918444376682)",
+    "[PavedDrive] is highly imbalanced (0.6993394077823649)",
+    "[MiscFeature] is highly imbalanced (0.7070079374520177)",
+    "[SaleType] is highly imbalanced (0.7531265614403546)",
+    "[SaleCondition] is highly imbalanced (0.6250027580094633)",
+    "[LotFrontage] 259 (17.7%) missing values",
+    "[Alley] 1369 (93.8%) missing values",
+    "[MasVnrType] 872 (59.7%) missing values",
+    "[BsmtQual] 37 (2.5%) missing values",
+    "[BsmtCond] 37 (2.5%) missing values",
+    "[BsmtExposure] 38 (2.6%) missing values",
+    "[BsmtFinType1] 37 (2.5%) missing values",
+    "[BsmtFinType2] 38 (2.6%) missing values",
+    "[FireplaceQu] 690 (47.3%) missing values",
+    "[GarageType] 81 (5.5%) missing values",
+    "[GarageYrBlt] 81 (5.5%) missing values",
+    "[GarageFinish] 81 (5.5%) missing values",
+    "[GarageQual] 81 (5.5%) missing values",
+    "[GarageCond] 81 (5.5%) missing values",
+    "[PoolQC] 1453 (99.5%) missing values",
+    "[Fence] 1179 (80.8%) missing values",
+    "[MiscFeature] 1406 (96.3%) missing values",
+    "[MiscVal] is highly skewed(¥ã1 = 24.476794188821916)",
+    "[Id] is uniformly distributed",
+    "[Id] has unique values",
+    "[MasVnrArea] has 861 (59.0%) zeros",
+    "[BsmtFinSF1] has 467 (32.0%) zeros",
+    "[BsmtFinSF2] has 1293 (88.6%) zeros",
+    "[BsmtUnfSF] has 118 (8.1%) zeros",
+    "[TotalBsmtSF] has 37 (2.5%) zeros",
+    "[2ndFlrSF] has 829 (56.8%) zeros",
+    "[LowQualFinSF] has 1434 (98.2%) zeros",
+    "[GarageArea] has 81 (5.5%) zeros",
+    "[WoodDeckSF] has 761 (52.1%) zeros",
+    "[OpenPorchSF] has 656 (44.9%) zeros",
+    "[EnclosedPorch] has 1252 (85.8%) zeros",
+    "[3SsnPorch] has 1436 (98.4%) zeros",
+    "[ScreenPorch] has 1344 (92.1%) zeros",
+    "[PoolArea] has 1453 (99.5%) zeros",
+    "[MiscVal] has 1408 (96.4%) zeros"
+  ]
+}

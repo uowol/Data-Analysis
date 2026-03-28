@@ -1,0 +1,52 @@
+{
+  "project": "house_prices",
+  "iteration": 2,
+  "features_count": 209,
+  "changes_from_previous": "noise 이진 플래그 6개 제거, XGBoost+LightGBM Optuna HPO (30 trials each, 5-fold)",
+  "models": {
+    "XGBoost_HPO": {
+      "RMSLE": {
+        "mean": 0.1169
+      },
+      "params": {
+        "n_estimators": 520,
+        "learning_rate": 0.037572102043064944,
+        "max_depth": 3,
+        "min_child_weight": 2,
+        "subsample": 0.819662462913247,
+        "colsample_bytree": 0.6649011048051569,
+        "gamma": 0.009955999006762693,
+        "reg_lambda": 2.986557550756231,
+        "reg_alpha": 0.47018924096756265
+      },
+      "rationale": "Optuna 30 trials, 기존 수동 파라미터 대비 최적화"
+    },
+    "LightGBM_HPO": {
+      "RMSLE": {
+        "mean": 0.1167
+      },
+      "params": {
+        "n_estimators": 625,
+        "learning_rate": 0.03958074135588564,
+        "max_depth": 2,
+        "num_leaves": 27,
+        "min_child_samples": 5,
+        "subsample": 0.8436593375996349,
+        "colsample_bytree": 0.7382570189095099,
+        "reg_lambda": 1.3276956222675862,
+        "reg_alpha": 0.02503838315498825
+      },
+      "rationale": "XGBoost와 다른 분할 알고리즘, 범주형 처리 차이"
+    },
+    "Avg_Ensemble": {
+      "RMSLE": {
+        "mean": 0.1159
+      },
+      "rationale": "XGBoost + LightGBM 단순 평균. 다양성으로 오차 상쇄"
+    }
+  },
+  "best_model": "Avg_Ensemble",
+  "best_RMSLE": 0.1159,
+  "vs_baseline": -0.0741,
+  "vs_prev_iteration": -0.0043
+}

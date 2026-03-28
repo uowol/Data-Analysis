@@ -1,0 +1,39 @@
+{
+  "project": "house_prices",
+  "iteration": 2,
+  "current_best": {
+    "model": "Avg_Ensemble(XGB+LGB)",
+    "RMSLE": 0.1159,
+    "improvement_from_iter1": -0.0043
+  },
+  "overfitting": {
+    "XGBoost": {
+      "train": 0.0781,
+      "cv": 0.1169,
+      "gap": 0.0388
+    },
+    "LightGBM": {
+      "train": 0.0866,
+      "cv": 0.1167,
+      "gap": 0.0301
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "Ridge 블렌딩 추가",
+      "rationale": "선형 모델이 트리 앙상블과 다른 패턴 포착. 3모델 블렌딩으로 추가 개선 기대",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "가중 앙상블 최적화",
+      "rationale": "단순 평균 대신 CV 기반 최적 가중치로 0.001~0.003 추가 개선",
+      "expected_impact": "low"
+    },
+    {
+      "direction": "Stacking",
+      "rationale": "메타러너로 모델 간 상호보완. 단 소규모 데이터 과적합 위험",
+      "expected_impact": "low"
+    }
+  ],
+  "convergence_check": "iter1→iter2: 0.1202→0.1159 (delta=-0.0043). 아직 수렴 아님, 1회 더 시도"
+}

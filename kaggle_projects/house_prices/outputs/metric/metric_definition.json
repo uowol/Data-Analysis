@@ -1,0 +1,23 @@
+{
+  "project": "house_prices",
+  "target": "SalePrice",
+  "target_transform": "log1p",
+  "problem_type": "regression",
+  "target_distribution": {
+    "mean": 180921.19589041095,
+    "median": 163000.0,
+    "std": 79442.50288288662,
+    "min": 34900.0,
+    "max": 755000.0,
+    "skewness": 1.8828757597682129,
+    "log1p_skewness": 0.12134661989685333
+  },
+  "primary_metric": "RMSLE",
+  "primary_metric_implementation": "RMSE on log1p(SalePrice)",
+  "secondary_metrics": [
+    "MAE",
+    "R2"
+  ],
+  "metric_rationale": "대회 공식 지표 RMSLE. 타겟 skewness=1.88로 우측 치우침이 크므로 log 변환 후 RMSE가 적합. 저가/고가 주택에 동일 비율 패널티를 부여하여 전 가격대에 균형 잡힌 예측 유도.",
+  "cv_strategy": "5-fold KFold (shuffle=True, random_state=42)"
+}

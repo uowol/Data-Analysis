@@ -1,0 +1,16 @@
+{
+  "project": "house_prices",
+  "iteration": 3,
+  "current_best": {
+    "model": "3model_ensemble(XGB+LGB+Ridge)",
+    "RMSLE": 0.1122
+  },
+  "convergence_check": {
+    "iter1_to_iter2": -0.0043,
+    "iter2_to_iter3": -0.0037,
+    "consecutive_below_005": true,
+    "converged": true,
+    "reason": "2회 연속 개선폭 < 0.005 (0.0043, 0.0037). 수렴 조건 충족."
+  },
+  "final_decision": "현재 3모델 앙상블(RMSLE=0.1122)을 최종 모델로 확정"
+}
