@@ -1,0 +1,28 @@
+{
+  "project": "house_prices",
+  "iteration": 3,
+  "features_count": 209,
+  "changes_from_previous": "Ridge 블렌딩 추가, 3모델 앙상블(XGB+LGB+Ridge), 가중 앙상블, Stacking",
+  "models": {
+    "3model_avg": {
+      "RMSLE": 0.1122,
+      "rationale": "XGB+LGB+Ridge 단순 평균"
+    },
+    "weighted_ensemble": {
+      "RMSLE": 0.1122,
+      "weights": {
+        "XGB": 0.356,
+        "LGB": 0.288,
+        "Ridge": 0.356
+      }
+    },
+    "stacking_ridge": {
+      "RMSLE": 0.1127,
+      "rationale": "Ridge 메타러너"
+    }
+  },
+  "best_model": "3model_weighted_ensemble",
+  "best_RMSLE": 0.1122,
+  "vs_baseline": -0.0778,
+  "vs_prev_iteration": -0.0037
+}
