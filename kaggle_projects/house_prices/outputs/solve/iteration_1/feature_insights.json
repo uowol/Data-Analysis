@@ -1,0 +1,65 @@
+{
+  "iteration": 1,
+  "consensus_features": [
+    "OverallQual",
+    "TotalSF",
+    "GarageCars",
+    "TotalBath",
+    "GrLivArea",
+    "LotArea",
+    "OverallCond",
+    "HouseAge",
+    "RemodAge",
+    "CentralAir",
+    "GarageQual"
+  ],
+  "ridge_top10": {
+    "GrLivArea": 0.0964,
+    "OverallQual": 0.0619,
+    "LotArea": 0.0509,
+    "OverallCond": 0.0441,
+    "TotalSF": 0.0424,
+    "GarageType_None": 0.0339,
+    "GarageCars": 0.0329,
+    "WoodDeckSF": 0.0329,
+    "MSZoning_C (all)": -0.0325,
+    "TotalBsmtSF": 0.032
+  },
+  "rf_top10": {
+    "OverallQual": 0.4568,
+    "TotalSF": 0.3296,
+    "CentralAir": 0.0194,
+    "GrLivArea": 0.0151,
+    "GarageCars": 0.0129,
+    "LotArea": 0.0114,
+    "TotalBath": 0.0111,
+    "OverallCond": 0.0099,
+    "BsmtFinSF1": 0.0094,
+    "RemodAge": 0.009
+  },
+  "xgb_top10": {
+    "OverallQual": 0.1624,
+    "TotalSF": 0.115,
+    "ExterQual": 0.0932,
+    "KitchenQual": 0.0551,
+    "GarageCars": 0.0352,
+    "GarageFinish": 0.0343,
+    "FireplaceQu": 0.0314,
+    "CentralAir": 0.0277,
+    "GarageQual": 0.0272,
+    "BsmtQual": 0.0271
+  },
+  "observations": [
+    "OverallQual + TotalSF가 3개 모델 모두 최상위 — 핵심 예측 변수",
+    "XGBoost에서 품질 순서형 피처(ExterQual, KitchenQual, BsmtQual)가 상위권 — 순서형 인코딩 효과적",
+    "Ridge에서 GrLivArea 계수가 TotalSF보다 높음 — 두 피처 간 정보 중복 가능성",
+    "RF에서 CentralAir가 3위(0.019) — 에어컨 유무가 집값에 유의미한 영향"
+  ],
+  "improvement_suggestions": [
+    "GrLivArea와 TotalSF 간 정보 중복 확인 → ablation 필요",
+    "품질 피처 간 상호작용 (OverallQual × ExterQual) 탐색",
+    "Neighborhood 피처가 원핫 인코딩으로 분산됨 — target encoding 시도",
+    "LightGBM 추가로 부스팅 모델 비교",
+    "Optuna HPO로 XGBoost 최적화"
+  ]
+}
