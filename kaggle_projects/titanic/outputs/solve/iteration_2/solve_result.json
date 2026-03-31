@@ -1,52 +1,145 @@
 {
+  "project": "titanic",
   "iteration": 2,
+  "preprocessing_plan": "plan_a_v2",
   "features": [
     "Pclass",
     "Sex",
     "Age",
-    "Fare_log",
+    "Fare",
     "FamilySize",
-    "HasCabin",
-    "Pclass_Sex(수치)",
-    "IsChild",
-    "FamilyGroup",
-    "IsAloneFemale3rd",
+    "FamilySize_small",
+    "FamilySize_large",
+    "Cabin_known",
+    "Embarked_C",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "PcSx_1_0",
+    "PcSx_1_1",
+    "PcSx_2_0",
+    "PcSx_2_1",
+    "PcSx_3_0",
+    "PcSx_3_1"
   ],
-  "feature_count": 12,
-  "changes_from_previous": "evaluate 피드백 반영: Pclass_Sex(수치인코딩), IsChild, FamilyGroup 추가, IsAloneFemale3rd 추가. FamilySize 원본 유지(중복)",
-  "issues": [
-    "Pclass_Sex를 수치 인코딩 → 범주 간 의미 없는 순서 부여",
-    "FamilySize 원본과 FamilyGroup 동시 사용 → 정보 중복",
-    "IsAloneFemale3rd 과적합 위험 미검증",
-    "피처 설계 검증 체크리스트 미수행"
-  ],
+  "changes_from_previous": "Removed: IsAlone, Title_* (5 dummies). Added: PclassSex interaction (6 dummies), FamilySize_small, FamilySize_large. Added VotingClassifier.",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
   "models": {
     "LogisticRegression": {
-      "f1": {
-        "mean": 0.7327
+      "type": "linear",
+      "results": {
+        "f1_score": {
+          "mean": 0.7286,
+          "std": 0.0256,
+          "folds": [
+            0.7258,
+            0.7302,
+            0.6829,
+            0.7581,
+            0.746
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8103
+        },
+        "precision": {
+          "mean": 0.8078
+        },
+        "recall": {
+          "mean": 0.6637
+        }
       },
-      "vs_baseline": "+0.0234",
-      "vs_prev": "+0.0025"
+      "vs_baseline": "+0.0193",
+      "vs_prev": "-0.0466"
     },
     "RandomForest": {
-      "f1": {
-        "mean": 0.7504
+      "type": "ensemble",
+      "results": {
+        "f1_score": {
+          "mean": 0.7616,
+          "std": 0.023,
+          "folds": [
+            0.7761,
+            0.7463,
+            0.7246,
+            0.7883,
+            0.7727
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8193
+        },
+        "precision": {
+          "mean": 0.7728
+        },
+        "recall": {
+          "mean": 0.7515
+        }
       },
-      "vs_baseline": "+0.0411",
-      "vs_prev": "-0.0145"
+      "vs_baseline": "+0.0523",
+      "vs_prev": "-0.0136"
     },
     "GradientBoosting": {
-      "type": "boosting",
-      "rationale": "오분류 집중 구간(1등석 남성 38.5%, 3등석 여성 32.6%)이 피처 조합에서 발생. 순차 보정 구조가 잔여 오차 패턴 집중 공략에 유리",
-      "f1": {
-        "mean": 0.7654
+      "type": "ensemble",
+      "results": {
+        "f1_score": {
+          "mean": 0.7739,
+          "std": 0.0267,
+          "folds": [
+            0.7869,
+            0.8092,
+            0.7317,
+            0.7576,
+            0.784
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8395
+        },
+        "precision": {
+          "mean": 0.8443
+        },
+        "recall": {
+          "mean": 0.7165
+        }
       },
-      "vs_baseline": "+0.0561"
+      "vs_baseline": "+0.0646",
+      "vs_prev": "-0.0013"
+    },
+    "VotingClassifier": {
+      "type": "ensemble",
+      "results": {
+        "f1_score": {
+          "mean": 0.7698,
+          "std": 0.0217,
+          "folds": [
+            0.7874,
+            0.7883,
+            0.7287,
+            0.7727,
+            0.7717
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8317
+        },
+        "precision": {
+          "mean": 0.8114
+        },
+        "recall": {
+          "mean": 0.734
+        }
+      },
+      "vs_baseline": "+0.0605",
+      "vs_prev": "-0.0054"
     }
   },
   "best_model": "GradientBoosting",
-  "best_f1": 0.7654,
-  "status": "discarded — 피처 설계 오류로 재실행"
+  "best_f1": 0.7739,
+  "baseline_threshold": 0.7093,
+  "vs_baseline": "+0.0646",
+  "vs_prev_iteration": "-0.0013"
 }

@@ -1,0 +1,17 @@
+{
+  "HighFare_Male1st": {
+    "with": 0.7853,
+    "without": 0.7822,
+    "diff": 0.0031
+  },
+  "LowFare_Female3rd": {
+    "with": 0.7853,
+    "without": 0.7847,
+    "diff": 0.0006
+  },
+  "FamilySize_small": {
+    "with": 0.7853,
+    "without": 0.7847,
+    "diff": 0.0006
+  }
+}

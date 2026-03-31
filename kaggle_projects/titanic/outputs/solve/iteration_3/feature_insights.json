@@ -1,0 +1,33 @@
+{
+  "iteration": 3,
+  "tree_feature_importance": {
+    "Title_Mr": 0.395,
+    "Fare": 0.2229,
+    "Age": 0.1307,
+    "Pclass": 0.0722,
+    "FamilySize_large": 0.0402,
+    "FamilySize": 0.0379,
+    "Title_rare": 0.0295,
+    "Cabin_known": 0.0271,
+    "Sex": 0.0183,
+    "Embarked_S": 0.0067,
+    "Title_Miss": 0.0051,
+    "Embarked_C": 0.0039,
+    "Title_Master": 0.0034,
+    "Title_Mrs": 0.0033,
+    "FamilySize_small": 0.0026,
+    "Embarked_Q": 0.0012
+  },
+  "ablation": {
+    "FamilySize_small": {
+      "with": 0.7871,
+      "without": 0.7853,
+      "diff": 0.0018
+    },
+    "FamilySize_large": {
+      "with": 0.7871,
+      "without": 0.7878,
+      "diff": -0.0007
+    }
+  }
+}

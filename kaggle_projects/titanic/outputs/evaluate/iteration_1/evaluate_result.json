@@ -1,0 +1,117 @@
+{
+  "project": "titanic",
+  "iteration": 1,
+  "current_best": {
+    "model": "LogisticRegression",
+    "f1_score": 0.7752,
+    "baseline_threshold": 0.7093,
+    "improvement": "+0.0659"
+  },
+  "error_analysis": {
+    "total_misclassified": 150,
+    "false_negatives": {
+      "count": 83,
+      "profile": "77/83 male. 41 in 3rd class, 32 in 1st class. 1st class males: mean age 43, mean fare 46.5. These are higher-status males who survived but model predicts dead.",
+      "hardest_group": "1st class males (36.1% misclass rate)"
+    },
+    "false_positives": {
+      "count": 67,
+      "profile": "55/67 female. 46 in 3rd class, all female. Mean FamilySize 1.70. 3rd class females with large families (5+) have 0% survival but model predicts survived.",
+      "hardest_group": "3rd class females (34.7% misclass rate)"
+    }
+  },
+  "model_comparison": {
+    "all_3_wrong": 95,
+    "lr_only_right": 21,
+    "rf_only_right": 17,
+    "disagreement_insight": "LR and RF disagree on 97 cases. LR right on 55 that RF misses, RF right on 42 that LR misses. Voting ensemble could capture both."
+  },
+  "ablation": {
+    "Title_Mr": {
+      "with": 0.7752,
+      "without": 0.7766,
+      "diff": -0.0014
+    },
+    "Title_Miss": {
+      "with": 0.7752,
+      "without": 0.7754,
+      "diff": -0.0002
+    },
+    "Title_Mrs": {
+      "with": 0.7752,
+      "without": 0.7778,
+      "diff": -0.0026
+    },
+    "Title_Master": {
+      "with": 0.7752,
+      "without": 0.7773,
+      "diff": -0.0021
+    },
+    "Title_rare": {
+      "with": 0.7752,
+      "without": 0.7754,
+      "diff": -0.0002
+    },
+    "FamilySize": {
+      "with": 0.7752,
+      "without": 0.7604,
+      "diff": 0.0148
+    },
+    "IsAlone": {
+      "with": 0.7752,
+      "without": 0.7803,
+      "diff": -0.0051
+    },
+    "Cabin_known": {
+      "with": 0.7752,
+      "without": 0.7729,
+      "diff": 0.0023
+    }
+  },
+  "ablation_findings": [
+    "FamilySize: +0.0148 contribution. Most impactful new feature.",
+    "IsAlone: -0.0051 contribution. Removing it IMPROVES F1. Redundant with FamilySize, adds noise.",
+    "Title_* features: all near-zero or slightly negative. Sex already captures most of the signal. Title adds noise to LR.",
+    "Cabin_known: +0.0023 marginal contribution."
+  ],
+  "improvement_directions": [
+    {
+      "direction": "Remove IsAlone (noise feature)",
+      "rationale": "Ablation shows -0.0051 contribution. Redundant with FamilySize. Removing it improved F1 to 0.7803.",
+      "expected_impact": "medium",
+      "evidence": "ablation: without IsAlone F1=0.7803 vs with F1=0.7752"
+    },
+    {
+      "direction": "Remove individual Title dummies, keep Sex only",
+      "rationale": "All Title features have near-zero or negative ablation contribution in LR. Sex(+1.21 coef) already captures the main signal. Title adds multicollinearity.",
+      "expected_impact": "medium",
+      "evidence": "Title_Mr: -0.0014, Title_Mrs: -0.0026, Title_Master: -0.0021"
+    },
+    {
+      "direction": "Add Pclass x Sex interaction feature",
+      "rationale": "3rd class females have 34.7% misclass rate vs 1st class females 3.2%. Current model treats Sex uniformly across classes. Interaction captures class-dependent survival pattern.",
+      "expected_impact": "high",
+      "evidence": "FP concentrated in 3rd class females (46/67). 3rd class female survival 50% vs 1st class female 97%."
+    },
+    {
+      "direction": "Add FamilySize buckets (small 2-4 vs large 5+)",
+      "rationale": "3rd class females with FamilySize 5+ have 0% survival. Current FamilySize is linear but pattern is non-linear (2-4 optimal, 5+ catastrophic).",
+      "expected_impact": "medium",
+      "evidence": "3rd class female FamilySize 5+: 0% survival (19 cases). FamilySize 1-4: 56-83% survival."
+    },
+    {
+      "direction": "Try VotingClassifier ensemble (LR + RF + GB)",
+      "rationale": "95 cases all 3 models get wrong (hard cases). But LR captures 21 cases RF/GB miss, and RF captures 17 LR/GB miss. Soft voting could improve borderline cases.",
+      "expected_impact": "medium",
+      "evidence": "Model disagreement: 97 cases where LR and RF differ."
+    },
+    {
+      "direction": "Threshold optimization for F1",
+      "rationale": "Default threshold 0.5 may not be F1-optimal. With class imbalance 62:38, optimal threshold is likely lower.",
+      "expected_impact": "low",
+      "evidence": "Class distribution 549:342"
+    }
+  ],
+  "convergence": false,
+  "recommendation": "Continue to iteration 2. High-impact direction: Pclass x Sex interaction + remove IsAlone/Title noise + FamilySize buckets."
+}

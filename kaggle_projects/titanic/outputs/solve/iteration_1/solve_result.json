@@ -1,58 +1,187 @@
 {
+  "project": "titanic",
   "iteration": 1,
+  "preprocessing_plan": "plan_a",
   "features": [
     "Pclass",
     "Sex",
     "Age",
-    "Fare_log",
+    "Fare",
     "FamilySize",
-    "HasCabin",
+    "IsAlone",
+    "Cabin_known",
+    "Embarked_C",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_rare"
   ],
-  "feature_count": 8,
-  "changes_from_previous": "첫 실행. preprocessing_plan_a 기반 전처리 적용",
+  "changes_from_previous": "Initial iteration. Applied full preprocessing plan: Title extraction, FamilySize, IsAlone, Cabin_known, Age group median impute, Fare log1p, Embarked one-hot.",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
   "models": {
     "LogisticRegression": {
       "type": "linear",
-      "rationale": "해석 가능한 선형 모델, 피처 기여도 추출",
-      "f1": {
-        "mean": 0.7302,
-        "std": 0.04,
-        "folds": [
-          0.7353,
-          0.7481,
-          0.656,
-          0.7353,
-          0.7761
-        ]
+      "rationale": "Interpretable linear model for feature coefficient extraction",
+      "results": {
+        "f1_score": {
+          "mean": 0.7752,
+          "std": 0.0172,
+          "folds": [
+            0.7941,
+            0.7704,
+            0.7442,
+            0.7846,
+            0.7826
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8316,
+          "std": 0.0109,
+          "folds": [
+            0.8436,
+            0.8258,
+            0.8146,
+            0.8427,
+            0.8315
+          ]
+        },
+        "precision": {
+          "mean": 0.7948,
+          "std": 0.0171,
+          "folds": [
+            0.806,
+            0.7761,
+            0.7869,
+            0.8226,
+            0.7826
+          ]
+        },
+        "recall": {
+          "mean": 0.7572,
+          "std": 0.0284,
+          "folds": [
+            0.7826,
+            0.7647,
+            0.7059,
+            0.75,
+            0.7826
+          ]
+        }
       },
-      "accuracy": 0.8002,
-      "precision": 0.7557,
-      "recall": 0.7074,
-      "vs_baseline": "+0.0209"
+      "vs_baseline": "+0.0659"
     },
     "RandomForest": {
       "type": "ensemble_tree",
-      "rationale": "비선형 관계·상호작용 포착, 스케일링 불필요",
-      "f1": {
-        "mean": 0.7649,
-        "std": 0.0291,
-        "folds": [
-          0.7669,
-          0.7681,
-          0.7101,
-          0.7883,
-          0.791
-        ]
+      "rationale": "Non-linear interactions, feature importance via Gini",
+      "results": {
+        "f1_score": {
+          "mean": 0.7564,
+          "std": 0.0208,
+          "folds": [
+            0.7385,
+            0.7482,
+            0.7463,
+            0.797,
+            0.7519
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8171,
+          "std": 0.016,
+          "folds": [
+            0.8101,
+            0.8034,
+            0.809,
+            0.8483,
+            0.8146
+          ]
+        },
+        "precision": {
+          "mean": 0.7747,
+          "std": 0.028,
+          "folds": [
+            0.7869,
+            0.7324,
+            0.7576,
+            0.8154,
+            0.7812
+          ]
+        },
+        "recall": {
+          "mean": 0.7399,
+          "std": 0.0296,
+          "folds": [
+            0.6957,
+            0.7647,
+            0.7353,
+            0.7794,
+            0.7246
+          ]
+        }
       },
-      "accuracy": 0.8204,
-      "precision": 0.7704,
-      "recall": 0.7603,
-      "vs_baseline": "+0.0556"
+      "vs_baseline": "+0.0471"
+    },
+    "GradientBoosting": {
+      "type": "ensemble_boosting",
+      "rationale": "Sequential ensemble for residual correction",
+      "results": {
+        "f1_score": {
+          "mean": 0.7697,
+          "std": 0.0271,
+          "folds": [
+            0.7874,
+            0.803,
+            0.7258,
+            0.7538,
+            0.7786
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8339,
+          "std": 0.017,
+          "folds": [
+            0.8492,
+            0.8539,
+            0.809,
+            0.8202,
+            0.8371
+          ]
+        },
+        "precision": {
+          "mean": 0.8213,
+          "std": 0.0244,
+          "folds": [
+            0.8621,
+            0.8281,
+            0.8036,
+            0.7903,
+            0.8226
+          ]
+        },
+        "recall": {
+          "mean": 0.7251,
+          "std": 0.0379,
+          "folds": [
+            0.7246,
+            0.7794,
+            0.6618,
+            0.7206,
+            0.7391
+          ]
+        }
+      },
+      "vs_baseline": "+0.0604"
     }
   },
-  "best_model": "RandomForest",
-  "best_f1": 0.7649,
-  "baseline_threshold": 0.7093
+  "best_model": "LogisticRegression",
+  "best_f1": 0.7752,
+  "baseline_threshold": 0.7093,
+  "vs_baseline": "+0.0659"
 }

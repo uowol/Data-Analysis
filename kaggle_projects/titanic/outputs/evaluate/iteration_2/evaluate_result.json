@@ -1,0 +1,66 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "current_best": {
+    "model": "GradientBoosting",
+    "f1_score": 0.7739,
+    "vs_baseline": "+0.0646",
+    "vs_prev_iteration": "-0.0013"
+  },
+  "error_analysis": {
+    "total_misclassified": 143,
+    "vs_iter1": "150 -> 143 (-7)",
+    "false_negatives": {
+      "count": 97,
+      "note": "Increased from 83. GB trades FP reduction for more FN."
+    },
+    "false_positives": {
+      "count": 46,
+      "note": "Decreased from 67 (-21). PclassSex helped reduce FP."
+    }
+  },
+  "ablation": {
+    "PclassSex_interaction": {
+      "with": 0.7739,
+      "without": 0.7781,
+      "diff": -0.0042
+    },
+    "FamilySize_buckets": {
+      "with": 0.7739,
+      "without": 0.769,
+      "diff": 0.0049
+    },
+    "Cabin_known": {
+      "with": 0.7739,
+      "without": 0.7765,
+      "diff": -0.0026
+    }
+  },
+  "ablation_findings": [
+    "PclassSex: -0.0042 contribution for GB. GB captures interaction natively, explicit feature adds noise.",
+    "FamilySize_buckets: +0.0049 contribution. Useful for GB.",
+    "Cabin_known: -0.0026 contribution. Marginal."
+  ],
+  "improvement_directions": [
+    {
+      "direction": "Revert to iter1 features + keep FamilySize_buckets only",
+      "rationale": "PclassSex hurts GB (-0.0042). Title removal hurt LR severely (-0.0466). Best approach: iter1 features + FamilySize_small/large - IsAlone.",
+      "expected_impact": "high",
+      "evidence": "iter1 LR=0.7752 was best overall. Adding FamilySize_buckets (+0.0049) could push further."
+    },
+    {
+      "direction": "Hyperparameter tuning on GB",
+      "rationale": "GB is best tree model (0.7739). Tuning learning_rate, max_depth, n_estimators could improve.",
+      "expected_impact": "medium",
+      "evidence": "Default params, room for optimization."
+    },
+    {
+      "direction": "Stacking meta-learner (LR on top of RF+GB probabilities)",
+      "rationale": "Individual models capture different patterns. Stacking combines their strengths.",
+      "expected_impact": "medium",
+      "evidence": "LR and RF disagree on ~97 cases in iter1."
+    }
+  ],
+  "convergence": false,
+  "recommendation": "Continue to iteration 3. Revert to iter1 base features, add FamilySize_buckets, remove IsAlone. Try stacking."
+}

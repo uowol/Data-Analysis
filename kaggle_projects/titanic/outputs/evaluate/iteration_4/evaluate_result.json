@@ -1,0 +1,39 @@
+{
+  "project": "titanic",
+  "iteration": 4,
+  "current_best": {
+    "model": "GradientBoosting_tuned",
+    "f1_score": 0.7853,
+    "vs_prev": "-0.0018"
+  },
+  "overall_best": {
+    "iteration": 3,
+    "model": "GradientBoosting_tuned",
+    "f1_score": 0.7871
+  },
+  "error_analysis": {
+    "total_misclassified": 140,
+    "FP": 55,
+    "FN": 85
+  },
+  "ablation": {
+    "HighFare_Male1st": {
+      "with": 0.7853,
+      "without": 0.7822,
+      "diff": 0.0031
+    },
+    "LowFare_Female3rd": {
+      "with": 0.7853,
+      "without": 0.7847,
+      "diff": 0.0006
+    },
+    "FamilySize_small": {
+      "with": 0.7853,
+      "without": 0.7847,
+      "diff": 0.0006
+    }
+  },
+  "convergence": true,
+  "convergence_reason": "Iter3->Iter4: -0.0018 (< 0.005). New features (HighFare_Male1st, LowFare_Female3rd) provide marginal/no improvement. Overall best remains iter3 F1=0.7871. Feature engineering exhausted for this dataset size.",
+  "recommendation": "Converged. Use iter3 GB_tuned (lr=0.05, depth=5, n=100) with v3 feature set. F1=0.7871."
+}

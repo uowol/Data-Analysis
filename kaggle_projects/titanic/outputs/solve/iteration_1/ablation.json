@@ -1,0 +1,42 @@
+{
+  "Title_Mr": {
+    "with": 0.7752,
+    "without": 0.7766,
+    "diff": -0.0014
+  },
+  "Title_Miss": {
+    "with": 0.7752,
+    "without": 0.7754,
+    "diff": -0.0002
+  },
+  "Title_Mrs": {
+    "with": 0.7752,
+    "without": 0.7778,
+    "diff": -0.0026
+  },
+  "Title_Master": {
+    "with": 0.7752,
+    "without": 0.7773,
+    "diff": -0.0021
+  },
+  "Title_rare": {
+    "with": 0.7752,
+    "without": 0.7754,
+    "diff": -0.0002
+  },
+  "FamilySize": {
+    "with": 0.7752,
+    "without": 0.7604,
+    "diff": 0.0148
+  },
+  "IsAlone": {
+    "with": 0.7752,
+    "without": 0.7803,
+    "diff": -0.0051
+  },
+  "Cabin_known": {
+    "with": 0.7752,
+    "without": 0.7729,
+    "diff": 0.0023
+  }
+}
