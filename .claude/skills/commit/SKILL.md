@@ -12,7 +12,7 @@ user_invocable: true
 
 1. `/simplify` 스킬을 실행한다 (코드 재사용성, 품질, 효율성 점검)
 2. 발견된 이슈를 수정한다
-3. 수정이 있었으면 amend, 없었으면 그대로 커밋을 진행한다
+3. 수정 사항을 포함하여 새 커밋을 생성한다
 4. 커밋 메시지는 conventional commits 스타일로 작성한다
 
 ## Rules

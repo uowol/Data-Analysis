@@ -8,6 +8,10 @@ user_invocable: true
 
 metric 스킬에서 확정된 평가 지표를 기준으로 베이스라인 모델을 구축하고 목표 metric을 설정한다.
 
+## Mode
+
+`$ARGUMENTS`에 `autopilot`이 포함되어 있으면 **자율 모드**로 동작한다. 자율 모드에서는 사용자 확인 없이 자동 진행한다. 그 외에는 **대화 모드**로 동작하며, 사용자에게 결과를 보고하고 확인을 받는다.
+
 ## Input
 
 - 전처리 계획: `<project>/outputs/profiling/preprocessing_plan_*.json`
@@ -27,7 +31,7 @@ metric 스킬에서 확정된 평가 지표를 기준으로 베이스라인 모�
 1. metric_definition.json에서 타겟, 문제 유형, 평가 지표를 읽는다
 2. 데이터에서 타겟과 가장 강한 상관을 보이는 단일 피처를 식별한다
 3. 단순 규칙 베이스라인을 구성한다:
-   - 이진 분류: 최강 상관 피처 기반 규칙 (예: Sex=female → 생존)
+   - 이진 분류: 최강 상관 피처 기반 단순 규칙
    - 회귀: 타겟 평균값 예측
 4. 다수 클래스 예측(majority class)도 참고 수치로 함께 측정한다
 
@@ -42,8 +46,8 @@ metric 스킬에서 확정된 평가 지표를 기준으로 베이스라인 모�
 
 1. 베이스라인 성능을 기준점으로 설정한다
 2. 이후 모델은 이 기준을 넘어야 의미가 있음을 명시한다
-3. autopilot에서 호출 시: 자율 진행 (사용자 확인 불필요)
-4. 단독 실행 시: 사용자에게 베이스라인 결과를 보고하고 확인을 받는다
+3. 대화 모드: 사용자에게 베이스라인 결과를 보고하고 확인을 받는다
+4. 자율 모드: 확인 없이 자동 진행한다
 
 ## Output
 
@@ -51,11 +55,11 @@ metric 스킬에서 확정된 평가 지표를 기준으로 베이스라인 모�
 
 ```json
 {
-  "project": "titanic",
+  "project": "<project_name>",
   "baseline_model": {
-    "name": "sex_rule",
-    "description": "female=생존, male=사망",
-    "rule_feature": "Sex"
+    "name": "<rule_name>",
+    "description": "<규칙 설명>",
+    "rule_feature": "<최강 상관 피처>"
   },
   "cv": {
     "method": "StratifiedKFold",

@@ -100,7 +100,7 @@ outputs/solve/
 
 ```json
 {
-  "project": "titanic",
+  "project": "<project_name>",
   "preprocessing_plan": "plan_a",
   "cv": {
     "method": "StratifiedKFold",

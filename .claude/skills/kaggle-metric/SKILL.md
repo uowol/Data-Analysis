@@ -8,6 +8,10 @@ user_invocable: true
 
 insight 스킬의 전처리 계획을 기반으로 문제를 정의하고 평가 지표를 확정한다.
 
+## Mode
+
+`$ARGUMENTS`에 `autopilot`이 포함되어 있으면 **자율 모드**로 동작한다. 자율 모드에서는 사용자 승인 없이 데이터 기반으로 자동 선정한다. 그 외에는 **대화 모드**로 동작하며, 사용자와 논의하여 확정한다.
+
 ## Input
 
 - 전처리 계획 JSON: `<project>/outputs/profiling/preprocessing_plan_*.json`
@@ -44,8 +48,8 @@ insight 스킬의 전처리 계획을 기반으로 문제를 정의하고 평가
 2. 각 지표의 특성을 데이터 기반으로 비교한다:
    - 클래스 불균형이 있으면 F1/AUC 권장 근거 제시
    - 균형적이면 Accuracy 가능 근거 제시
-3. autopilot에서 호출 시: 데이터 기반으로 자율 선정 (사용자 승인 불필요)
-4. 단독 실행 시: 사용자와 논의하여 주 평가 지표를 확정한다
+3. 대화 모드: 사용자와 논의하여 주 평가 지표를 확정한다
+4. 자율 모드: 데이터 기반으로 자동 선정한다
 
 ## Output
 
@@ -53,12 +57,12 @@ insight 스킬의 전처리 계획을 기반으로 문제를 정의하고 평가
 
 ```json
 {
-  "project": "titanic",
-  "target": "Survived",
-  "problem_type": "binary_classification",
-  "class_distribution": {"0": 549, "1": 342},
-  "primary_metric": "f1_score",
-  "secondary_metrics": ["accuracy", "precision", "recall"],
-  "metric_rationale": "클래스 비율 6:4 불균형 존재, 정밀도와 재현율 균형 필요"
+  "project": "<project_name>",
+  "target": "<target_column>",
+  "problem_type": "binary_classification | multiclass_classification | regression",
+  "class_distribution": {"<class_0>": N, "<class_1>": M},
+  "primary_metric": "<선정된 주 평가 지표>",
+  "secondary_metrics": ["<보조 지표 목록>"],
+  "metric_rationale": "<데이터 기반 선정 근거>"
 }
 ```

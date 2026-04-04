@@ -8,6 +8,10 @@ user_invocable: true
 
 다운로드된 Kaggle 데이터에 대해 프로파일링을 실행하고, 품질 분석 및 전처리 계획을 수립한다.
 
+## Mode
+
+`$ARGUMENTS`에 `autopilot`이 포함되어 있으면 **자율 모드**로 동작한다. 자율 모드에서는 사용자 승인 없이 모든 단계를 자동 진행한다. 그 외에는 **대화 모드**로 동작하며, 주요 결정 시점에서 사용자 승인을 받는다.
+
 ## CLI Usage
 
 ```bash
@@ -40,8 +44,8 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 주요 상관관계
 3. **품질 이슈별 선제 분석을 자동 수행한다:**
    - 높은 왜도 (skewness > 2): 분포 시각화 + log 변환 전후 비교 (skewness, 구간별 빈도)
-   - 높은 결측률 (>5%): 결측 여부 vs 타겟 상관성 + 다른 주요 변수와의 교차 분석 (Pclass 통제 등)
-   - 영값 과다 (zeros > 30%): 영값 케이스의 전체 프로필 패턴 (Sex, Pclass, Embarked 등 주요 변수 분포)
+   - 높은 결측률 (>5%): 결측 여부 vs 타겟 상관성 + 주요 변수 통제 교차 분석
+   - 영값 과다 (zeros > 30%): 영값 케이스의 전체 프로필 패턴 (주요 범주형/수치형 변수 분포)
    - 관련 컬럼 쌍: 합산/파생 피처 후보 생성 + 타겟별 분포 확인
 4. 데이터 품질 이슈를 표로 정리하고, 선제 분석 결과와 함께 보고한다
 
@@ -57,8 +61,8 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
    - 단일 계획: `preprocessing_plan_a.json`
    - 복수 계획 (처리 전략이 분기될 때): `preprocessing_plan_a.json`, `_b.json`, ...
    - 각 계획은 독립적으로 `/kaggle-solve`에서 실행 가능해야 한다
-7. autopilot에서 호출 시: 자율 진행 (사용자 승인 불필요)
-8. 단독 실행 시: 사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다
+7. 대화 모드: 사용자에게 전처리 계획을 제시하고 승인을 받은 후 진행한다
+8. 자율 모드: 승인 없이 자동 진행한다
 
 ## Output
 
@@ -71,13 +75,13 @@ uv run python -m kaggle_projects.profile kaggle_projects/<project>/data --json
 
 ```json
 {
-  "project": "titanic",
-  "target": "Survived",
-  "drop_columns": ["PassengerId", "Name", "Ticket", "Cabin", "SibSp", "Parch"],
+  "project": "<project_name>",
+  "target": "<target_column>",
+  "drop_columns": ["<불필요 컬럼 목록>"],
   "preprocessing": {
     "<column>": {
       "strategy": "log1p | group_median_impute | binary_flag | mode_impute_and_onehot | binary_encode | combine",
-      "note": "수치 근거 기반 선정 이유 (결측 시 생존율 차이, 교란 변수 통제 결과 등 구체적 수치 포함)",
+      "note": "수치 근거 기반 선정 이유 (구체적 수치 포함)",
       ...strategy별 추가 필드
     }
   },

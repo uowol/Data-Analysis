@@ -147,7 +147,7 @@ kaggle_projects/
 ## Workflow
 
 - 커밋 시 `/commit` 스킬을 사용할 것 (simplify → 수정 → 커밋을 하나의 흐름으로 처리)
-- 사용자와 워크플로우 정렬이나 요구사항 정리가 필요할 때 `/interview` 스킬을 사용할 것
+- 사용자와 워크플로우 정렬이나 요구사항 정리가 필요할 때 `/oh-my-claudecode:deep-interview` 스킬을 사용할 것
 
 ## Skill Triggers
 
@@ -158,7 +158,7 @@ kaggle_projects/
 | 인사이트, EDA, 프로파일링, 데이터 분석, 데이터 품질, 탐색적 분석 | `/kaggle-insight` |
 | 캐글 검색, 데이터셋 검색, 대회 검색 | `/kaggle-browse` |
 | 커밋, 마무리 | `/commit` |
-| 인터뷰, 워크플로우 정렬, 요구사항 정리 | `/interview` |
+| 인터뷰, 워크플로우 정렬, 요구사항 정리 | `/oh-my-claudecode:deep-interview` |
 | metric, 평가 지표, 타겟 변수, 문제 정의 | `/kaggle-metric` |
 | 베이스라인, baseline, 기준 모델 | `/kaggle-baseline` |
 | 전처리, 모델링, 학습, solve | `/kaggle-solve` |

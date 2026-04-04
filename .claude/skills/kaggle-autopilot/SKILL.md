@@ -69,7 +69,7 @@ dev (프레임워크/스킬 개발 + autopilot 결과 수집)
 ### Stage 1: Insight (`/kaggle-insight`)
 
 1. 프로파일링 실행 → 품질 분석 → 선제 분석 자동 수행
-2. 전처리 계획 JSON 출력 (자율 진행, 사용자 승인 불필요)
+2. 전처리 계획 JSON 출력
 3. 복수 계획이면 `preprocessing_plan_a.json`, `_b.json`, ... 으로 출력
 
 ### Stage 2: Metric (`/kaggle-metric`)
@@ -173,7 +173,7 @@ PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지
 - 모델별 F1 비교 바 차트
 - Confusion Matrix 히트맵 (최선 모델)
 - 피처 중요도 바 차트 (상위 10개)
-- Pclass×Sex 오분류율 히트맵
+- 주요 범주형 피처 교차 오분류율 히트맵
 
 **최종 리포트 (Stage 6)**:
 - 반복 간 F1 추이 라인 차트
@@ -232,7 +232,8 @@ PR 하나만으로 에이전트가 꼼꼼한 분석과 실험을 수행했는지
 - **기존 상태 무시**: 이전 autopilot 실행의 결과물(JSON, CSV, figures)은 참조하지 않는다. 각 실행은 독립적이다.
 - **브랜치 격리**: 각 실행은 고유 브랜치에서 진행되므로 서로 간섭하지 않는다.
 - **중간 멈춤 금지**: 도구 호출 결과가 돌아오면 텍스트 출력 없이 바로 다음 도구를 호출한다. 중간 진행 상황은 PR 코멘트로 기록하고, 사용자에게는 전체 완료 후 최종 결과만 보고한다.
-- **스킬 호출 필수**: 각 Stage에서 해당 kaggle 스킬(`/kaggle-insight`, `/kaggle-metric`, `/kaggle-baseline`, `/kaggle-solve`, `/kaggle-evaluate`, `/kaggle-submit`)을 `Skill` 도구로 반드시 호출한다. python_repl로 직접 구현하지 않는다. 스킬 호출이 실패하면 브랜치의 스킬 파일 구조를 점검하고 해결한 뒤 재시도한다 (Pre-flight Checklist 참조).
+- **스킬 호출 필수**: 각 Stage에서 해당 kaggle 스킬을 `Skill` 도구로 반드시 호출한다. python_repl로 직접 구현하지 않는다. 스킬 호출이 실패하면 브랜치의 스킬 파일 구조를 점검하고 해결한 뒤 재시도한다 (Pre-flight Checklist 참조).
+- **autopilot 인자 전달 필수**: 모든 sub-skill 호출 시 `args: "autopilot"`을 전달한다. 이를 통해 각 스킬이 자율 모드로 동작하여 사용자 승인 없이 자동 진행한다. 예: `Skill(skill: "kaggle-insight", args: "autopilot")`
 - **PR progress 실시간 업데이트**: 각 Stage 완료 시 `gh pr edit`으로 PR 본문의 progress 체크리스트를 즉시 `[x]`로 갱신한다.
 
 ## 시각화 표준
