@@ -55,11 +55,23 @@ user-invocable: true
 2. 결측값 0건, 모든 피처 수치화 확인
 3. 전처리 후 데이터 shape과 피처 목록을 보고한다
 
-### Step 1.5: evaluate 피드백 반영 (재실행 시)
+### Step 1.5: 성능 테스트 확인 (Performance TDD — 재실행 시)
+
+`<project>/tests/test_performance.py`가 존재하면 (evaluate에서 자동 생성), 변경 전 상태를 확인한다:
+
+1. **Regression guards 실행**: 현재 상태에서 regression guards가 모두 통과하는지 확인한다. 이것이 "변경 전 기준선"이다.
+2. **Improvement targets 확인**: 어떤 테스트가 실패하는지 파악한다. **실패하는 테스트가 이번 iteration에서 해결할 목표**다.
+3. **변경 범위 제한**: 실패하는 improvement target을 통과시키기 위한 **최소한의 변경만** 계획한다. 실패하지 않는 영역의 광범위한 변경은 지양한다.
+4. **변경 후 검증**: solve 완료 후 test_performance.py를 다시 실행한다:
+   - Regression guards 실패 → **변경이 기존 성능을 해쳤다. 해당 변경을 revert**하고 더 작은 변경을 시도한다.
+   - Improvement targets 통과 → 해당 약점 해결 성공.
+   - Improvement targets 여전히 실패 → 다른 접근 필요. evaluate에서 새 방향 도출.
+
+### Step 1.6: evaluate 피드백 반영 (재실행 시)
 
 evaluate_result.json이 존재하면 이전 반복의 피드백을 반영한다:
 
-1. **피처 변경안 적용**: evaluate에서 도출한 새 피처 생성, 기존 피처 조정을 적용한다
+1. **피처 변경안 적용**: evaluate에서 도출한 새 피처 생성, 기존 피처 조정을 적용한다. **test_performance.py의 실패하는 테스트에 직접 연결되는 변경을 우선한다.**
 2. **피처 적용 전 검증**: 각 피처에 대해 아래를 확인한다:
    - 인코딩 방식: 범주형 상호작용 피처에 수치 인코딩 사용 금지, 원핫 인코딩 적용
    - 정보 중복: 새 피처가 기존 피처를 포함하면, 원본 제거 또는 대체 여부를 결정한다

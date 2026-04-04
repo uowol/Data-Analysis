@@ -98,12 +98,54 @@ solve 스킬의 모델 결과를 분석하고, 다음 solve 반복을 위한 개
 
 ablation은 **매 iteration 필수**. 피처 변경이 없는 경우(모델만 변경)는 생략 가능.
 
-### Step 5: solve 재실행 판단
+### Step 5: 성능 테스트 코드 생성 (Performance TDD)
+
+evaluate의 분석 결과를 **실행 가능한 pytest 코드**로 변환한다. 이 테스트가 다음 iteration의 "실패해야 하는 테스트"이자 "regression guard"가 된다.
+
+`<project>/tests/test_performance.py`를 생성/갱신한다:
+
+테스트 코드는 **evaluate_result.json에서 수치를 동적으로 읽어** 생성한다. 하드코딩된 수치를 넣지 않는다:
+
+```python
+"""Performance TDD: evaluate에서 발견한 약점을 테스트로 코드화.
+수치는 evaluate_result.json에서 동적 로드."""
+import json
+from pathlib import Path
+
+def _load_eval(project):
+    """최신 evaluate_result.json을 로드한다."""
+    eval_dir = Path(f"kaggle_projects/{project}/outputs/evaluate")
+    iters = sorted(eval_dir.glob("iteration_*"))
+    return json.loads((iters[-1] / "evaluate_result.json").read_text())
+
+def _load_thresholds(project):
+    """performance_tests 섹션에서 임계값을 로드한다."""
+    return _load_eval(project).get("performance_tests", {})
+
+# === Regression Guards (반드시 통과해야 함) ===
+# regression guard의 임계값은 evaluate_result.json의
+# performance_tests.regression_guards[].threshold에서 읽는다.
+
+# === Improvement Targets (현재 실패, 다음 iteration에서 통과 목표) ===
+# target의 current/target 값은 evaluate_result.json의
+# performance_tests.improvement_targets[]에서 읽는다.
+# 서브그룹명, 피처 조합 등은 데이터에서 동적으로 결정된다.
+```
+
+**생성 규칙**:
+1. **수치는 동적 로드**: 모든 임계값은 `evaluate_result.json`의 `performance_tests` 섹션에서 읽는다. 테스트 코드에 수치를 하드코딩하지 않는다.
+2. **Regression guards**: 현재 best metric, overfit gap을 기준으로 자동 생성. **항상 통과해야 한다.**
+3. **Improvement targets**: 오분류 분석에서 도출한 상위 3개 약점 서브그룹에 대해, 현재 오분류율보다 낮은 목표를 설정. **현재는 실패하며, 다음 iteration에서 통과시키는 것이 목표.** 서브그룹명과 피처 조합은 데이터의 오분류 패턴에서 동적으로 결정한다.
+4. **테스트 실행 가능**: pytest로 독립 실행 가능하도록, 전처리+모델 학습+예측 로직을 fixture로 포함하거나 최신 JSON에서 수치를 읽는다.
+5. **iteration마다 갱신**: 매 evaluate 완료 시 regression guard의 기준값을 현재 best로 갱신하고, 통과된 improvement target은 제거하며, 새로 발견된 약점을 추가한다.
+
+### Step 6: solve 재실행 판단
 
 1. 피처 변경안 + 모델 변경안을 종합하여 다음 solve 반복의 실행 계획을 수립한다
-2. 개선 방향이 있고 기대 영향이 high/medium이면 → solve 재실행 권장
-3. 개선 방향이 low뿐이거나 성능이 수렴했으면 → 현재 모델 확정
-4. **사용자에게 판단을 보고한다**
+2. `test_performance.py`에 **실패하는 improvement target이 있고** 기대 영향이 high/medium이면 → solve 재실행 권장
+3. improvement target이 없거나 모두 low이면 → 현재 모델 확정
+4. **수렴 판정**: regression guards 모두 통과 + improvement targets 모두 통과 (또는 남은 것이 모두 low) → 수렴
+5. **사용자에게 판단을 보고한다**
 
 ## Output
 
@@ -128,6 +170,16 @@ ablation은 **매 iteration 필수**. 피처 변경이 없는 경우(모델만 �
   ],
   "ablation": {
     "<feature_name>": {"with": 0.7922, "without": 0.7892, "diff": 0.003}
+  },
+  "performance_tests": {
+    "regression_guards": [
+      {"test": "test_no_regression", "threshold": "<current_best_metric>", "tolerance": 0.005, "status": "pass"},
+      {"test": "test_overfit_gap", "threshold": 0.05, "status": "pass"}
+    ],
+    "improvement_targets": [
+      {"test": "test_<subgroup_1>_error", "subgroup": "<오분류 상위 그룹 설명>", "current": "<현재 오분류율>", "target": "<현재 - 개선 목표>", "status": "fail"},
+      {"test": "test_<subgroup_2>_error", "subgroup": "<오분류 상위 그룹 설명>", "current": "<현재 오분류율>", "target": "<현재 - 개선 목표>", "status": "fail"}
+    ]
   }
 }
 ```
