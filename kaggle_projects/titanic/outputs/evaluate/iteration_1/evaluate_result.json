@@ -1,0 +1,45 @@
+{
+  "project": "titanic",
+  "iteration": 1,
+  "current_best": {
+    "model": "RandomForest",
+    "f1_score": 0.7724,
+    "baseline_threshold": 0.7094,
+    "improvement": "+0.0630"
+  },
+  "overfit_check": {
+    "train_f1": 0.7781,
+    "cv_f1": 0.7724,
+    "gap": 0.0057,
+    "verdict": "acceptable"
+  },
+  "error_analysis": {
+    "total_misclassified": 150,
+    "false_negatives": {
+      "count": 87,
+      "profile": "Sex: {'male': 82, 'female': 5}, Pclass: {3: 41, 1: 37, 2: 9}"
+    },
+    "false_positives": {
+      "count": 63,
+      "profile": "Sex: {'female': 56, 'male': 7}, Pclass: {3: 47, 1: 9, 2: 7}"
+    }
+  },
+  "improvement_directions": [
+    {
+      "direction": "Pclass x Sex 상호작용 피처 추가",
+      "rationale": "3등석 남성 오분류율 높음. 상호작용이 트리 분할로는 부족할 수 있음",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "Ordinal 인코딩 비교 (one-hot 대신)",
+      "rationale": "28개 피처 중 다수가 one-hot. 소규모 데이터에서 피처 수 과다 우려",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "Optuna Bayesian HPO (XGBoost)",
+      "rationale": "XGBoost F1이 RF와 유사. HPO로 정규화 최적화 시 개선 여지",
+      "expected_impact": "high"
+    }
+  ],
+  "convergence": false
+}
