@@ -75,12 +75,7 @@
   ],
   "consensus": [
     "Title_Mr",
-    "Sex",
-    "Pclass"
-  ],
-  "observations": [
-    "Best model: RandomForest (F1=0.7724)",
-    "Linear top features: ['Sex', 'FamilySize_bin_large', 'Pclass', 'Title_Master', 'Title_Mr']",
-    "Tree top features: ['Title_Mr', 'Sex', 'Title_Miss', 'Pclass', 'Title_Mrs']"
+    "Pclass",
+    "Sex"
   ]
 }

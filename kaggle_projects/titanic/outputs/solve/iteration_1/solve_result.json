@@ -1,58 +1,128 @@
 {
+  "project": "titanic",
   "iteration": 1,
+  "preprocessing_plan": "plan_a",
   "features": [
     "Pclass",
     "Sex",
-    "Age",
-    "Fare_log",
-    "FamilySize",
-    "HasCabin",
+    "TicketCount",
+    "CabinKnown",
+    "Age_bin_child",
+    "Age_bin_teen",
+    "Age_bin_young_adult",
+    "Age_bin_adult",
+    "Age_bin_senior",
+    "FamilySize_bin_alone",
+    "FamilySize_bin_small",
+    "FamilySize_bin_large",
+    "DividedFare_bin_low",
+    "DividedFare_bin_mid_low",
+    "DividedFare_bin_mid_high",
+    "DividedFare_bin_high",
+    "CabinPrefix_ABC",
+    "CabinPrefix_DE",
+    "CabinPrefix_FG",
+    "CabinPrefix_Unknown",
+    "Embarked_C",
     "Embarked_Q",
-    "Embarked_S"
+    "Embarked_S",
+    "Title_Master",
+    "Title_Miss",
+    "Title_Mr",
+    "Title_Mrs",
+    "Title_Rare"
   ],
-  "feature_count": 8,
-  "changes_from_previous": "첫 실행. preprocessing_plan_a 기반 전처리 적용",
+  "changes_from_previous": "initial iteration",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
   "models": {
     "LogisticRegression": {
       "type": "linear",
-      "rationale": "해석 가능한 선형 모델, 피처 기여도 추출",
-      "f1": {
-        "mean": 0.7302,
-        "std": 0.04,
-        "folds": [
-          0.7353,
-          0.7481,
-          0.656,
-          0.7353,
-          0.7761
-        ]
+      "rationale": "해석 가능한 선형 모델, 표준화 후 계수로 피처 기여도 추출",
+      "results": {
+        "f1_score": {
+          "mean": 0.7666,
+          "std": 0.0172,
+          "folds": [
+            0.7941,
+            0.7519,
+            0.7761,
+            0.7463,
+            0.7647
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8238
+        },
+        "precision": {
+          "mean": 0.7794
+        },
+        "recall": {
+          "mean": 0.7543
+        }
       },
-      "accuracy": 0.8002,
-      "precision": 0.7557,
-      "recall": 0.7074,
-      "vs_baseline": "+0.0209"
+      "vs_baseline": "+0.0572"
     },
     "RandomForest": {
       "type": "ensemble_tree",
-      "rationale": "비선형 관계·상호작용 포착, 스케일링 불필요",
-      "f1": {
-        "mean": 0.7649,
-        "std": 0.0291,
-        "folds": [
-          0.7669,
-          0.7681,
-          0.7101,
-          0.7883,
-          0.791
-        ]
+      "rationale": "비선형 관계·상호작용 포착, max_depth=5+min_samples_leaf=5로 과적합 방지",
+      "results": {
+        "f1_score": {
+          "mean": 0.7724,
+          "std": 0.0128,
+          "folds": [
+            0.7941,
+            0.7727,
+            0.7581,
+            0.7612,
+            0.7761
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8316
+        },
+        "precision": {
+          "mean": 0.803
+        },
+        "recall": {
+          "mean": 0.7455
+        }
       },
-      "accuracy": 0.8204,
-      "precision": 0.7704,
-      "recall": 0.7603,
-      "vs_baseline": "+0.0556"
+      "vs_baseline": "+0.0630"
+    },
+    "XGBoost": {
+      "type": "boosting",
+      "rationale": "소규모 데이터 정규화 가이드라인 적용: lr=0.03, depth=3, gamma=0.1, subsample=0.8",
+      "results": {
+        "f1_score": {
+          "mean": 0.7665,
+          "std": 0.0265,
+          "folds": [
+            0.8092,
+            0.7669,
+            0.7692,
+            0.7612,
+            0.7258
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8294
+        },
+        "precision": {
+          "mean": 0.8074
+        },
+        "recall": {
+          "mean": 0.7311
+        }
+      },
+      "vs_baseline": "+0.0571"
     }
   },
   "best_model": "RandomForest",
-  "best_f1": 0.7649,
-  "baseline_threshold": 0.7093
+  "best_f1": 0.7724,
+  "baseline_threshold": 0.7094,
+  "vs_baseline": "+0.0630"
 }

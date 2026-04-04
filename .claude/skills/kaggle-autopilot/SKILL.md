@@ -94,21 +94,34 @@ dev (프레임워크/스킬 개발 + autopilot 결과 수집)
 
 ### Stage 4: Solve ↔ Evaluate 루프
 
-각 iteration은 **pre → 실행 → 커밋 → post** 순서를 엄격히 따르며, 코멘트 작성이 실행보다 선행한다. 이는 사후 합리화를 방지하고, pre-iteration의 계획이 실제 실행에 영향을 주는 진정한 단계별 진행을 보장한다.
+각 iteration은 **Performance TDD 사이클**을 따른다. evaluate가 발견한 약점을 테스트 코드로 변환하고, solve는 그 테스트를 통과시키기 위한 최소한의 변경만 수행한다.
 
 ```
-반복 N:
-  1. PR 코멘트: pre-iteration (계획 + 가설) ← 실행 전에 반드시 먼저 작성
-  2. solve + evaluate 실행 ← pre-iteration 계획대로 실행
-  3. 커밋 + push: iteration_N 결과
-  4. PR 코멘트: post-iteration (결과 분석 + 가설 검증)
-  5. post-iteration의 "다음 계획"이 다음 pre-iteration의 입력이 됨
+반복 1 (초기):
+  1. PR 코멘트: pre-iteration (계획 + 가설)
+  2. solve + evaluate 실행
+  3. evaluate가 test_performance.py 생성 (regression guards + improvement targets)
+  4. 커밋 + push
+  5. PR 코멘트: post-iteration (결과 + 실패하는 테스트 목록)
+
+반복 N (N≥2, Performance TDD 사이클):
+  1. test_performance.py 실행 → 실패하는 improvement targets 확인
+  2. PR 코멘트: pre-iteration (실패 테스트 → 통과시키기 위한 최소 변경 계획)
+  3. solve 실행 (최소 변경)
+  4. test_performance.py 재실행:
+     - regression guards 실패 → 변경 revert, 더 작은 변경 시도
+     - improvement targets 통과 → 약점 해결 성공
+  5. evaluate 실행 → test_performance.py 갱신 (새 약점 추가, 해결된 것 제거)
+  6. 커밋 + push
+  7. PR 코멘트: post-iteration (가설 검증 + 테스트 통과/실패 변화)
 
 수렴 조건 (하나라도 충족 시 종료):
+  - test_performance.py의 improvement targets가 모두 통과 또는 모두 low
   - 주 평가 지표 개선폭 < 0.005 (2회 연속)
-  - evaluate의 남은 개선안이 모두 low
   - 최대 반복 횟수(5) 도달
 ```
+
+**핵심 규율**: "전체를 개선하자"가 아니라 "이 실패하는 테스트를 통과시키자"가 각 iteration의 목표다. 테스트가 방향을 좁히고, regression guard가 안전망을 제공한다.
 
 **중요: 실행 순서를 지킬 것.** pre 코멘트를 쓰지 않고 실행하거나, 모든 iteration을 한번에 돌린 뒤 코멘트를 사후 작성하면 안 된다. 코멘트가 실행의 입력이 되는 흐름을 유지해야 한다.
 

@@ -1,0 +1,34 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "current_best": {
+    "model": "RandomForest",
+    "f1_score": 0.7581,
+    "improvement_vs_baseline": "+0.0487",
+    "vs_prev_iteration": "-0.0143"
+  },
+  "overfit_check": {
+    "train_f1": 0.7817,
+    "cv_f1": 0.7581,
+    "gap": 0.0236
+  },
+  "regression_analysis": "Ordinal 인코딩이 one-hot 대비 F1 -0.0143 하락. Pclass_Sex_ord ablation -0.0100로 유해. 트리 모델에서 one-hot이 더 세밀한 분할을 허용하여 유리했음.",
+  "improvement_directions": [
+    {
+      "direction": "one-hot 인코딩으로 복귀 + Optuna HPO",
+      "rationale": "iter1 one-hot(28피처)이 ordinal(11피처) 대비 +0.0143. one-hot 기반에서 HPO 적용",
+      "expected_impact": "high"
+    },
+    {
+      "direction": "Pclass_Sex 상호작용 제거",
+      "rationale": "ablation에서 -0.0100. 기존 Pclass+Sex로 충분히 포착",
+      "expected_impact": "medium"
+    },
+    {
+      "direction": "피처 선택 (mutual information)",
+      "rationale": "28 one-hot 피처 중 noise 피처 제거로 일반화 개선",
+      "expected_impact": "medium"
+    }
+  ],
+  "convergence": false
+}
