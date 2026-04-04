@@ -1,0 +1,134 @@
+{
+  "project": "titanic",
+  "iteration": 2,
+  "preprocessing_plan": "plan_a_ordinal",
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age_ord",
+    "FamilySize_ord",
+    "TicketCount",
+    "DividedFare_ord",
+    "CabinKnown",
+    "CabinPrefix_ord",
+    "Embarked_ord",
+    "Title_ord",
+    "Pclass_Sex_ord"
+  ],
+  "changes_from_previous": "one-hot→ordinal 인코딩(28→11 피처), Pclass_Sex 상호작용 추가, XGBoost Optuna HPO(70 trials, 10-fold)",
+  "cv": {
+    "method": "StratifiedKFold",
+    "n_splits": 5,
+    "random_state": 42
+  },
+  "models": {
+    "LogisticRegression": {
+      "type": "linear",
+      "rationale": "해석 가능한 선형 모델, ordinal 피처에서도 계수 해석 가능",
+      "results": {
+        "f1_score": {
+          "mean": 0.7558,
+          "std": 0.0308,
+          "folds": [
+            0.7883,
+            0.7519,
+            0.6992,
+            0.7761,
+            0.7634
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8204
+        },
+        "precision": {
+          "mean": 0.7879
+        },
+        "recall": {
+          "mean": 0.7279
+        }
+      },
+      "vs_baseline": "+0.0464",
+      "vs_prev_iteration": "-0.0166"
+    },
+    "RandomForest": {
+      "type": "ensemble_tree",
+      "rationale": "비선형 관계 포착, iter1과 동일 설정으로 인코딩 변경 효과 비교",
+      "results": {
+        "f1_score": {
+          "mean": 0.7581,
+          "std": 0.0182,
+          "folds": [
+            0.782,
+            0.7538,
+            0.7581,
+            0.7692,
+            0.7273
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8271
+        },
+        "precision": {
+          "mean": 0.8189
+        },
+        "recall": {
+          "mean": 0.7077
+        }
+      },
+      "vs_baseline": "+0.0487",
+      "vs_prev_iteration": "-0.0143"
+    },
+    "XGBoost_HPO": {
+      "type": "boosting",
+      "rationale": "Optuna 70 trials (10-fold CV). lr=0.022, depth=2, gamma=0.949",
+      "results": {
+        "f1_score": {
+          "mean": 0.7574,
+          "std": 0.0155,
+          "folds": [
+            0.7634,
+            0.7442,
+            0.7377,
+            0.7597,
+            0.782
+          ]
+        },
+        "accuracy": {
+          "mean": 0.8249
+        },
+        "precision": {
+          "mean": 0.8085
+        },
+        "recall": {
+          "mean": 0.7133
+        }
+      },
+      "vs_baseline": "+0.0480",
+      "vs_prev_iteration": "-0.0150"
+    }
+  },
+  "best_model": "RandomForest",
+  "best_f1": 0.7581,
+  "baseline_threshold": 0.7094,
+  "vs_baseline": "+0.0487",
+  "vs_prev_iteration": "+-0.0143",
+  "optuna": {
+    "n_trials": 70,
+    "cv_folds": 10,
+    "best_f1_10fold": 0.7668,
+    "best_params": {
+      "learning_rate": 0.0221,
+      "n_estimators": 150,
+      "max_depth": 2,
+      "min_child_weight": 5,
+      "subsample": 0.6416,
+      "colsample_bytree": 0.6421,
+      "gamma": 0.9491,
+      "reg_lambda": 1.4747,
+      "reg_alpha": 1.1395,
+      "random_state": 42,
+      "eval_metric": "logloss",
+      "verbosity": 0
+    }
+  }
+}

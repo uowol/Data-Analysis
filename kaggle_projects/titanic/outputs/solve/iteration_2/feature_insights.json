@@ -1,0 +1,46 @@
+{
+  "linear_coefficients": {
+    "Title_ord": 1.662,
+    "FamilySize_ord": -0.5847,
+    "CabinKnown": 0.5617,
+    "Age_ord": -0.5119,
+    "Pclass": -0.4325,
+    "DividedFare_ord": 0.3959,
+    "CabinPrefix_ord": -0.2101,
+    "Embarked_ord": 0.1933,
+    "Sex": 0.1928,
+    "Pclass_Sex_ord": 0.0486,
+    "TicketCount": 0.0344
+  },
+  "tree_importances": {
+    "Title_ord": 0.2799,
+    "Pclass_Sex_ord": 0.2714,
+    "Sex": 0.138,
+    "FamilySize_ord": 0.0551,
+    "TicketCount": 0.0508,
+    "Pclass": 0.0475,
+    "CabinPrefix_ord": 0.0415,
+    "DividedFare_ord": 0.0345,
+    "Age_ord": 0.0338,
+    "CabinKnown": 0.0321,
+    "Embarked_ord": 0.0153
+  },
+  "top_linear": [
+    "Title_ord",
+    "FamilySize_ord",
+    "CabinKnown",
+    "Age_ord",
+    "Pclass"
+  ],
+  "top_tree": [
+    "Title_ord",
+    "Pclass_Sex_ord",
+    "Sex",
+    "FamilySize_ord",
+    "TicketCount"
+  ],
+  "consensus": [
+    "Title_ord",
+    "FamilySize_ord"
+  ]
+}
