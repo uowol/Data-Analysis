@@ -1,50 +1,103 @@
 {
   "project": "titanic",
   "target": "Survived",
-  "drop_columns": [
-    "PassengerId",
-    "Name",
-    "Ticket",
-    "Cabin",
-    "SibSp",
-    "Parch"
-  ],
+  "drop_columns": ["PassengerId", "Name", "Ticket", "Cabin"],
   "preprocessing": {
-    "Fare": {
-      "strategy": "log1p",
-      "note": "skewness 4.79→0.39로 감소. Fare=0 (15건)은 그대로 유지"
-    },
-    "Age": {
-      "strategy": "group_median_impute",
-      "group_by": [
-        "Pclass",
-        "Sex"
-      ],
-      "note": "19.9% 결측, Pclass·Sex 그룹별 중앙값 대체"
-    },
-    "Cabin": {
-      "strategy": "binary_flag",
-      "new_column": "HasCabin",
-      "note": "77.1% 결측. 결측 여부가 Pclass 통제 후에도 Survived와 상관. 원본 drop"
-    },
-    "Embarked": {
-      "strategy": "mode_impute_and_onehot",
-      "impute_value": "S",
-      "note": "2건 결측 → 최빈값(S) 대체, 원핫 인코딩"
+    "Title": {
+      "strategy": "extract_and_group",
+      "source": "Name",
+      "extract_pattern": ", (\\w+)\\.",
+      "groups": {
+        "Mr": "Mr",
+        "Miss": "Miss",
+        "Mrs": "Mrs",
+        "Master": "Master",
+        "Dr": "Rare",
+        "Rev": "Rare",
+        "Major": "Rare",
+        "Mlle": "Miss",
+        "Col": "Rare",
+        "Don": "Rare",
+        "Mme": "Mrs",
+        "Ms": "Miss",
+        "Lady": "Rare",
+        "Sir": "Rare",
+        "Capt": "Rare",
+        "Jonkheer": "Rare"
+      },
+      "encoding": "onehot",
+      "note": "Title은 Sex+Age의 대리변수. Mr survival=0.157, Miss=0.698, Mrs=0.792, Master=0.575로 강한 분리력"
     },
     "Sex": {
       "strategy": "binary_encode",
-      "mapping": {
-        "male": 1,
-        "female": 0
-      }
+      "mapping": {"male": 1, "female": 0},
+      "note": "Sex-Survived 상관이 가장 높음. male=577, female=314"
     },
-    "SibSp_Parch": {
-      "strategy": "combine",
-      "new_column": "FamilySize",
+    "Age": {
+      "strategy": "group_median_impute_and_binning",
+      "impute_group": ["Title"],
+      "bin_type": "data_driven_binning",
+      "bin_edges": [0, 6.5, 17.5, 26.5, 56.5, 100],
+      "bin_labels": ["child", "teen", "young_adult", "adult", "senior"],
+      "note": "결측 19.9%. 결측 시 생존율 0.294 vs 비결측 0.406. Pclass별 결측률 차이(1등석 13.9%, 3등석 27.7%)로 MCAR 아님. Title 그룹별 중앙값 대체 후 DecisionTree 최적 경계로 구간화"
+    },
+    "FamilySize": {
+      "strategy": "combine_and_binning",
+      "source_columns": ["SibSp", "Parch"],
       "formula": "SibSp + Parch + 1",
-      "note": "2~4인 가족 생존율 최고(55~72%), 5+ 급락. 구간화는 모델링 단계에서 실험"
+      "bin_type": "data_driven_binning",
+      "bin_edges": [0, 1.5, 4.5, 20],
+      "bin_labels": ["alone", "small", "large"],
+      "note": "FamilySize 1=0.304, 2-4=0.553-0.724, 5+=0.000-0.333. DecisionTree 경계 1.5, 4.5로 3그룹 분리"
+    },
+    "TicketCount": {
+      "strategy": "shared_count",
+      "source": "Ticket",
+      "note": "동일 티켓 공유 인원. Solo survival=0.298, Shared=0.520. 681개 중 134개가 공유 티켓"
+    },
+    "DividedFare": {
+      "strategy": "divide_fare_by_ticket_count",
+      "source_columns": ["Fare", "TicketCount"],
+      "transform": "log1p_then_binning",
+      "bin_type": "data_driven_binning",
+      "bin_edges_log1p": [0, 2.096, 2.441, 3.951, 100],
+      "bin_labels": ["low", "mid_low", "mid_high", "high"],
+      "note": "Fare skewness=4.787, log1p 후 0.395. TicketCount로 나눈 DividedFare가 개인 경제력 대리변수. Fare=0(n=15, survival=0.067)은 low 구간에 포함"
+    },
+    "CabinKnown": {
+      "strategy": "binary_flag",
+      "source": "Cabin",
+      "note": "Cabin 결측 77.1%. 존재 시 survival=0.667 vs 결측=0.300. 이진 플래그로 강한 신호 보존"
+    },
+    "CabinPrefix": {
+      "strategy": "extract_prefix_and_group",
+      "source": "Cabin",
+      "default": "Unknown",
+      "groups": {
+        "A": "ABC", "B": "ABC", "C": "ABC",
+        "D": "DE", "E": "DE",
+        "F": "FG", "G": "FG",
+        "T": "FG",
+        "Unknown": "Unknown"
+      },
+      "encoding": "onehot",
+      "note": "Cabin 접두사별 분포: C=59, B=47, D=33, E=32. 소수 그룹 병합하여 4개 그룹"
+    },
+    "Embarked": {
+      "strategy": "mode_impute_and_onehot",
+      "fill_value": "S",
+      "note": "결측 2건. 최빈값 S(72.3%)로 대체 후 원핫 인코딩"
+    },
+    "Pclass": {
+      "strategy": "keep_as_numeric",
+      "note": "순서형 변수. 1등석 survival=0.630, 2등석=0.473, 3등석=0.242. 수치 그대로 사용"
     }
   },
-  "scaling": "모델에 따라 결정 (트리 기반: 불필요, 선형 모델: StandardScaler)"
+  "final_features": [
+    "Pclass", "Sex", "Age_bin", "FamilySize_bin", "TicketCount",
+    "DividedFare_bin", "CabinKnown", "CabinPrefix_ABC", "CabinPrefix_DE",
+    "CabinPrefix_FG", "CabinPrefix_Unknown", "Embarked_C", "Embarked_Q", "Embarked_S",
+    "Title_Master", "Title_Miss", "Title_Mr", "Title_Mrs", "Title_Rare"
+  ],
+  "scaling": "트리 기반 모델: 불필요. 선형 모델 사용 시: StandardScaler"
 }
